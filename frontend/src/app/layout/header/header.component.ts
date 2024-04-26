@@ -10,7 +10,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class HeaderComponent {
   private authService: AuthService;
-  user: any;
+  user : any = [];
   
   constructor(authService: AuthService) {
     this.authService = authService;
@@ -18,7 +18,7 @@ export class HeaderComponent {
 
   ngOnInit() {
     this.authService.loggedInInfo().subscribe((value) => {
-      var temp: string = value.toString(); // Ensure temp is of type string
+      var temp: string = value.toString(); 
       this.user = JSON.parse(temp);
       this.user = this.user[0].fields;
     });

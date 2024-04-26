@@ -1,15 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
-from django.contrib.auth.models import User
+from accounts.models import User  # Alterado para importar User de accounts.models
+from accounts.serializer import UserSerializer
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import api_view
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
-from django.core import serializers
 from django.contrib.auth import get_user_model
+from django.core import serializers
 
 # Create your views here.
 User = get_user_model()
@@ -47,7 +44,9 @@ def createUser(request):
 def getUsers(request):
     if request.method == 'GET':
         users = User.objects.all()
-        user_list = serializers.serialize('json', users)
-        return JsonResponse(user_list, safe=False)
+        serializer = UserSerializer(users, many=True)
+        user_list = serializers.serialize('json', users, indent=2)
+        
+        return JsonResponse(serializer.data, safe=False)
     else:
         return JsonResponse({'error': 'Invalid request method'})

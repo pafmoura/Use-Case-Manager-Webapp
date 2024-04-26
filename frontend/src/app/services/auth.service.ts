@@ -26,7 +26,6 @@ export class AuthService {
   }
 
   loggedInInfo() {
-    console.log(this.getAccessToken());
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getAccessToken()}`
     });
@@ -102,4 +101,20 @@ export class AuthService {
   }
 
 
+  
+
+
+}
+
+export class User {
+  id: number = 0;
+  username: string = '';
+  email: string = '';
+  date_joined: string = '';
+  last_login: string = '';
+  is_admin: boolean = false;
+  is_active: boolean = false;
+  is_staff: boolean = false;
+  is_superuser: boolean = false;
+  company: string | null = null;
 }

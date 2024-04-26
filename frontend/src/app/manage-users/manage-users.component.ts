@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
 import { TitlebannerComponent } from "../layout/titlebanner/titlebanner.component";
 import { AuthService } from '../services/auth.service';
-
+import { User } from '../services/auth.service';
+import { RouterModule } from '@angular/router';
 @Component({
     selector: 'app-manage-users',
     standalone: true,
     templateUrl: './manage-users.component.html',
     styleUrl: './manage-users.component.css',
-    imports: [HeaderComponent, FormsModule, CommonModule, DatePipe, TitlebannerComponent]
+    imports: [HeaderComponent, FormsModule, CommonModule, DatePipe, TitlebannerComponent, RouterModule]
 })
 export class ManageUsersComponent {
 
@@ -24,21 +25,19 @@ export class ManageUsersComponent {
 
 
 
-  users : any = [{
-    id: 1,
-    name: 'John Doe',
-    company: 'ABC',
-    date: '01/01/2021',
-    role: 'Admin'
-   },
-   {
-    id: 2,
-     name: 'Jane Doe',
-     company: 'XYZ',
-     date: '01/01/2021',
-      role: 'User'
-    },  
-  ]
+  users : any = [ ]
+  
+
+  ngOnInit() {
+    console.log('Manage Users Component');
+    this.authService.getUsers().subscribe((data: any) => {
+      this.users = data
+
+      console.log(data)
+    
+    
+    });
+    }
   
 
 
@@ -76,12 +75,10 @@ export class ManageUsersComponent {
 
 
   get filteredUsers() {
-    return this.users.filter((u: any) => u.name.toLowerCase().includes(this.nameSearch.toLowerCase()));
+   return this.users.filter((u: any) => u.email.toLowerCase().includes(this.nameSearch.toLowerCase()));
   }
 
-  getUsers() {
-    return this.users;
-  }
+ 
 
   
   

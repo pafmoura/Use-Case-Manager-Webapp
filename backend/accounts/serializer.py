@@ -1,17 +1,16 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
+from accounts.models import User 
+
 
 class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = '__all__'
-
-
-    #object user is not json serializable
+        fields = ['pk', 'password', 'email', 'username', 'date_joined', 'last_login', 'is_admin', 'is_active', 'is_staff', 'is_superuser', 'company']
 
     def to_representation(self, instance):
         response = super().to_representation(instance)
+        response['pk'] = instance.pk
         response['username'] = instance.username
         response['email'] = instance.email
         response['date_joined'] = instance.date_joined
