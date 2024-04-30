@@ -25,6 +25,16 @@ export class AuthService {
     );
   }
 
+  deleteUser(id: any) {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${AUTH_URL}deleteUser/${id}`, { headers });
+  }
+
+  deleteCompany(id: any) {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${AUTH_URL}deleteCompany/${id}`, { headers });
+  }
+
   loggedInInfo() {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getAccessToken()}`
@@ -95,11 +105,20 @@ export class AuthService {
     return this.http.post<any>(`${AUTH_URL}createUser`, userData, { headers });
   }
 
+  createClient(clientData: any): Observable<any> {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${AUTH_URL}createCompany`, clientData, { headers });
+  }
+
   getUsers(): Observable<any> {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.get<any>(`${AUTH_URL}getUsers`, { headers });
   }
 
+  getClients(): Observable<any> {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.get<any>(`${AUTH_URL}getCompanies`, { headers });
+  }
 
   
 

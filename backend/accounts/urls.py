@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from accounts.views import LoggedInInfo, createUser, getUsers
+from accounts.views import LoggedInInfo, createCompany, createUser, deleteCompany, deleteUser, getCompanies, getUsers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
@@ -49,5 +49,9 @@ urlpatterns = [
     path('refresh', TokenRefreshView.as_view(), name='token_refresh'),
     path('loggedInInfo', LoggedInInfo, name='loggedInInfo'),
     path('createUser', createUser, name='createUser'),
-    path('getUsers', getUsers, name='getUsers')
+    path('getUsers', getUsers, name='getUsers'),
+    path('createCompany', createCompany, name='createCompany'),
+    path('getCompanies', getCompanies, name='getCompanies'),
+    path('deleteUser/<str:id>', deleteUser, name='deleteUser'),
+    path('deleteCompany/<str:id>', deleteCompany, name='deleteCompany')
 ]

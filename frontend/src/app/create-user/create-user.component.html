@@ -7,7 +7,7 @@
         <div>
             <h1 class="font-inter font-semibold text-2xl text-gray-700 mb-12">1. Selecione o tipo de Utilizador</h1>
             <div class="space-y-6">
-              <button (click)="isAdminSelected=true;" 
+              <button (click)="trueIsAdminSelected()" 
                 class="text-left flex flex-col md:flex-row h-auto md:h-26 w-full md:max-w-[25rem] items-center bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 
                 {{ isAdminSelected ? 'drop-shadow-xl' : '' }} 
                 {{ isAdminSelected ? 'opacity-100' : 'opacity-45' }} ">
@@ -18,7 +18,7 @@
             </div>
         </button>
                 <div class="mt-6"></div>
-                <button (click)="isAdminSelected=false;" 
+                <button (click)="falseIsAdminSelected()" 
                 class="text-left flex flex-col md:flex-row h-auto md:h-26 w-full md:max-w-[25rem] items-center bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 
                        {{ !isAdminSelected ? 'drop-shadow-xl' : '' }} 
                        {{ !isAdminSelected ? 'opacity-100' : 'opacity-45' }} 
@@ -40,9 +40,15 @@
                 </div>
                 <div class="space-y-4 col-span-2 md:col-span-1">
                     <label for="company" class="block text-sm font-medium leading-6 text-gray-900">Empresa</label>
-                    <input id="company" [(ngModel)]="user.company" name="company" type="company" autocomplete="company" formControlName="company" [disabled]="isAdminSelected" class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6
-                    {{ isAdminSelected ? 'bg-gray-200' : '' }} 
+                   
+                    <select [(ngModel)]="user.company" [disabled]="isAdminSelected" formControlName="company" name="company" id ="company" class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6
+                    {{ !isAdminSelected ? 'opacity-100' : 'opacity-45' }},
+                    {{ !isAdminSelected ? '' : 'bg-gray-100' }}
+                    
                     ">
+                        <option *ngFor="let client of clientNames" [value]="client">{{ client }}</option>
+                      </select>
+                  
                 </div>
                 <div class="space-y-4 col-span-2 md:col-span-1">
                     <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>

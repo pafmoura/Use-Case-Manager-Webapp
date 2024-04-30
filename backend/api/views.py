@@ -19,19 +19,6 @@ import enterpriseattack
 class DataViewer(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    attack = enterpriseattack.Attack()
-
-    for tactic in attack.tactics:
-        print(tactic.name)
-
-    #get technique T1003
-    for technique in attack.techniques:
-        #get technique id T1003
-        if technique.id == "T1003":
-            print(technique.name)
-            print(technique.description)
-            print("tipo"+technique.type)
-
     
 
 

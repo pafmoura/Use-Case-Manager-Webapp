@@ -1,0 +1,67 @@
+<app-header></app-header>
+
+<app-titlebanner title="Adicionar Use Case" image="./assets/bannercover.jpg"></app-titlebanner>
+
+
+
+
+<form class="grid grid-cols-2 gap-12 px-32 pt-12"  (ngSubmit)="createUseCase()" [formGroup]="createUseCaseForm">
+    <div class="space-y-4 col-span-2 md:col-span-1">
+        <label for="mid" class="block text-sm font-medium leading-6 text-gray-900">ID Técnica Mitre</label>
+        <div class="flex">
+        <input id="mid"  name="mid" [(ngModel)]="useCase.mid"  type="mid" autocomplete="mid" formControlName="mid" required class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+        
+        <button type="button" class="ml-6 flex items-center justify-center gap-x-2 bg-gray-200 hover:bg-gray-300 rounded-md px-3 py-2" (click)="updateBasedOnMitreID()">
+            <i class="fas fa-search"></i>
+            Preencher
+        </button>
+    </div>
+    
+        
+  
+    
+    </div>
+
+
+
+    <div class="space-y-4 col-span-2 md:col-span-1">
+        <label for="title" class="block text-sm font-medium leading-6 text-gray-900">Título</label>
+        <input id="title"  name="title" [(ngModel)]="useCase.title"  type="title" autocomplete="title" formControlName="title" required class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+
+      
+    </div>
+    <div class="space-y-4 col-span-2 md:col-span-1">
+        <label for="cncs" class="block text-sm font-medium leading-6 text-gray-900">Taxonomia CNCS</label>
+        <input id="cncs" name="cncs"  type="cncs" [(ngModel)]="useCase.cncs" autocomplete="cncs" formControlName="cncs" required class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+   
+        <div class="flex items-center space-x-2">
+        <input id="addMitigations" name="addMitigations" [(ngModel)]="addMitigations" type="checkbox"  formControlName="addMitigations" class="text-indigo-600 focus:ring-indigo-500 h-4 w-4">
+        <label for="addMitigations" class="block text-sm font-medium leading-6 text-gray-900">Adicionar Mitigações MITRE</label>
+    </div>
+
+    <div class="flex items-center space-x-2">
+        <input id="addDetections" [(ngModel)]="addDetections" name="addDetections" type="checkbox"  formControlName="addDetections" class="text-indigo-600 focus:ring-indigo-500 h-4 w-4">
+        <label for="addDetections" class="block text-sm font-medium leading-6 text-gray-900">Adicionar Deteções MITRE</label>
+    </div>
+
+   
+        
+   
+    </div>
+    
+    <div class="space-y-4 col-span-2 md:col-span-1">
+        <label for="tactics" class="block text-sm font-medium leading-6 text-gray-900">Táticas</label>
+        <select id="tactics" name="tactics" [(ngModel)]="useCase.tactics" formControlName="tactics" required multiple class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 h-32 sm:text-sm sm:leading-6">
+            <option *ngFor="let tactic of tactics" [ngValue]="tactic">{{ tactic }}</option>
+        </select>
+    </div>
+
+<div class="space-y-4 col-span-4 md:col-span-2">
+    <label for="description" class="block text-sm font-medium leading-6 text-gray-900">Descrição</label>
+    <textarea id="description" name="description" type="description" [(ngModel)]="useCase.description" autocomplete="description" formControlName="description" required class="block w-full rounded-md border-0 px-2 py-2 h-32 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
+</div>
+
+    <div class="space-y-6 col-span-2">
+        <button type="submit" class="w-full md:w-[25rem] py-2.5 px-5 text-white font-semibold bg-redshift-red rounded-md hover:bg-redshift-red-dark">Registar</button>
+    </div>
+</form>

@@ -7,6 +7,8 @@ import { authGuard } from './helper/auth.guard';
 import { LandingpageComponent } from './landingpage/landingpage.component';
 import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { CreateUserComponent } from './create-user/create-user.component';
+import { ManageClientsComponent } from './manage-clients/manage-clients.component';
+import { CreateUseCaseComponent } from './usecases/create-use-case/create-use-case.component';
 
 export const routes: Routes = [
   { path: '', component: LandingpageComponent},
@@ -14,5 +16,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'manage-users', component: ManageUsersComponent},
   { path: 'create-user', component: CreateUserComponent },
+  {path: 'manage-clients', component: ManageClientsComponent},
+  {path: 'create-usecase', component: CreateUseCaseComponent},
   { path: '**', component: PageNotFoundComponent },
 ];

@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
-from accounts.models import User  # Alterado para importar User de accounts.models
-from accounts.serializer import UserSerializer
+from accounts.models import Company, User  # Alterado para importar User de accounts.models
+from accounts.serializer import CompanySerializer, UserSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from django.contrib.auth import get_user_model
@@ -50,3 +50,36 @@ def getUsers(request):
         return JsonResponse(serializer.data, safe=False)
     else:
         return JsonResponse({'error': 'Invalid request method'})
+    
+
+@api_view(['GET'])
+def getCompanies(request):
+    if request.method == 'GET':
+        companies = Company.objects.all()
+        serializer = CompanySerializer(companies, many=True)
+        return JsonResponse(serializer.data, safe=False)
+    else:
+        return JsonResponse({'error': 'Invalid request method'})
+    
+@api_view(['POST'])
+def createCompany(request):
+    if request.method == 'POST':
+
+        name = request.data['name']
+        company = Company(name=name)
+        company.save()
+        return JsonResponse({'success': 'Company created successfully'})
+    else:
+        return JsonResponse({'error': 'Invalid request method'})
+    
+@api_view(['POST'])
+def deleteUser(request, id):
+    user = User.objects.get(id=id)
+    user.delete()
+    return JsonResponse({'success': 'User deleted successfully'})
+
+@api_view(['POST'])
+def deleteCompany(request, id):
+    company = Company.objects.get(id=id)
+    company.delete()
+    return JsonResponse({'success': 'Company deleted successfully'})

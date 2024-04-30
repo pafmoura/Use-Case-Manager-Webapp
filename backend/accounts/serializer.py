@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from accounts.models import User 
+from accounts.models import Company, User 
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -19,4 +19,18 @@ class UserSerializer(serializers.ModelSerializer):
         response['is_active'] = instance.is_active
         response['is_staff'] = instance.is_staff
         response['is_superuser'] = instance.is_superuser
+        return response
+    
+
+class CompanySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Company
+        fields = ['pk', 'name', 'date']
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['pk'] = instance.pk
+        response['name'] = instance.name
+        response['date'] = instance.date
         return response

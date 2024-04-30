@@ -10,6 +10,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 
 import { AuthService } from './services/auth.service';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-root',
@@ -37,6 +38,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLogged = this.authService.isLogged();
+    initFlowbite();
+
   }
 
   openMenu() {

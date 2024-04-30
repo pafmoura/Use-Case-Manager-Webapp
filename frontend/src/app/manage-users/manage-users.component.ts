@@ -21,6 +21,11 @@ export class ManageUsersComponent {
   sortType = 'name';
   sortReverse = false;
   nameSearch: string = '';
+  selectDelete:  number = 999999;
+
+  updateSelectDelete(id: number) {
+    this.selectDelete = id;
+  }
 
 
 
@@ -62,6 +67,16 @@ export class ManageUsersComponent {
       } else {
         return this.sortNumeric(valueA, valueB);
       }
+    });
+  }
+
+  deleteUser() {
+
+    this.authService.deleteUser(this.selectDelete).subscribe(() => {
+      
+      this.authService.getUsers().subscribe((data: any) => {
+        this.users = data
+      });
     });
   }
 

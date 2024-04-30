@@ -21,6 +21,7 @@ from django.urls import path, include
 urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('api/', include('api.urls')),
+    path('usecases/', include('usecases.urls')),
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name="home.html"))
 ]
