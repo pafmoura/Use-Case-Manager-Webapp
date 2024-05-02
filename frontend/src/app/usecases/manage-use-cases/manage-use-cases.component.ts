@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { TitlebannerComponent } from "../../layout/titlebanner/titlebanner.component";
 import { HeaderComponent } from "../../layout/header/header.component";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { UsecasesService } from '../../services/usecases.service';
+import { Modal } from 'flowbite';
 
 @Component({
     selector: 'app-manage-use-cases',
@@ -16,7 +18,7 @@ import { RouterModule } from '@angular/router';
 export class ManageUseCasesComponent {
 
 
-  constructor(private authService : AuthService) { }
+  constructor(private useCasesService : UsecasesService) { }
 
   
   sortType = 'name';
@@ -24,7 +26,9 @@ export class ManageUseCasesComponent {
   nameSearch: string = '';
   selectDelete:  number = 999999;
 
-  updateSelectDelete(id: number) {
+  updateSelectDelete(event: Event, id: number) {
+    event.stopPropagation();
+    console.log(id)
     this.selectDelete = id;
   }
 
@@ -35,7 +39,8 @@ export class ManageUseCasesComponent {
   
 
   ngOnInit() {
-    this.authService.getUsers().subscribe((data: any) => {
+
+    this.useCasesService.getUseCases().subscribe((data: any) => {
       this.useCases = data
 
       console.log(data)
@@ -70,14 +75,13 @@ export class ManageUseCasesComponent {
     });
   }
 
-  deleteUser() {
+  deleteUseCase() {
+console.log("deleteUseCase")
+    console.log(this.selectDelete)
+this.useCasesService.deleteUseCase(this.selectDelete).subscribe((data: any) => {
 
-    this.authService.deleteUser(this.selectDelete).subscribe(() => {
-      
-      this.authService.getUsers().subscribe((data: any) => {
-        this.useCases = data
-      });
-    });
+  this.useCases = this.useCases.filter((u: any) => u.id !== this.selectDelete);
+});
   }
 
   private sortString(a: string, b: string): number {
@@ -89,9 +93,26 @@ export class ManageUseCasesComponent {
   }
 
 
-  get filteredUsers() {
-   return this.useCases.filter((u: any) => u.email.toLowerCase().includes(this.nameSearch.toLowerCase()));
+  get filteredUseCases() {
+   return this.useCases.filter((u: any) => u.name.toLowerCase().includes(this.nameSearch.toLowerCase()));
   }
+
+
+  @ViewChild('modal') modal!: ElementRef<HTMLElement>;
+  modalFlowbite!: Modal;
+
+  ngAfterViewInit() {
+    this.modalFlowbite = new Modal(this.modal.nativeElement);
+  }
+
+  openModal() {
+    this.modalFlowbite.show();
+  }
+
+  closeModal() {
+    this.modalFlowbite.hide();
+  }
+
 
  
 

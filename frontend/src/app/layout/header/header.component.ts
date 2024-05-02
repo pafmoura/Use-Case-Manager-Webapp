@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-header',
@@ -17,6 +18,7 @@ export class HeaderComponent {
   }
 
   ngOnInit() {
+    initFlowbite();
     this.authService.loggedInInfo().subscribe((value) => {
       var temp: string = value.toString(); 
       this.user = JSON.parse(temp);

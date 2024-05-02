@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+from usecases.serializer import UseCaseSerializer
 from usecases.models import UseCase
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -29,7 +30,7 @@ def getTechniqueById(request, id):
 def createUseCase(request):
     if request.method == 'POST':
         data = request.data
-        new_usecase = UseCase(mid=data['mid'], title=data['title'], cncs=data['cncs'], tactics=data['tactics'], description=data['description'], mitigations=data['mitigations'], components=data['components'], datasources=data['datasources'])
+        new_usecase = UseCase(mid=data['mid'], title=data['title'], cncs=data['cncs'], tactics=data['tactics'], description=data['description'], mitigations=data['mitigations'], components=data['components'], datasources=data['datasources'], platforms=data['platforms'], subtechniques=data['subtechniques'], url=data['url'])
         new_usecase.save()
         return JsonResponse(data, safe=False)
     else:
@@ -105,3 +106,34 @@ def getComponentsByTechniqueId(request, id):
 
     return JsonResponse(techniqueDatasources, safe=False)
 
+
+@api_view(['GET'])
+def getUseCases(request):
+    if request.method == 'GET':
+        usecases = UseCase.objects.all()
+        #use serializer
+        serializer = UseCaseSerializer(usecases, many=True)
+
+        
+        return JsonResponse(serializer.data, safe=False)
+    else:
+        return JsonResponse({'error': 'Invalid request method'})
+    
+@api_view(['POST'])
+def deleteUseCase(request, id):
+    if request.method == 'POST':
+        usecase = UseCase.objects.get(id=id)
+        usecase.delete()
+        return JsonResponse({'message': 'Use case deleted successfully'}, safe=False)
+    else:
+        return JsonResponse({'error': 'Invalid request method'})
+    
+@api_view(['GET'])
+def getUseCaseById(request, id):
+    if request.method == 'GET':
+        usecase = UseCase.objects.get(id=id)
+        serializer = UseCaseSerializer(usecase, many=False)
+        return JsonResponse(serializer.data, safe=False)
+    else:
+        return JsonResponse({'error': 'Invalid request method'})
+    

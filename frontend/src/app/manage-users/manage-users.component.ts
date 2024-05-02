@@ -6,6 +6,9 @@ import { TitlebannerComponent } from "../layout/titlebanner/titlebanner.componen
 import { AuthService } from '../services/auth.service';
 import { User } from '../services/auth.service';
 import { RouterModule } from '@angular/router';
+import { Modal, initFlowbite } from 'flowbite';
+import { ViewChild, ElementRef } from '@angular/core';
+
 @Component({
     selector: 'app-manage-users',
     standalone: true,
@@ -24,7 +27,11 @@ export class ManageUsersComponent {
   selectDelete:  number = 999999;
 
   updateSelectDelete(id: number) {
+    console.log('updateSelectDelete', id);
     this.selectDelete = id;
+
+
+
   }
 
 
@@ -96,6 +103,20 @@ export class ManageUsersComponent {
  
 
   
-  
+  @ViewChild('modal') modal!: ElementRef<HTMLElement>;
+  modalFlowbite!: Modal;
+
+  ngAfterViewInit() {
+    this.modalFlowbite = new Modal(this.modal.nativeElement);
+  }
+
+  openModal() {
+    this.modalFlowbite.show();
+  }
+
+  closeModal() {
+    this.modalFlowbite.hide();
+  }
+
 
 }

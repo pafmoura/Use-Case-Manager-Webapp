@@ -1,4 +1,4 @@
-from usecases.views import createUseCase, getComponentsByTechniqueId, getDataSourcesByTechniqueId, getMitigationsByTechniqueId, getTechniqueById
+from usecases.views import createUseCase, deleteUseCase, getComponentsByTechniqueId, getDataSourcesByTechniqueId, getMitigationsByTechniqueId, getTechniqueById, getUseCaseById, getUseCases
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 
@@ -11,4 +11,7 @@ urlpatterns = [
     path('getMitigationsByTechniqueId/<str:id>',getMitigationsByTechniqueId, name='getMitigationsByTechniqueId'),
     path('getDataSourcesByTechniqueId/<str:id>', getDataSourcesByTechniqueId, name='getDataSourcesByTechniqueId'),
     path('getComponentsByTechniqueId/<str:id>', getComponentsByTechniqueId, name='getComponentsByTechniqueId'),
+    path('getUseCases', getUseCases, name='getUseCases'),
+    path('deleteUseCase/<str:id>', deleteUseCase, name='deleteUseCase'),
+    path('getUseCaseById/<int:id>', getUseCaseById, name='getUseCaseById'),
 ]

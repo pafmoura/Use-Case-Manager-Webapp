@@ -6,6 +6,7 @@ import { MitreService } from '../../services/mitre.service';
 import { CommonModule } from '@angular/common';
 import { UsecasesService } from '../../services/usecases.service';
 import { CdkPortal } from '@angular/cdk/portal';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-create-use-case',
@@ -16,7 +17,7 @@ import { CdkPortal } from '@angular/cdk/portal';
 })
 export class CreateUseCaseComponent {
 
-    constructor(private mitreService : MitreService, private usecasesService : UsecasesService) { }
+    constructor(private mitreService : MitreService, private usecasesService : UsecasesService, private router: Router) { }
 
     tactics = ["Initial Access",
     "Execution",
@@ -49,7 +50,12 @@ addMitigations : boolean = false
         description: "",
         mitigations: [] as string[],
         components: [] as string[],
-        datasources: [] as string[]}
+        datasources: [] as string[],
+        url: "",
+        subtechniques: [] as string[],
+        platforms: [] as string[],
+    
+    }
 
     createUseCaseForm = new FormGroup({
         mid: new FormControl(""),
@@ -82,6 +88,12 @@ addMitigations : boolean = false
 
                 this.useCase.components = [];
                 this.useCase.datasources = [];
+
+                this.useCase.url = data.url;
+                this.useCase.subtechniques = data.sub_techniques;
+                this.useCase.platforms = data.platforms;
+
+                
                
 
 
@@ -107,11 +119,18 @@ addMitigations : boolean = false
         description: this.createUseCaseForm.get('description')?.value,
         mitigations: [],
     components: [],
-    datasources: [],}
+    datasources: [],
+    url: this.useCase.url,
+    subtechniques: this.useCase.subtechniques,
+    platforms: this.useCase.platforms,
+    
 
 
 
-        console.log(useCase);
+}
+
+
+
 
         if (useCase.mid) {
             console.log("getting mitigations");
@@ -134,8 +153,10 @@ addMitigations : boolean = false
                                 console.log(data);
                             useCase.datasources = data;
                      
+                            console.log(useCase);
                 this.usecasesService.createUseCase(useCase).subscribe((data) => {
                     console.log(data);
+                    this.router.navigate(['/manage-use-cases']);
 
                     
                 }
