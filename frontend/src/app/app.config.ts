@@ -14,6 +14,7 @@ import {
 } from '@angular/common/http';
 import { TokenInterceptor } from './helper/token.interceptor';
 import { CustomReuseStrategy } from './app.strategies';
+import { LoadingInterceptor } from './layout/loading';
 
 const tokenInterceptorProvider: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -23,6 +24,11 @@ const tokenInterceptorProvider: Provider = {
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
+      multi: true
+    },
     provideRouter(routes),
     provideAnimationsAsync(),
     provideHttpClient(),

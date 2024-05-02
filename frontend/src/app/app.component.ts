@@ -11,23 +11,25 @@ import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 
 import { AuthService } from './services/auth.service';
 import { initFlowbite } from 'flowbite';
+import { SpinnerComponent } from "./layout/spinner/spinner.component";
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterOutlet,
-    MatButtonModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatCheckboxModule,
-    FormsModule,
-    MatButtonModule,
-  ],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+    selector: 'app-root',
+    standalone: true,
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css',
+    imports: [
+        CommonModule,
+        RouterOutlet,
+        MatButtonModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatSidenavModule,
+        MatCheckboxModule,
+        FormsModule,
+        MatButtonModule,
+        SpinnerComponent
+    ]
 })
 export class AppComponent implements OnInit {
   title = 'Front-end';
