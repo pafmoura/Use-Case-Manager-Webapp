@@ -15,6 +15,7 @@ import {
 import { TokenInterceptor } from './helper/token.interceptor';
 import { CustomReuseStrategy } from './app.strategies';
 import { LoadingInterceptor } from './layout/loading';
+import { CodeEditorModule } from '@ngstack/code-editor';
 
 const tokenInterceptorProvider: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -32,7 +33,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     provideHttpClient(),
-    importProvidersFrom(HttpClientModule),
+    importProvidersFrom(HttpClientModule, CodeEditorModule.forRoot(), 	
+  ),
     tokenInterceptorProvider,
     {
       provide: RouteReuseStrategy,

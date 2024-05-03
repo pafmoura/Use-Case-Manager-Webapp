@@ -19,16 +19,18 @@ import { SpinnerComponent } from "./layout/spinner/spinner.component";
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
     imports: [
-        CommonModule,
-        RouterOutlet,
-        MatButtonModule,
-        MatToolbarModule,
-        MatIconModule,
-        MatSidenavModule,
-        MatCheckboxModule,
-        FormsModule,
-        MatButtonModule,
-        SpinnerComponent
+      CommonModule,
+      RouterOutlet,
+      MatButtonModule,
+      MatToolbarModule,
+      MatIconModule,
+      MatSidenavModule,
+      MatCheckboxModule,
+      FormsModule,
+      MatButtonModule,
+      SpinnerComponent,
+
+      
     ]
 })
 export class AppComponent implements OnInit {

@@ -21,8 +21,10 @@
     "@angular/platform-browser": "^17.3.0",
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
+    "@ngstack/code-editor": "^7.2.0",
     "class-transformer": "^0.5.1",
     "flowbite": "^2.3.0",
+    "monaco-editor": "^0.48.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"

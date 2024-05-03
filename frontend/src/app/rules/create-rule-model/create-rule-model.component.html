@@ -1,0 +1,75 @@
+<app-header></app-header>
+
+<app-titlebanner title="Adicionar Modelo de Regra" image="./assets/bannercover.jpg"></app-titlebanner>
+
+
+
+<form class="grid grid-cols-2 gap-12 px-32 pt-12"  (ngSubmit)="createRuleModel()" [formGroup]="createRuleModelForm">
+    <div class="space-y-4 col-span-2 md:col-span-1">
+        <label for="title" class="block text-sm font-medium leading-6 text-gray-900">Título da Regra</label>
+        <div class="flex">
+        <input id="title"  name="title" [(ngModel)]="ruleModel.title"  type="title" autocomplete="title" formControlName="title" required class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+        
+    
+    </div>
+    
+        
+  
+    
+    </div>
+
+
+
+    <div class="space-y-4 col-span-2 md:col-span-1">
+        <label for="useCaseId" class="block text-sm font-medium leading-6 text-gray-900">Use Case Associado</label>
+        <select id="selectedUseCase" formControlName="selectedUseCase" name="selectedUseCase" [(ngModel)]="selectedUseCase"  class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            <option *ngFor="let option of usecases" [value]="option.id">RedUC{{option.id}} - {{ option.title }}</option>
+          </select>
+      
+    </div>
+    <div class="space-y-4 col-span-2 md:col-span-1">
+        <label for="syntax" class="block text-sm font-medium leading-6 text-gray-900">Tipo</label>
+        <select  id="selectedType" name="selectedType" formControlName="selectedType" [(ngModel)]="selectedType"  class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            <option  *ngFor="let option of typeKeys()" [value]="option">{{option}}</option>
+          </select>
+
+   
+        
+   
+    </div>
+    
+    <div class="space-y-4 col-span-2 md:col-span-1">
+        <label for="tactics" class="block text-sm font-medium leading-6 text-gray-900">Sintaxe</label>
+        <select (change)="onSyntaxChanged()" id="selectedSyntax" name="selectedSyntax" formControlName="selectedSyntax" [(ngModel)]="selectedSyntax"   class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            <option *ngFor="let syntax of syntaxesForSelectedType()" [value]="syntax">{{syntax}}</option>
+          </select>
+    </div>
+
+<div class="space-y-4 col-span-4 my-6 md:col-span-2">
+
+
+    <label for="tactics" class="block text-sm font-medium leading-6 text-gray-900">Regra</label>
+
+
+
+<div class="w-full border border-gray-300  mx-auto">
+    <ngs-code-editor
+    [codeModel]="selectedModel"
+    [theme]="theme"
+    [options]="options"
+    (valueChanged)="onCodeChanged($event)"
+    (loaded)="onEditorLoaded($event)"
+    (codeModelChanged)="onCodeModelChanged($event)"
+    
+
+    >
+    </ngs-code-editor>
+    </div>
+
+    <div class="space-y-6 col-span-2">
+        <button type="submit" class="w-full md:w-[25rem] py-2.5 px-5 text-white font-semibold bg-redshift-red rounded-md hover:bg-redshift-red-dark">Registar</button>
+    </div>
+
+</div>
+</form>
+
