@@ -57,6 +57,19 @@ addMitigations : boolean = false
     
     }
 
+
+    taxonomiaCNCS = [
+        "Código Malicioso",
+        "Disponibilidade",
+        "Recolha de Informação",
+        "Intrusão",
+        "Tentativa de Intrusão",
+        "Segurança da Informação",
+        "Fraude",
+        "Conteúdo Abusivo",
+        "Vulnerabilidade",
+        "Outro"]
+
     createUseCaseForm = new FormGroup({
         mid: new FormControl(""),
         title: new FormControl(""),

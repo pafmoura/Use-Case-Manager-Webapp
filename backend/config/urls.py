@@ -23,5 +23,6 @@ urlpatterns = [
     path('api/', include('api.urls')),
     path('usecases/', include('usecases.urls')),
     path('admin/', admin.site.urls),
+    path('rules/', include('rules.urls')),
     path('', TemplateView.as_view(template_name="home.html"))
 ]
