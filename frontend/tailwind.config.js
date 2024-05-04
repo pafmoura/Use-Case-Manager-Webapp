@@ -3,6 +3,8 @@ module.exports = {
   content: [
     "./src/**/*.{html,ts}",
     "./node_modules/flowbite/**/*.js",
+    "node_modules/preline/dist/*.js"
+
     
   ],
   theme: {
@@ -39,7 +41,9 @@ module.exports = {
     },
   },
   plugins: [
-    require('flowbite/plugin') 
+    require('flowbite/plugin'),
+    require('preline/plugin'),
+
 
   ],
 }

@@ -11,9 +11,7 @@
     <div class="py-8">
       <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
         <div class="inline-block min-w-full shadow-md p-5 rounded-lg overflow-hidden">
-  
-          <!-- Add a search input for name -->
-  
+    
           <div class="mb-4 relative">
   
             <label for="nameSearch" class="sr-only">Procurar por nome</label>
@@ -21,8 +19,17 @@
               <i class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
                 <span class="fas fa-search"></span>
               </i>
+
+
+
               <input type="text" id="nameSearch" [(ngModel)]="nameSearch" placeholder="Procurar por nome" class="pl-10 px-4 py-2 border rounded w-full">
             
+                <mat-select class="ml-5 max-w-36 min-w-24 rounded-sm border-gray-500" multiple placeholder="Táticas">
+                  @for (tactic of tactics; track tactic) {
+                    <mat-option [value]="tactic">{{tactic}}</mat-option>
+                  }
+                </mat-select>
+              
                 <button [routerLink]="'/create-usecase'" class="ml-5 w-48 h-10 bg-redshift-red text-white rounded hover:bg-redshift-hover shadow-md">
                   <i class="fas fa-plus"></i>
                 Adicionar Novo

@@ -5,6 +5,7 @@ from django.shortcuts import render
 from backend.rules.models import RuleModel
 from rest_framework import viewsets
 from django.http import JsonResponse
+from rest_framework.decorators import api_view
 
 @api_view(['POST'])
 def createRuleModel(request):

@@ -39,6 +39,6 @@ export const appConfig: ApplicationConfig = {
     {
       provide: RouteReuseStrategy,
       useClass: CustomReuseStrategy,
-    },
+    }, provideAnimationsAsync(),
   ],
 };

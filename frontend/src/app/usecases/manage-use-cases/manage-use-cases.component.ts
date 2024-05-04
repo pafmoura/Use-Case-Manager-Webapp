@@ -7,15 +7,20 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { UsecasesService } from '../../services/usecases.service';
 import { Modal } from 'flowbite';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
+
 
 @Component({
     selector: 'app-manage-use-cases',
     standalone: true,
     templateUrl: './manage-use-cases.component.html',
     styleUrl: './manage-use-cases.component.css',
-    imports: [TitlebannerComponent, HeaderComponent, FormsModule, ReactiveFormsModule, CommonModule, RouterModule]
+    imports: [TitlebannerComponent, HeaderComponent, FormsModule, ReactiveFormsModule, CommonModule, RouterModule, MatFormFieldModule, MatSelectModule, MatIconModule]
 })
 export class ManageUseCasesComponent {
+selectedValues: any;
 
 
   constructor(private useCasesService : UsecasesService) { }
@@ -34,6 +39,19 @@ export class ManageUseCasesComponent {
 
 
 
+
+  tactics = ["Initial Access",
+  "Execution",
+  "Persistence",
+  "Privilege Escalation",
+  "Defense Evasion",
+  "Credential Access",
+  "Discovery",
+  "Lateral Movement",
+  "Collection", 
+  "Command and Control",
+  "Exfiltration",
+  "Impact"];
 
   useCases : any = [ ]
   

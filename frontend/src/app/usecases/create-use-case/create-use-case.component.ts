@@ -172,10 +172,9 @@ addMitigations : boolean = false
                     this.router.navigate(['/manage-use-cases']);
 
                     
-                }
-                
-                );
-                        });}
+                });
+                        });
+                    }
                 
             });
                 }
