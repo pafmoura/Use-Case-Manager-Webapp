@@ -46,9 +46,9 @@
                   Empresa
                   <span [class]="sortType === 'company' ? (sortReverse ? 'fas fa-caret-up' : 'fas fa-caret-down') : ''"></span>
                 </th>
-                <th (click)="sortTable('date')" class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                <th (click)="sortTable('date_joined')" class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                   Data de Registo
-                  <span [class]="sortType === 'date' ? (sortReverse ? 'fas fa-caret-up' : 'fas fa-caret-down') : ''"></span>
+                  <span [class]="sortType === 'date_joined' ? (sortReverse ? 'fas fa-caret-up' : 'fas fa-caret-down') : ''"></span>
                 </th>
                 <th (click)="sortTable('role')" class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                   Role

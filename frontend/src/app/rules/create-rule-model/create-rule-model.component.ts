@@ -69,7 +69,7 @@ setDefaultCode() {
 
 var newModel = {
   value: this.defaultCode,
-  language: 'YAML',
+  language: '',
   uri: ''
 }
 

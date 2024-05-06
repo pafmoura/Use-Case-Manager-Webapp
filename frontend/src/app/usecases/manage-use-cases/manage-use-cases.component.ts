@@ -25,7 +25,7 @@ selectedValues: any;
 
   constructor(private useCasesService : UsecasesService) { }
 
-  
+  selectedFilter : any;
   sortType = 'name';
   sortReverse = false;
   nameSearch: string = '';
@@ -55,6 +55,7 @@ selectedValues: any;
 
   useCases : any = [ ]
   
+  selectedTactics: any = [];
 
   ngOnInit() {
 
@@ -91,6 +92,14 @@ selectedValues: any;
         return this.sortNumeric(valueA, valueB);
       }
     });
+  }
+
+  updateSelectedTactics(){
+
+   
+    
+    
+console.log(this.selectedTactics)
   }
 
   deleteUseCase() {

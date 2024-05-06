@@ -24,10 +24,11 @@
 
               <input type="text" id="nameSearch" [(ngModel)]="nameSearch" placeholder="Procurar por nome" class="pl-10 px-4 py-2 border rounded w-full">
             
-                <mat-select class="ml-5 max-w-36 min-w-24 rounded-sm border-gray-500" multiple placeholder="Táticas">
+                <mat-select class="ml-5 max-w-36 min-w-24 rounded-sm border-gray-500" multiple placeholder="Táticas" [(ngModel)]="selectedTactics" >
                   @for (tactic of tactics; track tactic) {
-                    <mat-option [value]="tactic">{{tactic}}</mat-option>
+                    <mat-option  [value]="tactic" (onSelectionChange)="updateSelectedTactics()">{{tactic}}</mat-option>
                   }
+
                 </mat-select>
               
                 <button [routerLink]="'/create-usecase'" class="ml-5 w-48 h-10 bg-redshift-red text-white rounded hover:bg-redshift-hover shadow-md">
