@@ -3,18 +3,32 @@ from django.contrib.postgres.fields import ArrayField
 
 # Create your models here.
 
+
 class UseCase(models.Model):
-    mid = models.CharField(max_length=1000, blank=True, null=True)
     title = models.CharField(max_length=1000)
-    cncs = models.CharField(max_length=100, blank=True, null=True)
-    tactics = ArrayField(models.CharField( blank=True, null=True),blank=True, null=True)
+    cncsClass = models.CharField(max_length=100, blank=True, null=True)
+    cncsType = models.CharField(max_length=100, blank=True, null=True)
     description = models.CharField(max_length=3000, blank=True, null=True)
-    mitigations = ArrayField(models.JSONField( blank=True, null=True), blank=True, null=True)
-    components = ArrayField(models.JSONField( blank=True, null=True),blank=True, null=True)
-    datasources = ArrayField(models.JSONField( blank=True, null=True),blank=True, null=True)
-    platforms = ArrayField(models.CharField( blank=True, null=True),blank=True, null=True)
-    subtechniques = ArrayField(models.CharField( blank=True, null=True),blank=True, null=True)
-    url = models.CharField(max_length=1000, null=True, blank=True)
+    mitigation = models.CharField(max_length=100000, blank=True, null=True)
+    mitreTechniques = ArrayField(models.CharField( blank=True, null=True),blank=True, null=True)
+    phaseTasks = ArrayField(models.JSONField(blank=True, null=True), blank=True, null=True)
+    rules = ArrayField(models.JSONField(blank=True, null=True), blank=True, null=True)
+    attackVectors = ArrayField(models.CharField( blank=True, null=True),blank=True, null=True)
+    playbook = models.CharField(max_length=1000, blank=True, null=True)
+
+
+#class UseCase(models.Model):
+ #   title = models.CharField()
+ #   description = models.CharField(blank=True, null=True)
+  #  mitigation = models.CharField(blank=True, null=True)
+ #   playbook = models.BinaryField(blank=True)
+ #   mitreTechniques = ArrayField(models.CharField(blank=True, null=True), blank=True, null=True)
+ ##   cncsClass = models.CharField(blank=True, null=True)
+  #  cncsType = models.CharField(blank=True, null=True)
+  #  PhaseTasks = ArrayField(models.JSONField(blank=True, null=True), blank=True, null=True)
+
+#
+
 
 
     #apaguei o  detections

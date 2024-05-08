@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ɵformatRuntimeError } from '@angular/core';
 import { HeaderComponent } from "../../layout/header/header.component";
 import { TitlebannerComponent } from "../../layout/titlebanner/titlebanner.component";
 import { CommonModule } from '@angular/common';
@@ -7,6 +7,7 @@ import { Type } from 'class-transformer';
 import { CodeEditorComponent, CodeEditorModule, CodeModel, CodeModelChangedEvent } from '@ngstack/code-editor';
 import {editor, Range} from 'monaco-editor'
 import { UsecasesService } from '../../services/usecases.service';
+import { RulesService } from '../../services/rules.service';
 
 
 @Component({
@@ -21,7 +22,9 @@ export class CreateRuleModelComponent {
 usecases : any = ['Vazio'];
 
 
-constructor(private useCasesService : UsecasesService) { }
+constructor(private useCasesService : UsecasesService, private rulesService : RulesService) { }
+
+
 
 ngOnInit() {
 
@@ -34,7 +37,7 @@ ngOnInit() {
 selectedUseCase : any = "SIEM";
 selectedSyntax : any = "";
 
-
+code : any = "";
 
 
 
@@ -92,7 +95,23 @@ var newModel = {
   defaultCode = ``
 
   createRuleModel() {
-    console.log("Create Rule Model");
+    
+    var ruleModel = {
+      title: this.createRuleModelForm.value.title,
+      useCaseId: this.selectedUseCase,
+      syntax: this.selectedSyntax,
+      type: this.selectedType,
+      ruleCode: this.selectedModel.value
+    }
+    console.log(ruleModel);
+
+this.rulesService.createRuleModel(ruleModel).subscribe((data) => {
+  console.log(data);
+});
+
+
+
+
   }
 
   ruleModel :any = {
@@ -100,7 +119,7 @@ var newModel = {
     useCaseId: "",
     syntax: "",
     type: "",
-    ruleText: ""
+    ruleCode: ""
 }
 
 createRuleModelForm = new FormGroup({
@@ -147,7 +166,6 @@ onCodeModelChanged(event: CodeModelChangedEvent) {
 }
 
 onCodeChanged(value : any) {
-  console.log('CODE', value);
 }
 
 

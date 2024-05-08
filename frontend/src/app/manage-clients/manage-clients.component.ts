@@ -5,6 +5,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { TagInputModule } from 'ngx-chips';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { AuthService } from '../services/auth.service';
     standalone: true,
     templateUrl: './manage-clients.component.html',
     styleUrl: './manage-clients.component.css',
-    imports: [TitlebannerComponent, HeaderComponent, FormsModule, CommonModule, RouterModule, ReactiveFormsModule]
+    imports: [TitlebannerComponent, HeaderComponent, FormsModule, CommonModule, RouterModule, ReactiveFormsModule, TagInputModule]
 })
 export class ManageClientsComponent {
   
@@ -22,6 +23,7 @@ export class ManageClientsComponent {
   selectDelete: number = 9999999;
 
   clients : any = [ ]
+
 
 constructor(private authService : AuthService) { }
 
@@ -61,6 +63,7 @@ constructor(private authService : AuthService) { }
 
   createClientForm = new FormGroup({
     name: new FormControl(""),
+    logsources: new FormControl(null)
    })
 
    get name() {
@@ -70,10 +73,19 @@ constructor(private authService : AuthService) { }
 
 
 
+
+
 createClient() {
+  
+
+  var logsourcesArray :any = this.createClientForm.get('logsources')?.value;
+
+  var logsources = logsourcesArray?.map((logsource: any) => logsource.value);
+
 const clientData = {
     name: this.name!.value!,
-}
+    logsources: logsources
+  }
 
 console.log(clientData);
 

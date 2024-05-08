@@ -28,6 +28,10 @@ export class UsecasesService {
     return this.http.get<any>(`${AUTH_URL}getUseCaseById/${id}`);
   }
 
+  updatePhaseTasks(id: number, phaseTasks: any) {
+    return this.http.post<any>(`${AUTH_URL}updatePhaseTasks/${id}`, phaseTasks);
+  }
+
   
 
 

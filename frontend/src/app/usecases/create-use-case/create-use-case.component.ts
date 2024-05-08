@@ -7,15 +7,23 @@ import { CommonModule } from '@angular/common';
 import { UsecasesService } from '../../services/usecases.service';
 import { CdkPortal } from '@angular/cdk/portal';
 import { Router } from '@angular/router';
+import { TagInputModule } from 'ngx-chips';
+import { Binary } from '@angular/compiler';
 
 @Component({
     selector: 'app-create-use-case',
     standalone: true,
     templateUrl: './create-use-case.component.html',
     styleUrl: './create-use-case.component.css',
-    imports: [TitlebannerComponent, HeaderComponent, TitlebannerComponent, HeaderComponent, ReactiveFormsModule, FormsModule, CommonModule]
+    imports: [TitlebannerComponent, HeaderComponent, TagInputModule, TitlebannerComponent, HeaderComponent, ReactiveFormsModule, FormsModule, CommonModule]
 })
+
+
+
 export class CreateUseCaseComponent {
+
+
+
 
     constructor(private mitreService : MitreService, private usecasesService : UsecasesService, private router: Router) { }
 
@@ -43,143 +51,135 @@ addMitigations : boolean = false
     }
 
     useCase = {
-        mid: "",
         title: "",
-        cncs: "",
-        tactics: [] as string[],
         description: "",
-        mitigations: [] as string[],
-        components: [] as string[],
-        datasources: [] as string[],
-        url: "",
-        subtechniques: [] as string[],
-        platforms: [] as string[],
+        mitigation: "",
+        playbook: "",
+        mitreTechniques: [],
+        cncsClass: "",
+        cncsType: "",
+        phaseTasks: [],
+        rules: [],
+        attackVectors: [],
+        logsources: []
+        
     
     }
+
 
 
     taxonomiaCNCS = [
-        "Código Malicioso",
-        "Disponibilidade",
-        "Recolha de Informação",
-        "Intrusão",
-        "Tentativa de Intrusão",
-        "Segurança da Informação",
-        "Fraude",
-        "Conteúdo Abusivo",
-        "Vulnerabilidade",
-        "Outro"]
+       
+    {"Código Malicioso" : ["Sistema Infetado", "Distribuição de Malware", "Servidor C2", "Configuração de Malware"]},
+    {"Disponibilidade" : ["Negação de Serviço","Negação de Serviço Distribuída","Configuração Incorreta","Sabotagem","Interrupção"]},
 
-    createUseCaseForm = new FormGroup({
-        mid: new FormControl(""),
-        title: new FormControl(""),
-        cncs: new FormControl(""),
-        tactics: new FormControl(""),
-        description: new FormControl(""),
-        mitigations: new FormControl(""),
-        components: new FormControl(""),
-        datasources: new FormControl(""),
-        addDetections: new FormControl(""),
-        addMitigations: new FormControl(""),
+
+    {"Recolha de Informação" : ["Scanning","Sniffing","Engenharia Social"]},
+
+    {"Intrusão" : ["Comprometimento de Conta Privilegiada", "Comprometimento de Conta Não Privilegiada", "Comprometimento de Aplicação", "Comprometimento de Sistema", "Arrombamento"]},
+
+    {"Tentativa de Intrusão" : ["Exploração de Vulnerabilidade","Tentativa de Login", "Nova assinatura de ataque"]},
+
+    {"Segurança da Informação" : ["Acesso não autorizado",
+   "Modificação não autorizada",
+    "Perda de dados",
+    "Exfiltração de Informação"]},
+
+    {"Fraude" : ["Utilização indevida ou não autorizada de recursos", "Direitos de autor",
+    "Utilização ilegítima de nome de terceiros",
+    "Phishing"]},
+
+    {"Conteúdo Abusivo" : ["SPAM","Discurso Nocivo","Exploração sexual de menores, racismo e apologia da violência"]},
+
+    {"Vulnerabilidade" : ["Criptografia fraca",
+   "Amplificador DDoS",
+   " Serviços acessíveis potencialmente indesejados",
+    "Revelação de informação",
+    "Sistema vulnerável"]},
+
+    {"Outro" : ["Sem Tipo","Indeterminado"]},
+
+
+
+
+    ]
+
+    chavesTaxonomia = this.taxonomiaCNCS.map(objeto => Object.keys(objeto)[0]);
+
+    selectedCategory: string = "";
+    selectedSubcategory: string = "";
+    selectedCategoryValues: string[] =  [];
+  
+    updateCNCSValues() {
+        const selectedCategoryObject = this.taxonomiaCNCS.find(obj => Object.keys(obj)[0] === this.selectedCategory) as any;
+        this.selectedCategoryValues = selectedCategoryObject ? selectedCategoryObject[this.selectedCategory] : [];
+        this.selectedSubcategory = ''; // Reset selected subcategory when category changes
+
+        console.log(this.selectedCategoryValues);
+      }
+    
+
+
+       createUseCaseForm = new FormGroup({
+        title: new FormControl(''),
+        description: new FormControl(''),
+        mitigation: new FormControl(''),
+        playbook: new FormControl(null),
+        mitreTechniques: new FormControl(null),
+        cncsClass: new FormControl(''),
+        cncsType: new FormControl(''),
+        phaseTasks: new FormControl(null),
+        rules: new FormControl(null),
+        attackVectors: new FormControl(null),
+        logsources: new FormControl(null)
     });
 
-    updateBasedOnMitreID() {
 
-        var id = this.createUseCaseForm.get('mid')?.value;
+    createUseCase() {
 
-
-        if (id) {
-            this.mitreService.getTechniqueById(id).subscribe((data) => {
-                console.log(data);
-                this.useCase.title = data.name;
-                this.useCase.description = data.description;
-
-                //select the tactics in the multiple select
-                this.useCase.tactics = data.tactics;
-
-                this.useCase.cncs = "";
-
-                this.useCase.components = [];
-                this.useCase.datasources = [];
-
-                this.useCase.url = data.url;
-                this.useCase.subtechniques = data.sub_techniques;
-                this.useCase.platforms = data.platforms;
-
-                
-               
-
-
-
-               
-
-                
-            });
-        }
-
+        const title = this.createUseCaseForm.get('title')?.value;
+        const description = this.createUseCaseForm.get('description')?.value;
+        const mitigation = this.createUseCaseForm.get('mitigation')?.value;
+        const playbook = this.createUseCaseForm.get('playbook')?.value;
+        const mitrearray : any = this.createUseCaseForm.get('mitreTechniques')?.value;
+        const cncsClass = this.selectedCategory
+        const cncsType = this.selectedSubcategory
         
+const phaseTasks: any = [
+    { phase: "Preparation", tasks: [] },
+    { phase: "Detection and Analysis", tasks: [] },
+    { phase: "Containment, Eradication and Recovery", tasks: [] },
+    { phase: "Post-Event Activity", tasks: [] }
+];
 
-    }
+        const rules : any = []
+        const attackVectorsArray : any = this.createUseCaseForm.get('attackVectors')?.value;
 
-
- createUseCase() {
-    
-    var useCase = {
-        mid: this.createUseCaseForm.get('mid')?.value,
-        title: this.createUseCaseForm.get('title')?.value,
-        cncs: this.createUseCaseForm.get('cncs')?.value,
-        tactics: this.createUseCaseForm.get('tactics')?.value,
-        description: this.createUseCaseForm.get('description')?.value,
-        mitigations: [],
-    components: [],
-    datasources: [],
-    url: this.useCase.url,
-    subtechniques: this.useCase.subtechniques,
-    platforms: this.useCase.platforms,
-    
+        var mitreTechniques = mitrearray?.map((technique: any) => technique.value);
+        var attackVectors = attackVectorsArray?.map((vector: any) => vector.value);
 
 
 
+        const useCase = {
+            title,
+            description,
+            mitigation,
+            playbook,
+            mitreTechniques,
+            cncsClass,
+            cncsType,
+            phaseTasks,
+            rules,
+            attackVectors,
+            
+        };
+
+
+console.log(useCase);
+this.usecasesService.createUseCase(useCase).subscribe((response) => {
+    console.log(response);
+
+    });
 }
 
-
-
-
-        if (useCase.mid) {
-            console.log("getting mitigations");
-            this.mitreService.getMitigationsByTechniqueId(useCase.mid).subscribe((data) => {
-                
-                if(this.addMitigations==true)
-                useCase.mitigations = data;
-                
-
-                if (useCase.mid) {
-                this.mitreService.getComponentsByTechniqueId(useCase.mid).subscribe((data) => {
-
-                    if(this.addDetections==true)
-                    useCase.components = data;
-
-                    if (useCase.mid) {
-                        this.mitreService.getDatasourcesByTechniqueId(useCase.mid).subscribe((data) => {
-
-                            if(this.addDetections==true)
-                                console.log(data);
-                            useCase.datasources = data;
-                     
-                            console.log(useCase);
-                this.usecasesService.createUseCase(useCase).subscribe((data) => {
-                    console.log(data);
-                    this.router.navigate(['/manage-use-cases']);
-
-                    
-                });
-                        });
-                    }
-                
-            });
-                }
-            }
-            );
-        }
-    }
 }

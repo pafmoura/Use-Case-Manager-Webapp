@@ -5,73 +5,84 @@
 
 
 
-<form class="grid grid-cols-2 gap-12 px-32 pt-12" (ngSubmit)="createUseCase()" [formGroup]="createUseCaseForm">
+<form class="grid grid-cols-2 gap-12 px-32 pt-12"  [formGroup]="createUseCaseForm" (ngSubmit)="createUseCase()">
     <div class="space-y-4 col-span-2 md:col-span-1">
 
-        <label for="mid" class="block text-sm font-medium leading-6 text-gray-900">ID Técnica Mitre</label>
-        <div class="flex">
-            <input id="mid" name="mid" [(ngModel)]="useCase.mid" type="mid" autocomplete="mid" formControlName="mid" required class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+        <label for="title" class="block text-sm font-medium leading-6 text-gray-900">Título</label>
+        <input id="title"  name="title" placeholder="Título do Use Case"  type="title" autocomplete="title" formControlName="title" required class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
 
-            <button type="button" class="ml-6 flex items-center justify-center gap-x-2 bg-gray-200 hover:bg-gray-300 rounded-md px-3 py-2" (click)="updateBasedOnMitreID()">
-                <i class="fas fa-search"></i>
-                Preencher
-            </button>
-        </div>
-        
-        <!-- Text below input field -->
-        <a class="text-sm text-gray-600 mt-0" href="https://attack.mitre.org/" target="_blank">
-            <span class=" text-[10px] fas fa-bars"></span>
-            Consultar catálogo Mitre 
-            
-        </a>
+       
     </div>
 
 
 
     <div class="space-y-4 col-span-2 md:col-span-1">
-        <label for="title" class="block text-sm font-medium leading-6 text-gray-900">Título</label>
-        <input id="title"  name="title" [(ngModel)]="useCase.title"  type="title" autocomplete="title" formControlName="title" required class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+        <label for="mitreTechniques" class="block text-sm font-medium leading-6 text-gray-900">Técnicas Mitre Associadas</label>
+        <tag-input theme='minimal' [secondaryPlaceholder]="'+ Nova Técnica'" [placeholder]="''"  formControlName="mitreTechniques"     class="block w-full rounded-md border-0 px-2  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></tag-input>
 
       
     </div>
     <div class="space-y-4 col-span-2 md:col-span-1">
-        <label for="cncs" class="block text-sm font-medium leading-6 text-gray-900">Taxonomia CNCS</label>
+        <label for="cncsClass"  class="block text-sm font-medium leading-6 text-gray-900">Classe CNCS</label>
        <!-- <input id="cncs" name="cncs"  type="cncs" [(ngModel)]="useCase.cncs" autocomplete="cncs" formControlName="cncs" required class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
    -->
    <select 
-  id="cncs"
-  name="cncs"
-  [(ngModel)]="useCase.cncs"
-  formControlName="cncs"
+  id="cncsClass"
+  name="cncsClass"
+  [(ngModel)]="selectedCategory"
+  [ngModelOptions]="{standalone: true}"
+  (ngModelChange)="updateCNCSValues()"
   class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-  <option *ngFor="let option of taxonomiaCNCS" [value]="option">{{ option }}</option>
+  <option *ngFor="let option of chavesTaxonomia" [value]="option">{{ option }}</option>
 </select>
 
-        <div class="flex items-center space-x-2">
-        <input id="addMitigations" name="addMitigations" [(ngModel)]="addMitigations" type="checkbox"  formControlName="addMitigations" class="text-indigo-600 focus:ring-indigo-500 h-4 w-4">
-        <label for="addMitigations" class="block text-sm font-medium leading-6 text-gray-900">Adicionar Mitigações MITRE</label>
-    </div>
-
-    <div class="flex items-center space-x-2">
-        <input id="addDetections" [(ngModel)]="addDetections" name="addDetections" type="checkbox"  formControlName="addDetections" class="text-indigo-600 focus:ring-indigo-500 h-4 w-4">
-        <label for="addDetections" class="block text-sm font-medium leading-6 text-gray-900">Adicionar Deteções MITRE</label>
-    </div>
-
+       
    
         
    
     </div>
+
+    
     
     <div class="space-y-4 col-span-2 md:col-span-1">
-        <label for="tactics" class="block text-sm font-medium leading-6 text-gray-900">Táticas</label>
-        <select id="tactics" name="tactics" [(ngModel)]="useCase.tactics" formControlName="tactics" required multiple class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 h-32 sm:text-sm sm:leading-6">
-            <option *ngFor="let tactic of tactics" [ngValue]="tactic">{{ tactic }}</option>
-        </select>
+        <label for="cncsType" class="block text-sm font-medium leading-6 text-gray-900">Tipo CNCS</label>
+        <!-- <input id="cncs" name="cncs"  type="cncs" [(ngModel)]="useCase.cncs" autocomplete="cncs" formControlName="cncs" required class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+    -->
+    <select 
+    id="cncsType"
+    name="cncsType"
+    [(ngModel)]="selectedSubcategory"
+    [ngModelOptions]="{standalone: true}"
+    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+    <option *ngFor="let subcategory of selectedCategoryValues" [value]="subcategory">{{ subcategory }}</option>
+  </select>
+ 
     </div>
+
+    <div class="space-y-4 col-span-2 md:col-span-1">
+        <label for="mitreTechniques" class="block text-sm font-medium leading-6 text-gray-900">Vetores de Ataque</label>
+        <tag-input theme='minimal' [secondaryPlaceholder]="'+ Novo Vetor'" [placeholder]="''"    formControlName="attackVectors"     class="block w-full rounded-md border-0 px-2  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></tag-input>
+
+      
+    </div>
+
+    <div class="space-y-4 col-span-2 md:col-span-1">
+        <label for="playbook" class="block text-sm font-medium leading-6 text-gray-900">Playbook</label>
+        <input id="playbook"  name="playbook"   type="url" autocomplete="playbook" formControlName="playbook" placeholder="https://url/img.jpg" required class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+
+      
+    </div>
+
+
 
 <div class="space-y-4 col-span-4 md:col-span-2">
     <label for="description" class="block text-sm font-medium leading-6 text-gray-900">Descrição</label>
-    <textarea id="description" name="description" type="description" [(ngModel)]="useCase.description" autocomplete="description" formControlName="description" required class="block w-full rounded-md border-0 px-2 py-2 h-32 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
+    <textarea id="description" placeholder="Descrição do Use Case. Neste parágrafo poderão ser descritos propósito, objetivos, entre outros." name="description" type="description"  autocomplete="description" formControlName="description" required class="block w-full rounded-md border-0 px-2 py-2 h-32 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
+</div>
+
+<div class="space-y-4 col-span-4 md:col-span-2">
+    <label for="mitigation" class="block text-sm font-medium leading-6 text-gray-900">Mitigação</label>
+    <textarea id="mitigation" placeholder="Neste parágrafo, poderão ser descritas as estratégias de mitigação" name="mitigation" type="mitigation"  autocomplete="mitigation" formControlName="mitigation" required class="block w-full rounded-md border-0 px-2 py-2 h-32 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
 </div>
 
     <div class="space-y-6 col-span-2">

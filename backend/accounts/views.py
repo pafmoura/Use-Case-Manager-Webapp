@@ -66,7 +66,8 @@ def createCompany(request):
     if request.method == 'POST':
 
         name = request.data['name']
-        company = Company(name=name)
+        logsources = request.data['logsources']
+        company = Company(name=name, logsources=logsources)
         company.save()
         return JsonResponse({'success': 'Company created successfully'})
     else:
