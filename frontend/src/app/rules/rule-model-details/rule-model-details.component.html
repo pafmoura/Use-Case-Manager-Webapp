@@ -1,0 +1,101 @@
+
+<app-header></app-header>
+
+<app-titlebanner title="Regra de Detecção {{ruleModel.id}}" image="./assets/bannercover.jpg"></app-titlebanner>
+
+
+<div class="mx-16 pt-6 ">
+    <h1 class="font-inter font-semibold text-2xl text-gray-700 mb-4">{{ruleModel.title}}</h1>
+
+    <div class="flex ml-4 ">
+      <div class="flex items-center">
+        <img src="./assets/tag.png" class="rounded-lg size-10">
+        <div class="ml-4">
+          <h1 class="font-inter font-semibold text-xl text-gray-600">RedUC{{ruleModel.useCaseId}}</h1>
+          <p class="text-gray-500">Use Case Associado</p>
+        </div>
+      </div>
+  
+      <div class="flex items-center ml-12">
+        <img src="./assets/mitrelogo.png" class="rounded-lg size-10">
+        <div class="ml-4">
+          <div class="flex flex-wrap">
+
+          <div [routerLink]="'/techniqueDetails/'+technique" *ngFor="let technique of usecase.mitreTechniques" class="bg-[#0d2f52] cursor-pointer text-white text-sm rounded-md px-1 max-w-12 mr-1 my-1 ">
+            {{ technique }}
+
+          </div>         
+          </div> 
+          <p class="text-gray-500">Técnicas Mitre Associadas</p>
+        </div>
+      </div>
+
+      <div class="flex items-center ml-12">
+        <img src="./assets/category.png" class="rounded-lg size-10">
+        <div class="ml-4">
+          <h1 class="font-inter font-semibold text-xl text-gray-600">{{ruleModel.type}}</h1>
+          <p class="text-gray-500">Tipo</p>
+        </div>
+      </div>
+
+      <div class="flex items-center ml-12">
+        <img src="./assets/syntax.png" class="rounded-lg size-10">
+        <div class="ml-4">
+          <h1 class="font-inter font-semibold text-xl text-gray-600">{{ruleModel.syntax}}</h1>
+          <p class="text-gray-500">Sintaxe</p>
+        </div>
+
+
+
+
+      </div>
+
+      <div class="flex items-center ml-12">
+        <img src="./assets/source.png" class="rounded-lg size-10">
+        <div class="ml-4">
+          <h1 class="font-inter font-semibold text-xl text-gray-600">{{ruleModel.logsources}}</h1>
+          <p class="text-gray-500">LogSources</p>
+        </div>
+
+
+
+
+      </div>
+
+      <div class="ml-auto">
+      <button type="button" (click)="copyToClipboard()"
+      class="  px-4 py-3 bg-redshift-red rounded-md text-white outline-none focus:ring-4 shadow-lg transform active:scale-x-75 transition-transform mx-5 flex">
+      <i class="fas fa-copy h-6 w-6 "></i>
+
+      <span class="ml-2">Copiar</span>
+  </button>
+</div>
+
+    
+
+   
+
+    </div>
+
+    <div class="w-full h-full border my-12 border-gray-300  mx-auto">
+
+
+        <ngs-code-editor class="h-[33rem]"
+        [codeModel]="selectedModel"
+        [theme]="theme"
+        [options]="options"
+        
+        (valueChanged)="onCodeChanged($event)"
+        (loaded)="onEditorLoaded($event)"
+        (codeModelChanged)="onCodeModelChanged($event)"
+        
+    
+        >
+
+
+        </ngs-code-editor>
+        </div>
+    
+   
+    
+    </div>

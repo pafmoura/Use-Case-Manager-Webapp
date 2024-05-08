@@ -64,13 +64,19 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let u of useCases"
+              <tr *ngFor="let u of filteredUseCases"
                   [class]="(useCases.indexOf(u) % 2 === 0 ? 'bg-white' : 'bg-gray-100')
                   
                   "
                   [routerLink]="'/usecaseDetails/' + u.id">
                 <td class="px-5 py-5 text-left cursor-pointer">RedUC<b>{{ u.id | number: '2.0' }}</b></td>
-                <td  class="px-5 py-5 text-left cursor-pointer">{{ u.mitreTechniques }}</td>
+                <td  class="px-5 py-5  text-left cursor-pointer">
+                  <div class="flex">
+                  <div  *ngFor="let technique of u.mitreTechniques.slice(0,5) " class="bg-[#0d2f52] text-white text-center text-[12px] rounded-md px-1 w-12 mr-1 my-1 ">
+                    {{ technique }}
+                  </div>         
+                </div>
+                </td>
                 <td  class="px-5 py-5 text-left cursor-pointer">{{ u.title }}</td>
                 <td class="px-5 py-5 text-left cursor-pointer">{{ u.cncsClass }}</td>
   

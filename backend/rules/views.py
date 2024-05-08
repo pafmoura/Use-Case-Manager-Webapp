@@ -12,7 +12,7 @@ from rest_framework.decorators import api_view
 def createRuleModel(request):
     if request.method == 'POST':
         data = request.data
-        new_rule = RuleModel(title=data['title'], useCaseId=data['useCaseId'], type=data['type'], syntax=data['syntax'], ruleCode=data['ruleCode'])
+        new_rule = RuleModel(title=data['title'], useCaseId=data['useCaseId'], logsources=data['logsources'], type=data['type'], syntax=data['syntax'], ruleCode=data['ruleCode'])
         new_rule.save()
         return JsonResponse(data, safe=False)
     else:
@@ -37,5 +37,24 @@ def getRuleModelsByUseCase(request, useCaseId):
         serializer = RuleModelSerializer(rules, many=True)
         return JsonResponse(serializer.data, safe=False)
 
+    else:
+        return JsonResponse({'error': 'Invalid request method'})
+    
+@api_view(['GET'])
+def getRuleModelById(request, id):
+    if request.method == 'GET':
+        rule = RuleModel.objects.get(id=id)
+        serializer = RuleModelSerializer(rule, many=False)
+        return JsonResponse(serializer.data, safe=False)
+
+    else:
+        return JsonResponse({'error': 'Invalid request method'})
+    
+@api_view(['POST'])
+def deleteRuleModelById(request, id):
+    if request.method == 'POST':
+        rule = RuleModel.objects.get(id=id)
+        rule.delete()
+        return JsonResponse({'message': 'Rule deleted successfully'})
     else:
         return JsonResponse({'error': 'Invalid request method'})

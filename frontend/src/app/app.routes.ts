@@ -14,6 +14,7 @@ import { UsecaseDetailsComponent } from './usecases/usecase-details/usecase-deta
 import { CreateRuleModelComponent } from './rules/create-rule-model/create-rule-model.component';
 import { TechniqueDetailsComponent } from './techniques/technique-details/technique-details.component';
 import { ManageRuleModelsComponent } from './rules/manage-rule-models/manage-rule-models.component';
+import { RuleModelDetailsComponent } from './rules/rule-model-details/rule-model-details.component';
 
 export const routes: Routes = [
   { path: '', component: LandingpageComponent},
@@ -28,5 +29,6 @@ export const routes: Routes = [
   {path: 'create-rule-model', component: CreateRuleModelComponent},
   {path: 'techniqueDetails/:id', component: TechniqueDetailsComponent},
   {path: 'manage-rule-models', component: ManageRuleModelsComponent},
+  {path: 'ruleModelDetails/:id', component: RuleModelDetailsComponent},
   { path: '**', component: PageNotFoundComponent },
 ];

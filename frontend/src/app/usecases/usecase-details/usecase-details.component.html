@@ -15,7 +15,12 @@
       <div class="flex items-center">
         <img src="./assets/mitrelogo.png" class="rounded-lg size-10">
         <div class="ml-4">
-          <h1 class="font-inter font-semibold text-xl text-gray-600">{{usecase.mitreTechniques}}</h1>
+          <div class="flex flex-wrap">
+
+          <div [routerLink]="'/techniqueDetails/'+technique" *ngFor="let technique of usecase.mitreTechniques" class=" drop-shadow-2xl cursor-pointer bg-[#0d2f52] text-white text-sm rounded-md px-1 max-w-12 mr-1 my-1 ">
+            {{ technique }}
+          </div>         
+          </div> 
           <p class="text-gray-500">Técnicas Mitre Associadas</p>
         </div>
       </div>
@@ -72,14 +77,14 @@
     <h2 class="text-md font-semibold text-left mt-4">Técnicas Mitre Associadas</h2>
 
     <div class="flex flex-wrap">
-      <div [routerLink]="'/techniqueDetails/'+technique" *ngFor="let technique of usecase.mitreTechniques" class="bg-redshift-red text-white text-sm rounded-md px-1.5 py-1 mr-2 ">
+      <div [routerLink]="'/techniqueDetails/'+technique" *ngFor="let technique of usecase.mitreTechniques" class="bg-redshift-red text-white text-sm rounded-md px-1.5 py-1 my-1 mr-2 ">
         {{ technique }}
       </div>
     </div>
     
 
     <h2 class="text-md font-semibold text-left mt-4">Número de regras associadas</h2>
-    <p class="text-sm text-gray-700">{{usecase.rules?.length || 0}}</p>
+    <p class="text-sm text-gray-700">{{ruleModels.length}}</p>
 
     <h2 class="text-md font-semibold text-left mt-4">Classe CNCS</h2>
     <p class="text-sm text-gray-700">{{usecase.cncsClass}}</p>

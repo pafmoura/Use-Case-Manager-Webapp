@@ -6,10 +6,10 @@ from django.contrib.postgres.fields import ArrayField
 
 class UseCase(models.Model):
     title = models.CharField(max_length=1000)
-    cncsClass = models.CharField(max_length=100, blank=True, null=True)
-    cncsType = models.CharField(max_length=100, blank=True, null=True)
-    description = models.CharField(max_length=3000, blank=True, null=True)
-    mitigation = models.CharField(max_length=100000, blank=True, null=True)
+    cncsClass = models.CharField(max_length=1000, blank=True, null=True)
+    cncsType = models.CharField(max_length=1000, blank=True, null=True)
+    description = models.CharField(max_length=1000000, blank=True, null=True)
+    mitigation = models.CharField(max_length=1000000, blank=True, null=True)
     mitreTechniques = ArrayField(models.CharField( blank=True, null=True),blank=True, null=True)
     phaseTasks = ArrayField(models.JSONField(blank=True, null=True), blank=True, null=True)
     rules = ArrayField(models.JSONField(blank=True, null=True), blank=True, null=True)

@@ -9,13 +9,16 @@ import { CdkPortal } from '@angular/cdk/portal';
 import { Router } from '@angular/router';
 import { TagInputModule } from 'ngx-chips';
 import { Binary } from '@angular/compiler';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'app-create-use-case',
     standalone: true,
     templateUrl: './create-use-case.component.html',
     styleUrl: './create-use-case.component.css',
-    imports: [TitlebannerComponent, HeaderComponent, TagInputModule, TitlebannerComponent, HeaderComponent, ReactiveFormsModule, FormsModule, CommonModule]
+    imports: [TitlebannerComponent, HeaderComponent, MatFormFieldModule, MatSelectModule, MatIconModule, TagInputModule, TitlebannerComponent, HeaderComponent, ReactiveFormsModule, FormsModule, CommonModule]
 })
 
 
@@ -179,6 +182,7 @@ console.log(useCase);
 this.usecasesService.createUseCase(useCase).subscribe((response) => {
     console.log(response);
 
+    this.router.navigate(['/manage-use-cases']);
     });
 }
 

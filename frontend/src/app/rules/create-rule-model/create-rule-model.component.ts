@@ -8,6 +8,8 @@ import { CodeEditorComponent, CodeEditorModule, CodeModel, CodeModelChangedEvent
 import {editor, Range} from 'monaco-editor'
 import { UsecasesService } from '../../services/usecases.service';
 import { RulesService } from '../../services/rules.service';
+import { TagInputModule } from 'ngx-chips';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,14 +17,14 @@ import { RulesService } from '../../services/rules.service';
     standalone: true,
     templateUrl: './create-rule-model.component.html',
     styleUrl: './create-rule-model.component.css',
-    imports: [HeaderComponent, TitlebannerComponent, CommonModule, FormsModule, ReactiveFormsModule, CodeEditorModule ]
+    imports: [HeaderComponent, TitlebannerComponent, CommonModule, TagInputModule, FormsModule, ReactiveFormsModule, CodeEditorModule ]
 })
 export class CreateRuleModelComponent {
 
 usecases : any = ['Vazio'];
 
 
-constructor(private useCasesService : UsecasesService, private rulesService : RulesService) { }
+constructor(private useCasesService : UsecasesService, private rulesService : RulesService, private router : Router) { }
 
 
 
@@ -95,18 +97,27 @@ var newModel = {
   defaultCode = ``
 
   createRuleModel() {
+
+    var arrayLogsources : any = this.createRuleModelForm.value.logsources
+
+    var logsources = arrayLogsources?.map((logsource: any) => logsource.value);
     
     var ruleModel = {
       title: this.createRuleModelForm.value.title,
       useCaseId: this.selectedUseCase,
       syntax: this.selectedSyntax,
       type: this.selectedType,
-      ruleCode: this.selectedModel.value
+      ruleCode: this.selectedModel.value,
+      logsources: logsources
     }
     console.log(ruleModel);
 
 this.rulesService.createRuleModel(ruleModel).subscribe((data) => {
   console.log(data);
+  this.router.navigate(['/manage-rule-models']);
+
+
+
 });
 
 
@@ -119,7 +130,8 @@ this.rulesService.createRuleModel(ruleModel).subscribe((data) => {
     useCaseId: "",
     syntax: "",
     type: "",
-    ruleCode: ""
+    ruleCode: "",
+    logsources: []
 }
 
 createRuleModelForm = new FormGroup({
@@ -127,6 +139,7 @@ createRuleModelForm = new FormGroup({
   selectedUseCase: new FormControl(''),
   selectedSyntax: new FormControl(''),
   selectedType: new FormControl(''),
+  logsources: new FormControl(''),
 
 })
 

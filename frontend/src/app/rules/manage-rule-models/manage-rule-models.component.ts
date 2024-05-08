@@ -28,11 +28,10 @@ export class ManageRuleModelsComponent {
   nameSearch: string = '';
   selectDelete:  number = 999999;
 
-  updateSelectDelete(id: number) {
+  updateSelectDelete(event: Event, id: number) {
+    event.stopPropagation();
     console.log('updateSelectDelete', id);
     this.selectDelete = id;
-
-
 
   }
 
@@ -89,10 +88,22 @@ ruleModels: any = [];
     });
   }
 
-  deleteUser() {
+  deleteRuleModel() {
 
-    console.log('deleteUser', this.selectDelete);
-    }
+this.rulesService.deleteRuleModelById(this.selectDelete).subscribe((data: any) => {
+  console.log(data)
+  this.rulesService.getRuleModels().subscribe((data: any) => {
+    this.ruleModels = data
+
+    console.log(data)
+  
+  
+  });
+
+});
+    
+
+}
   
 
   private sortString(a: string, b: string): number {

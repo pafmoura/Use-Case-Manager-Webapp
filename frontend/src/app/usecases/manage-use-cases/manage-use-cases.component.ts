@@ -121,7 +121,12 @@ this.useCasesService.deleteUseCase(this.selectDelete).subscribe((data: any) => {
 
 
   get filteredUseCases() {
-   return this.useCases.filter((u: any) => u.name.toLowerCase().includes(this.nameSearch.toLowerCase()));
+
+    
+   var f1 = this.useCases.filter((u: any) => u.title.toLowerCase().includes(this.nameSearch.toLowerCase()));
+
+
+    return f1;
   }
 
 

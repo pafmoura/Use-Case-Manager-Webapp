@@ -27,4 +27,12 @@ export class RulesService {
     return this.http.get(`${AUTH_URL}getRuleModelsByUseCase/${useCaseId}`)
   }
 
+  getRuleModelById(id: number) {
+    return this.http.get(`${AUTH_URL}getRuleModelById/${id}`)
+  }
+
+  deleteRuleModelById(id: number) {
+    return this.http.post(`${AUTH_URL}deleteRuleModelById/${id}`, id)
+  }
+
 }
