@@ -47,4 +47,5 @@ export class RulesService {
     return this.http.get(`${AUTH_URL}getRuleById/${id}`)
   }
 
+ 
 }

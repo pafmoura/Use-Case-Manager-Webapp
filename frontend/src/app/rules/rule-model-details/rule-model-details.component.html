@@ -1,7 +1,7 @@
 
 <app-header></app-header>
 
-<app-titlebanner title="Regra de Detecção {{ruleModel.id}}" image="./assets/bannercover.jpg"></app-titlebanner>
+<app-titlebanner title="RedModel{{ruleModel.id}}" image="./assets/bannercover.jpg"></app-titlebanner>
 
 
 <div class="mx-16 pt-6 ">
@@ -132,6 +132,20 @@
     </div>
 
 
+    <h1 class="font-inter font-semibold text-2xl text-gray-700 mb-4">Regras baseadas neste Modelo</h1>
+
+    <div class="flex flex-wrap">
+      <div class="w-1/6 p-2" *ngFor="let rule of ruleInstances">
+        <div class="bg-white p-4 rounded-lg shadow-md">
+          <h1 class="font-inter font-semibold text-xl text-gray-600">{{rule.client.name}}</h1>
+          <p class="text-gray-500 text-sm">{{rule.logsources}}</p>
+        </div>
+      </div>
+    </div>
+
+
+
+
 
 
     <div id="crud-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -193,6 +207,8 @@
               </form>
           </div>
       </div>
+
+      
   </div> 
   
 

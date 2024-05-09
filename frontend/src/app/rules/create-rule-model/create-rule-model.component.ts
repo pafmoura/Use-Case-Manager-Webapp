@@ -171,6 +171,7 @@ onEditorLoaded(editor: CodeEditorComponent) {
 }
 
 onCodeModelChanged(event: CodeModelChangedEvent) {
+
   console.log('code model changed', event);
 
   setTimeout(() => {
@@ -184,7 +185,7 @@ onCodeChanged(value : any) {
 
 
 examples: { [key: string]: string } = {
-  'Sigma Rule': `title: um título curto e capitalizado com menos de 50 caracteres
+  'Sigma Rule': `title: ${this.createRuleModelForm.value.title || 'Título da Regra'}
   status: experimental
   description: Uma descrição do que sua regra é destinada a detectar
   references:

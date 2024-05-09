@@ -9,6 +9,8 @@ import {Clipboard} from '@angular/cdk/clipboard';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
+import { SigmaConversionsService } from '../../../services/sigma-conversions.service';
+import { saveAs } from 'file-saver';
 
 @Component({
     selector: 'app-rule-details',
@@ -20,7 +22,7 @@ import { AuthService } from '../../../services/auth.service';
 export class RuleDetailsComponent {
 selectLogsources: any;
   
-  constructor( private authService : AuthService, private route: ActivatedRoute, private rulesService: RulesService, private useCaseService : UsecasesService, private clipboard: Clipboard )  {}
+  constructor( private sigmaConversionsService : SigmaConversionsService, private authService : AuthService, private route: ActivatedRoute, private rulesService: RulesService, private useCaseService : UsecasesService, private clipboard: Clipboard )  {}
 
 code: any = "";
   
@@ -28,6 +30,7 @@ clients : any = [];
 
 selectClient : any;
 
+convertedCode : any = "";
 
   rule : any = {}
   usecase: any = {}
@@ -108,7 +111,7 @@ onCodeChanged(value : any) {
       
         this.selectedModel = JSON.parse(JSON.stringify(newModel));
       
-      
+        this.onCodeChanged(this.rule.ruleCode)
 
 
 
@@ -130,6 +133,25 @@ onCodeChanged(value : any) {
 this.clipboard.copy(this.code);
 
     
+  }
+
+  downloadFile() {
+
+
+    
+    var blob = new Blob([this.convertedCode], { type: 'text/plain' });
+    saveAs(blob, this.rule.ruleModel.title+'.txt');
+  }
+
+  convertSigmaToSplunk() {
+    console.log(this.code);
+    this.sigmaConversionsService.convertSigmaToSplunk(this.code).subscribe((data: any) => {
+      console.log(data);
+      this.convertedCode = data;
+
+      
+
+    });
   }
 
 

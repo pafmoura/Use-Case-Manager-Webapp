@@ -28,6 +28,8 @@ clients : any = [];
 
 selectClient : any;
 
+ruleInstances : any = []
+
 
   ruleModel :any = {
     title: "",
@@ -130,6 +132,14 @@ onCodeChanged(value : any) {
 
         this.authService.getClients().subscribe((data: any) => {
           this.clients = data
+
+
+          this.rulesService.getRules().subscribe((data: any) => {
+            const filteredRules = data.filter((rule: any) => rule.ruleModel.id == this.ruleModel.id);
+
+            this.ruleInstances = filteredRules;
+            console.log(this.ruleInstances);
+          });
         });
       });
 

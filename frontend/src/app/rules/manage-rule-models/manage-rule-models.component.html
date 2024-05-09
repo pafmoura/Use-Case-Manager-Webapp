@@ -97,7 +97,7 @@
                   [class]="(filteredRuleModels.indexOf(u) % 2 === 0 ? 'bg-white' : 'bg-gray-100')"
                   [routerLink]="'/ruleModelDetails/' + u.id">
                   
-                <td  class="px-5 py-5 text-left cursor-pointer">{{ u.id }}</td>
+                <td  class="px-5 py-5 text-left cursor-pointer">RedModel{{ u.id }}</td>
                 <td  class="px-5 py-5 text-left cursor-pointer "> <p class="font-medium">{{ u.title }} </p></td>
                 <td  class="px-5 py-5 text-left cursor-pointer">  <div class="flex"> <p class="text-redshift-red font-medium">Red</p>UC {{ u.useCaseId }} </div></td>
                 <td class="px-5 py-5 text-left cursor-pointer">{{ u.type }}</td>
