@@ -15,6 +15,8 @@ import { CreateRuleModelComponent } from './rules/create-rule-model/create-rule-
 import { TechniqueDetailsComponent } from './techniques/technique-details/technique-details.component';
 import { ManageRuleModelsComponent } from './rules/manage-rule-models/manage-rule-models.component';
 import { RuleModelDetailsComponent } from './rules/rule-model-details/rule-model-details.component';
+import { ManageRulesComponent } from './rules/instances/manage-rules/manage-rules.component';
+import { RuleDetailsComponent } from './rules/instances/rule-details/rule-details.component';
 
 export const routes: Routes = [
   { path: '', component: LandingpageComponent},
@@ -30,5 +32,7 @@ export const routes: Routes = [
   {path: 'techniqueDetails/:id', component: TechniqueDetailsComponent},
   {path: 'manage-rule-models', component: ManageRuleModelsComponent},
   {path: 'ruleModelDetails/:id', component: RuleModelDetailsComponent},
+  {path: 'manage-rules', component: ManageRulesComponent},
+  {path: 'ruleDetails/:id', component: RuleDetailsComponent},
   { path: '**', component: PageNotFoundComponent },
 ];

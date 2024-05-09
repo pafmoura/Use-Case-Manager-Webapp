@@ -26,7 +26,7 @@ class CompanySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Company
-        fields = ['pk', 'name', 'date']
+        fields = ['pk', 'name', 'date', 'logsources']
 
     def to_representation(self, instance):
         response = super().to_representation(instance)

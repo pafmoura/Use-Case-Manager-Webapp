@@ -84,3 +84,8 @@ def deleteCompany(request, id):
     company = Company.objects.get(id=id)
     company.delete()
     return JsonResponse({'success': 'Company deleted successfully'})
+
+@api_view(['GET'])
+def getLogsourcesByClient(request, clientName):
+    company = Company.objects.get(name=clientName)
+    return JsonResponse({'logsources': company.logsources})

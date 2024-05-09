@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "api",
     "usecases",
     "rules",
+    "sigmaconversions",
 ]
 
 MIDDLEWARE = [

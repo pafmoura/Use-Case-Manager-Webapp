@@ -7,26 +7,34 @@ import { UsecasesService } from '../../services/usecases.service';
 import { CodeEditorComponent, CodeEditorModule, CodeModel, CodeModelChangedEvent } from '@ngstack/code-editor';
 import {Clipboard} from '@angular/cdk/clipboard';
 import { CommonModule } from '@angular/common';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
     selector: 'app-rule-model-details',
     standalone: true,
     templateUrl: './rule-model-details.component.html',
     styleUrl: './rule-model-details.component.css',
-    imports: [HeaderComponent, TitlebannerComponent, CodeEditorModule, CommonModule, RouterModule]
+    imports: [HeaderComponent, TitlebannerComponent, CodeEditorModule, CommonModule, RouterModule, FormsModule, ReactiveFormsModule]
 })
 export class RuleModelDetailsComponent {
+selectLogsources: any;
   
-  constructor( private route: ActivatedRoute, private rulesService: RulesService, private useCaseService : UsecasesService, private clipboard: Clipboard )  {}
+  constructor( private authService : AuthService, private route: ActivatedRoute, private rulesService: RulesService, private useCaseService : UsecasesService, private clipboard: Clipboard )  {}
 
 code: any = "";
   
+clients : any = [];
+
+selectClient : any;
+
+
   ruleModel :any = {
     title: "",
     useCaseId: "",
     syntax: "",
     type: "",
-    ruleCode: ""
+    ruleCode: "empty"
 }
   usecase: any = {
     title: "",
@@ -41,15 +49,31 @@ code: any = "";
     uri: ''
   }
 
+  selectedModelModal : CodeModel = {
+    value: 'teste',
+    language: 'YAML',
+    uri: ''
+  }
+
   theme = 'vs'
-  
+  themeModal = 'vs'
 
   
 options = {
   language: 'YAML',
   fontSize: 15,
-  
-  
+  minimap: {
+    enabled: true,
+  },
+  automaticLayout: true,
+dragAndDrop: true,
+
+
+}
+
+optionsModal = {
+  language: 'YAML',
+  fontSize: 15,
   minimap: {
     enabled: true,
   },
@@ -85,6 +109,8 @@ onCodeChanged(value : any) {
       this.ruleModel = data;
       console.log(this.ruleModel);
 
+      this.createRuleForm.get('modalCode')?.setValue(this.ruleModel.ruleCode);
+
 
       var newModel = {
         value: this.ruleModel.ruleCode,
@@ -101,6 +127,10 @@ onCodeChanged(value : any) {
       this.useCaseService.getUseCaseById(this.ruleModel.useCaseId).subscribe((data: any) => {
         this.usecase = data;
         console.log(this.usecase);
+
+        this.authService.getClients().subscribe((data: any) => {
+          this.clients = data
+        });
       });
 
     });
@@ -113,4 +143,33 @@ this.clipboard.copy(this.code);
 
     
   }
+
+
+
+  createRule(){
+ var rule = {
+  ruleModel : this.ruleModel.id,
+  ruleCode : this.createRuleForm.get('modalCode')?.value,
+  logsources: this.createRuleForm.get('logsources')?.value,
+  client: this.createRuleForm.get('client')?.value
+
+ 
+  }
+
+  console.log(rule);
+  console.log(this.clients)
+
+this.rulesService.createRule(rule).subscribe((data: any) => {
+  console.log(data);
+
+});
+
+}
+
+ createRuleForm = new FormGroup({
+  modalCode: new FormControl(this.ruleModel.ruleCode),
+  logsources: new FormControl(null),
+  client: new FormControl('')
+ })
+  
 }

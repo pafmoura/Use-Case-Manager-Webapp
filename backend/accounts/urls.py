@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from accounts.views import LoggedInInfo, createCompany, createUser, deleteCompany, deleteUser, getCompanies, getUsers
+from accounts.views import LoggedInInfo, createCompany, createUser, deleteCompany, deleteUser, getCompanies, getLogsourcesByClient, getUsers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
@@ -53,5 +53,6 @@ urlpatterns = [
     path('createCompany', createCompany, name='createCompany'),
     path('getCompanies', getCompanies, name='getCompanies'),
     path('deleteUser/<str:id>', deleteUser, name='deleteUser'),
-    path('deleteCompany/<str:id>', deleteCompany, name='deleteCompany')
+    path('deleteCompany/<str:id>', deleteCompany, name='deleteCompany'),
+    path('getLogsourcesByClient/<str:clientName>', getLogsourcesByClient, name='getLogsourcesByClient'),
 ]

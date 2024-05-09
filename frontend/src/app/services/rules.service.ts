@@ -23,6 +23,10 @@ export class RulesService {
     return this.http.get(`${AUTH_URL}getRuleModels`)
   }
 
+  getRules() {
+    return this.http.get(`${AUTH_URL}getRules`)
+  }
+
   getRuleModelsByUseCase(useCaseId: number) {
     return this.http.get(`${AUTH_URL}getRuleModelsByUseCase/${useCaseId}`)
   }
@@ -33,6 +37,14 @@ export class RulesService {
 
   deleteRuleModelById(id: number) {
     return this.http.post(`${AUTH_URL}deleteRuleModelById/${id}`, id)
+  }
+
+  createRule(rule : any) {
+    return this.http.post(`${AUTH_URL}createRule`, rule)
+  }
+
+  getRuleById(id: number) {
+    return this.http.get(`${AUTH_URL}getRuleById/${id}`)
   }
 
 }

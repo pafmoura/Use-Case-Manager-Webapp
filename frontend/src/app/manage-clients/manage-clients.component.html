@@ -42,6 +42,10 @@
                   Nome
                   <span [class]="sortType === 'name' ? (sortReverse ? 'fas fa-caret-up' : 'fas fa-caret-down') : ''"></span>
                 </th>
+                <th (click)="sortTable('logsources')" class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  Logsources
+                  <span [class]="sortType === 'logsources' ? (sortReverse ? 'fas fa-caret-up' : 'fas fa-caret-down') : ''"></span>
+                </th>
                 <th (click)="sortTable('date')" class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                   Data de Registo
                   <span [class]="sortType === 'date' ? (sortReverse ? 'fas fa-caret-up' : 'fas fa-caret-down') : ''"></span>
@@ -57,6 +61,16 @@
                   [class]="(filteredClients.indexOf(c) % 2 === 0 ? 'bg-white' : 'bg-gray-100')">
                 <td  class="px-5 py-5 text-left cursor-pointer">{{ c.pk }}</td>
                 <td  class="px-5 py-5 text-left cursor-pointer">{{ c.name }}</td>
+
+                <td  class="px-5 py-5 text-left cursor-pointer">
+                  
+                  <div class="flex">
+                    <div  *ngFor="let logsource of c.logsources.slice(0,4) " class="bg-[#0d2f52] text-white text-center text-[12px] rounded-md px-1  w-20 mr-1 my-1 ">
+                      {{ logsource }}
+                    </div>         
+                  </div>
+                </td>
+
                 <td class="px-5 py-5 text-left cursor-pointer">{{ c.date | date: 'dd/MM/yyyy' }}</td>
 
   

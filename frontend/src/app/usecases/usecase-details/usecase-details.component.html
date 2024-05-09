@@ -15,7 +15,7 @@
       <div class="flex items-center">
         <img src="./assets/mitrelogo.png" class="rounded-lg size-10">
         <div class="ml-4">
-          <div class="flex flex-wrap">
+          <div class="flex flex-wrap max-w-60">
 
           <div [routerLink]="'/techniqueDetails/'+technique" *ngFor="let technique of usecase.mitreTechniques" class=" drop-shadow-2xl cursor-pointer bg-[#0d2f52] text-white text-sm rounded-md px-1 max-w-12 mr-1 my-1 ">
             {{ technique }}
@@ -77,9 +77,9 @@
     <h2 class="text-md font-semibold text-left mt-4">Técnicas Mitre Associadas</h2>
 
     <div class="flex flex-wrap">
-      <div [routerLink]="'/techniqueDetails/'+technique" *ngFor="let technique of usecase.mitreTechniques" class="bg-redshift-red text-white text-sm rounded-md px-1.5 py-1 my-1 mr-2 ">
+      <div [routerLink]="'/techniqueDetails/'+technique" *ngFor="let technique of usecase.mitreTechniques" class=" drop-shadow-2xl cursor-pointer bg-[#0d2f52] text-white text-sm rounded-md px-1 max-w-12 mr-1 my-1 ">
         {{ technique }}
-      </div>
+      </div>         
     </div>
     
 
@@ -146,11 +146,21 @@
     </thead>
     <tbody>
        <tr *ngFor="let rule of ruleModels"
-          [class]="(ruleModels.indexOf(rule) % 2 === 0 ? 'bg-white' : 'bg-gray-100')">
+          [class]="(ruleModels.indexOf(rule) % 2 === 0 ? 'bg-white' : 'bg-gray-100')"
+          [routerLink]="'/ruleModelDetails/' + rule.id">
+          
         <td  class="px-5 py-5 text-left cursor-pointer">{{ rule.id }}</td>
         <td  class="px-5 py-5 text-left cursor-pointer">{{ rule.title }}</td>
         <td class="px-5 py-5 text-left cursor-pointer">{{ rule.type }}</td>
-        <td class="px-5 py-5 text-left cursor-pointer">{{ rule.syntax}}</td>
+        <td class="px-5 py-5 text-left cursor-pointer">
+          <div class="flex ">
+            <img *ngIf="rule.syntax === 'Sigma Rule'" src="./assets/sigmalogo.svg" class="h-6 w-6 mr-1" alt="Sigma Logo">
+            <img *ngIf="rule.syntax === 'Splunk Rule'" src="./assets/splunklogo.svg" class="h-6 w-6 mr-1" alt="Sigma Logo">
+            <img *ngIf="rule.syntax === 'QRadar Rule'" src="./assets/qradarlogo.png" class="h-6 w-6 mr-1" alt="Sigma Logo">
+
+             <p class="drop-shadow-xl"> {{ rule.syntax}} </p>
+          </div>
+      </td>
       </tr> 
     </tbody>
   </table>
