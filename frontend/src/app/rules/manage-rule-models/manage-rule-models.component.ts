@@ -3,7 +3,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Modal } from 'flowbite';
 import { TitlebannerComponent } from '../../layout/titlebanner/titlebanner.component';
 import { RouteConfigLoadStart, RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from '../../layout/header/header.component';
 import { AuthService } from '../../services/auth.service';
 import { RulesService } from '../../services/rules.service';
@@ -14,7 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-manage-rule-models',
   standalone: true,
-  imports: [HeaderComponent, FormsModule, CommonModule, DatePipe, TitlebannerComponent, RouterModule, MatFormFieldModule, MatSelectModule, MatIconModule],
+  imports: [HeaderComponent, FormsModule, CommonModule, DatePipe, TitlebannerComponent, RouterModule, MatFormFieldModule, MatSelectModule, MatIconModule, ReactiveFormsModule],
   templateUrl: './manage-rule-models.component.html',
   styleUrl: './manage-rule-models.component.css'
 })
@@ -38,8 +38,9 @@ export class ManageRuleModelsComponent {
   types = ['SIEM', 'SOAR'];
   sintaxes = ['Sigma Rule', 'Splunk Rule', 'QRadar Rule'];
 
-selectedSintaxes = []
-selectedTypes = []
+selectedSintaxes : string[] = []
+selectedTypes : string[] = []
+selectedLogSources : string[] = []
 
 updateSelectedTypes() {
   
@@ -57,7 +58,7 @@ ruleModels: any = [];
       this.ruleModels = data
 
       console.log(data)
-    
+      this.startFilters()
     
     });
     }
@@ -116,7 +117,19 @@ this.rulesService.deleteRuleModelById(this.selectDelete).subscribe((data: any) =
 
 
   get filteredRuleModels() {
-   return this.ruleModels.filter((u: any) => u.title.toLowerCase().includes(this.nameSearch.toLowerCase()));
+   var f1 = this.ruleModels.filter((u: any) => u.title.toLowerCase().includes(this.nameSearch.toLowerCase()));
+   var f2 = this.selectedSintaxes.length > 0 ? f1.filter((u: any) => this.selectedSintaxes.includes(u.syntax)) : f1;
+    var f3 = this.selectedTypes.length > 0 ? f2.filter((u: any) => this.selectedTypes.includes(u.type)) : f2;
+    var f4 = this.selectedLogSources.length > 0 ? f3.filter((u: any) => u.logsources.some((l: any) => this.selectedLogSources.includes(l))) : f3;
+    return f4;
+    
+  }
+
+  clearFilters() {
+    this.selectedSintaxes = []
+    this.selectedTypes = []
+    this.selectedLogSources = []
+    this.nameSearch = ''
   }
 
  
@@ -136,6 +149,44 @@ this.rulesService.deleteRuleModelById(this.selectDelete).subscribe((data: any) =
   closeModal() {
     this.modalFlowbite.hide();
   }
+
+
+  uniqueSintaxes : any = []
+  uniqueTypes : any = []
+  uniqueLogSources : any = []
+  startFilters() {
+
+this.uniqueSintaxes = [...new Set(this.ruleModels.map((item: any) => item.syntax))]
+this.uniqueTypes = [...new Set(this.ruleModels.map((item: any) => item.type))]
+this.uniqueLogSources = Array.from(new Set(this.ruleModels.flatMap((item: any) => item.logsources)));
+
+
+
+
+console.log('uniqueSintaxes', this.uniqueSintaxes)
+console.log('uniqueTypes', this.uniqueTypes)
+console.log('uniqueLogSources', this.uniqueLogSources)
+
+  }
+
+  updateSelectedSyntax(event: Event) {
+
+
+    console.log('selectedSyntax', this.selectedSintaxes);
+}
+
+clearSelectedSyntax() {
+  this.selectedSintaxes = []
+}
+
+clearSelectedTypes() {
+  this.selectedTypes = []
+}
+
+clearSelectedLogSources() {
+  this.selectedLogSources = []
+}
+
 
 
 }

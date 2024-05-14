@@ -39,8 +39,8 @@ export class ManageRulesComponent {
   types = ['SIEM', 'SOAR'];
   sintaxes = ['Sigma Rule', 'Splunk Rule', 'QRadar Rule'];
 
-selectedSintaxes = []
-selectedTypes = []
+selectedSintaxes : string[] = []
+selectedTypes :string[] = []
 
 updateSelectedTypes() {
   
@@ -59,8 +59,7 @@ rules: any = [];
       console.log(data)
 
       console.log(this.rules)
-
-
+      this.startFilters();
     
     
     });
@@ -120,7 +119,13 @@ this.rulesService.deleteRuleModelById(this.selectDelete).subscribe((data: any) =
 
 
   get filteredRules() {
-   return this.rules.filter((u: any) => u.title.toLowerCase().includes(this.nameSearch.toLowerCase()));
+var f1 = this.rules.filter((u: any) => u.ruleModel.title.toLowerCase().includes(this.nameSearch.toLowerCase()));
+var f2 = this.selectedTypes.length > 0 ? f1.filter((u: any) => this.selectedTypes.includes(u.ruleModel.type)) : f1;
+var f3 = this.selectedSintaxes.length > 0 ? f2.filter((u: any) => this.selectedSintaxes.includes(u.ruleModel.syntax)) : f2
+var f4 = this.selectedUseCases.length > 0 ? f3.filter((u: any) => this.selectedUseCases.includes(u.ruleModel.useCaseId)) : f3;
+var f5 = this.selectedClients.length > 0 ? f4.filter((u: any) => this.selectedClients.includes(u.client.name)) : f4;
+var f6 = this.selectedLogsources.length > 0 ? f5.filter((u: any) => this.selectedLogsources.some((r: any) => u.logsources.includes(r))) : f5;
+return f6;
   }
 
  
@@ -141,6 +146,46 @@ this.rulesService.deleteRuleModelById(this.selectDelete).subscribe((data: any) =
     this.modalFlowbite.hide();
   }
 
+
+  uniqueTypes : string[] = [];
+  uniqueSintaxes : string[] = [];
+  uniqueUseCases : string[] = [];
+  uniqueClients : string[] = [];
+  uniqueLogsources : string[] = [];
+
+  selectedUseCases: string[] = [];
+  selectedClients: string[] = [];
+  selectedLogsources: string[] = [];
+  startFilters() {
+this.uniqueClients = this.rules.map((item: any) => item.client.name).filter((value: any, index: any, self: any) => self.indexOf(value) === index);
+this.uniqueTypes = this.rules.map((item: any) => item.ruleModel.type).filter((value: any, index: any, self: any) => self.indexOf(value) === index);
+this.uniqueSintaxes = this.rules.map((item: any) => item.ruleModel.syntax).filter((value: any, index: any, self: any) => self.indexOf(value) === index);
+this.uniqueUseCases = this.rules.map((item: any) => item.ruleModel.useCaseId).filter((value: any, index: any, self: any) => self.indexOf(value) === index);
+this.uniqueLogsources = Array.from(new Set(this.rules.flatMap((item: any) => item.logsources)));
+console.log('uniqueClients', this.uniqueClients);
+console.log('uniqueTypes', this.uniqueTypes);
+console.log('uniqueSintaxes', this.uniqueSintaxes);
+console.log('uniqueUseCases', this.uniqueUseCases);
+console.log('uniqueLogsources', this.uniqueLogsources);
+  }
+
+
+  clearSelectedClients() {
+    this.selectedClients = [];
+  }
+  clearSelectedUseCases() {
+    this.selectedUseCases = [];
+  }
+  clearSelectedLogsources() {
+    this.selectedLogsources = [];
+  }
+  clearSelectedTypes() {
+    this.selectedTypes = [];
+  }
+  clearSelectedSintaxes() {
+    this.selectedSintaxes = [];
+  }
+  
 
 }
 

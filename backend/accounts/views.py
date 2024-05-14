@@ -29,11 +29,11 @@ def createUser(request):
         username = request.data['username']
         email = request.data['email']
         password = request.data['password']
-        company = request.data.get('company')  
-        if not company:
+        companies = request.data.get('companies')  
+        if not companies:
             User.objects.create_superuser(username=username, email=email, password=password)
             return JsonResponse({'success': 'Admin created successfully'})
-        user = User.objects.create_user(username=username, email=email, password=password, company=company)
+        user = User.objects.create_user(username=username, email=email, password=password, companies=companies)
         user.save()
         return JsonResponse({'success': 'User created successfully'})
     else:

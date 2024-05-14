@@ -5,10 +5,16 @@
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
   
+    
   </head>
+
+  
   
   <div class="container mx-auto px-4 sm:px-8">
+    
     <div class="py-8">
+
+      
       <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
         <div class="inline-block min-w-full shadow-md p-5 rounded-lg overflow-hidden">
   
@@ -22,7 +28,7 @@
                 <span class="fas fa-search"></span>
               </i>
               <input type="text" id="nameSearch" [(ngModel)]="nameSearch" placeholder="Procurar por nome" class="pl-10 px-4 py-2 border rounded w-full">
-              <mat-select class="ml-5 max-w-36 min-w-24 rounded-sm border-gray-500" multiple placeholder="Tipos" [(ngModel)]="selectedTypes" >
+           <!--   <mat-select class="ml-5 max-w-36 min-w-24 rounded-sm border-gray-500" multiple placeholder="Tipos" [(ngModel)]="selectedTypes" >
                 @for (type of types; track type) {
                   <mat-option  [value]="type" (onSelectionChange)="updateSelectedTypes()">{{type}}</mat-option>
                 }
@@ -34,12 +40,18 @@
                   <mat-option  [value]="syntax" (onSelectionChange)="updateSelectedTypes()">{{syntax}}</mat-option>
                 }
 
-              </mat-select>
+              </mat-select>-->
 
                 <button [routerLink]="'/create-rule-model'" class="ml-5 w-60 h-10 bg-redshift-red text-white rounded hover:bg-redshift-hover shadow-md">
                   <i class="fas fa-plus"></i>
                 Adicionar Novo
                 </button>
+
+                <div class="text-center">
+                  <button class="ml-5 w-28 h-10 bg-redshift-red text-white rounded hover:bg-redshift-hover shadow-md" type="button" data-drawer-target="drawer-navigation" data-drawer-show="drawer-navigation" aria-controls="drawer-navigation">
+                <span>  <i class="fas fa-filter"></i> Avançados</span>
+                  </button>
+                </div>
             </div>
             
 
@@ -95,7 +107,8 @@
             <tbody>
               <tr *ngFor="let u of filteredRuleModels"
                   [class]="(filteredRuleModels.indexOf(u) % 2 === 0 ? 'bg-white' : 'bg-gray-100')"
-                  [routerLink]="'/ruleModelDetails/' + u.id">
+                  [routerLink]="'/ruleModelDetails/' + u.id"
+                  class="hover:drop-shadow-md transition duration-100">
                   
                 <td  class="px-5 py-5 text-left cursor-pointer">RedModel{{ u.id }}</td>
                 <td  class="px-5 py-5 text-left cursor-pointer "> <p class="font-medium">{{ u.title }} </p></td>
@@ -106,6 +119,8 @@
                     <img *ngIf="u.syntax === 'Sigma Rule'" src="./assets/sigmalogo.svg" class="h-6 w-6 mr-1" alt="Sigma Logo">
                     <img *ngIf="u.syntax === 'Splunk Rule'" src="./assets/splunklogo.svg" class="h-6 w-6 mr-1" alt="Sigma Logo">
                     <img *ngIf="u.syntax === 'QRadar Rule'" src="./assets/qradarlogo.png" class="h-6 w-6 mr-1" alt="Sigma Logo">
+                    <img *ngIf="u.syntax === 'Elastic Lucene Rule'" src="./assets/elasticlogo.png" class="h-6 w-6 mr-1" alt="Sigma Logo">
+
 
                      <p class="drop-shadow-xl"> {{ u.syntax}} </p>
                   </div>
@@ -163,4 +178,72 @@
             </div>
         </div>
     </div>
+</div>
+
+
+
+
+
+<!-- drawer component -->
+<div id="drawer-navigation" class="fixed top-0 left-0 z-40 w-96 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-navigation-label">
+   
+  
+  <h5 id="drawer-navigation-label" class="text-base font-semibold text-gray-500 uppercase dark:text-gray-400"><i class="fas fa-filter"> </i> Filtros</h5>
+   <button type="button" data-drawer-hide="drawer-navigation" aria-controls="drawer-navigation" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 end-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" >
+       <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+       <span class="sr-only">Close menu</span>
+   </button>
+ <div class="py-4 overflow-y-auto">
+     <ul class="space-y-2 font-medium">
+        <li>
+          
+        
+        <div class="flex items-center p-2 text-gray-600 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+          <i class="fas fa-font"></i>
+          <span class="ms-3">Sintaxe</span>
+          <button (click)="clearSelectedSyntax()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
+            <i class="fas fa-x"></i>
+            <span class="sr-only">Clear filter</span>
+          </button>
+        </div>
+        <select id="sintax" name="sintax" [(ngModel)]="selectedSintaxes" (change)="updateSelectedSyntax($event)" required multiple class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <option *ngFor="let sintax of uniqueSintaxes" [ngValue]="sintax">{{ sintax }}</option>
+      </select>
+    </li>
+
+    <li>
+          
+        
+      <div class="flex items-center p-2 text-gray-600 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+        <i class="fas fa-rectangle-list"></i>
+        <span class="ms-3">Tipos</span>
+        <button (click)="clearSelectedTypes()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
+          <i class="fas fa-x"></i>
+          <span class="sr-only">Clear filter</span>
+        </button>
+      </div>
+      <select id="types" name="types" [(ngModel)]="selectedTypes"  required multiple class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+        <option *ngFor="let type of uniqueTypes" [ngValue]="type">{{ type }}</option>
+    </select>
+  </li>
+
+  <li>
+          
+        
+    <div class="flex items-center p-2 text-gray-600 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+      <i class="fas fa-file"></i>
+      <span class="ms-3">Logsources</span>
+
+      <button (click)="clearSelectedLogSources()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
+        <i class="fas fa-x"></i>
+        <span class="sr-only">Clear filter</span>
+      </button>
+    </div>
+    <select id="logsource" name="logsource" [(ngModel)]="selectedLogSources"  required multiple class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+      <option *ngFor="let logsource of uniqueLogSources" [ngValue]="logsource">{{ logsource }}</option>
+  </select>
+</li>
+       
+     </ul>
+  </div>
 </div>

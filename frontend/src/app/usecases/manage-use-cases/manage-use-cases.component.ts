@@ -63,7 +63,7 @@ selectedValues: any;
       this.useCases = data
 
       console.log(data)
-    
+      this.startFilters()
     
     });
     }
@@ -124,9 +124,24 @@ this.useCasesService.deleteUseCase(this.selectDelete).subscribe((data: any) => {
 
     
    var f1 = this.useCases.filter((u: any) => u.title.toLowerCase().includes(this.nameSearch.toLowerCase()));
+  //filter by selectedMitreTechniques
+  var f2 = f1.filter((u: any) => {
+    if (this.selectedMitreTechniques.length === 0) {
+      return true;
+    } else {
+      return this.selectedMitreTechniques.some((technique: string) => u.mitreTechniques.includes(technique));
+    }
+  });
+  //filter by selectedCNCSClass
+  var f3 = f2.filter((u: any) => {
+    if (this.selectedCNCSClass.length === 0) {
+      return true;
+    } else {
+      return this.selectedCNCSClass.includes(u.cncsClass);
+    }
+  });
+  return f3;  
 
-
-    return f1;
   }
 
 
@@ -143,6 +158,34 @@ this.useCasesService.deleteUseCase(this.selectDelete).subscribe((data: any) => {
 
   closeModal() {
     this.modalFlowbite.hide();
+  }
+
+  selectedCNCSClass: string[] = [];
+  selectedMitreTechniques: string[] = [];
+
+  uniqueCNCSClasses : any = [];
+  uniqueMitreTechniques : any = [];
+
+  startFilters() {
+
+    this.uniqueCNCSClasses = this.useCases.map((u: any) => u.cncsClass).filter((value: any, index: any, self: any) => self.indexOf(value) === index);
+    this.useCases.forEach((u: { mitreTechniques: string[]; }) => {
+      u.mitreTechniques.forEach((technique: string) => {
+          if (!this.uniqueMitreTechniques.includes(technique)) {
+              this.uniqueMitreTechniques.push(technique);
+          }
+      });
+  });
+console.log(this.uniqueMitreTechniques)
+
+  }
+
+  clearCNCSClass() {
+    this.selectedCNCSClass = [];
+  }
+
+  clearMitreTechniques() {
+    this.selectedMitreTechniques = [];
   }
 
 

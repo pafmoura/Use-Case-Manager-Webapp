@@ -52,7 +52,7 @@ export class CreateUserComponent {
 
  user : any = {
     username: "",
-    company: "",
+    companies: "",
     email: "",
     password: ""
  }
@@ -67,7 +67,7 @@ export class CreateUserComponent {
         return this.createUserForm.get('username');
     }
 
-    get company() {
+    get companies() {
         return this.createUserForm.get('company');
     }
 
@@ -84,7 +84,7 @@ export class CreateUserComponent {
  
 const userData = {
     username: this.username!.value!,
-    company: this.company!.value!,
+    companies: this.companies!.value!,
     email: this.email!.value!,
     password: this.password!.value!
 }

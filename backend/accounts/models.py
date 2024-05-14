@@ -16,7 +16,7 @@ class Company (models.Model):
     
 
 class MyAccountManager(BaseUserManager):
-    def create_user(self, email, username, password=None,  company =None):
+    def create_user(self, email, username, password=None,  companies =None):
         if not email:
             raise ValueError("Users must have an email address")
         if not username:
@@ -26,7 +26,7 @@ class MyAccountManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
             username=username,
-            company = company            
+            companies = companies            
         )
 
         user.set_password(password)
@@ -59,7 +59,7 @@ class User(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    company = models.CharField(max_length=30, unique=False, default="", null=True)
+    companies = ArrayField(models.CharField(blank=True, null=True),blank=True, null=True)
 
     USERNAME_FIELD = "email"
 

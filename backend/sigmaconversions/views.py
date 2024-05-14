@@ -9,6 +9,8 @@ from sigma.processing.pipeline import ProcessingPipeline
 from sigma.backends.splunk import SplunkBackend
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
+from sigma.backends.QRadarAQL import QRadarAQLBackend
+from sigma.backends.elasticsearch.elasticsearch_lucene import LuceneBackend
 
 
 @api_view(['POST'])
@@ -19,3 +21,24 @@ def convertSigmaToSplunk(request):
     rules = SigmaCollection.from_yaml(rule)
 
     return JsonResponse( backend.convert(rules) , safe=False)
+
+@api_view(['POST'])
+def convertSigmaToQRadar(request):
+    print(request.data['rule'])
+    rule = request.data['rule']
+    backend = QRadarAQLBackend()
+    rules = SigmaCollection.from_yaml(rule)
+
+    return JsonResponse( backend.convert(rules) , safe=False)
+
+
+@api_view(['POST'])
+def convertSigmaToElasticLucena(request):
+    print(request.data['rule'])
+    rule = request.data['rule']
+    backend = LuceneBackend()
+    rules = SigmaCollection.from_yaml(rule)
+
+    return JsonResponse( backend.convert(rules) , safe=False)
+
+

@@ -25,5 +25,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('rules/', include('rules.urls')),
     path('sigmaconversions/', include('sigmaconversions.urls')),
+    path('stats/', include('stats.urls')),
     path('', TemplateView.as_view(template_name="home.html"))
 ]

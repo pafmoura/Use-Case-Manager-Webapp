@@ -89,9 +89,15 @@
 
         </button>
 
-        <button type="submit" (click)="convertSigmaToSplunk()"  data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="text-black inline-flex items-center bg-gray-200 hover:bg-redshift-hover transition duration-300 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        <button type="submit" (click)="convertSigmaToQRadar()"  data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="text-black inline-flex items-center bg-gray-200 hover:bg-redshift-hover transition duration-300 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
           <img class="h-6 w-6 mr-3" src="./assets/qradarlogo.png">
             Converter para QRadar Rule
+
+</button>
+
+<button type="submit" (click)="convertSigmaToElasticLucena()"  data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="text-black inline-flex items-center bg-gray-200 hover:bg-redshift-hover transition duration-300 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+  <img class="h-6 w-6 mr-3" src="./assets/elasticlogo.png">
+    Converter para Elastic Rule (Lucena)
 
 </button>
 
@@ -137,7 +143,7 @@
       </div>
 
       
-      <div class=" md:w-[20%] h-60 bg-gray-100 p-4 rounded-xl drop-shadow-lg">
+      <div class=" md:w-[20%] h-72 bg-gray-100 p-4 rounded-xl drop-shadow-lg">
         <h1 class="font-inter font-semibold text-xl text-gray-600 mx-auto">Informação Geral</h1>
 
         <div class="items-center mt-4">

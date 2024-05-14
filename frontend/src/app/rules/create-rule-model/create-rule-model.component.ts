@@ -36,7 +36,7 @@ ngOnInit() {
 
 }
 
-selectedUseCase : any = "SIEM";
+selectedUseCase : any = "";
 selectedSyntax : any = "";
 
 code : any = "";
@@ -44,7 +44,7 @@ code : any = "";
 
 
 types = {
-  SIEM: ['Sigma Rule', 'Splunk Rule', 'QRadar Rule'],
+  SIEM: ['Sigma Rule', 'Splunk Rule', 'QRadar Rule', 'Elastic Lucene Rule'],
   SOAR: ['YARA Rule']
 };
 
@@ -278,6 +278,36 @@ examples: { [key: string]: string } = {
 notes: |
   Notas adicionais sobre a regra, referências, etc.
       `,
+
+'Elastic Lucene Rule':
+`
+{
+  "name": "${this.createRuleModelForm.value.title || 'Título da Regra'}",
+  "description": "Uma descrição do que a sua regra é destinada a detectar",
+  "risk_score": 50,
+  "severity": "médio",
+  "type": "query",
+  "language": "lucene",
+  "query": "event.category:authentication AND event.outcome:failure"
+  "index": ["seu-indice-padrao-*"],
+  "interval": "5m",
+  "from": "now-5m",
+  "actions": [
+    {
+      "action_type_id": ".email",
+      "group": "default",
+      "params": {
+        "to": ["seu_email@exemplo.com"],
+        "subject": "Alerta: ${this.createRuleModelForm.value.title || 'Título da Regra'}",
+        "message": "Um alerta foi acionado com base na sua consulta Lucene: {{context.query}}"
+      }
+    }
+  ],
+  "throttle": "1h",
+  "tags": ["exemplo", "lucene", "detecção"],
+  "enabled": true
+}`
+      
 }
 
 }

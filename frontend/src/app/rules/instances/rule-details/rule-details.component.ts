@@ -154,6 +154,27 @@ this.clipboard.copy(this.code);
     });
   }
 
+  convertSigmaToQRadar() {
+    console.log(this.code);
+    this.sigmaConversionsService.convertSigmaToQRadar(this.code).subscribe((data: any) => {
+      console.log(data);
+      this.convertedCode = data;
+
+      
+
+    });
+  }
+
+  convertSigmaToElasticLucena() {
+    console.log(this.code);
+    this.sigmaConversionsService.convertSigmaToElasticLucena(this.code).subscribe((data: any) => {
+      console.log(data);
+      this.convertedCode = data;
+
+      
+
+    });
+  }
 
 
   

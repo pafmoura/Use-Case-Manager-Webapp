@@ -58,7 +58,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let c of filteredClients"
-                  [class]="(filteredClients.indexOf(c) % 2 === 0 ? 'bg-white' : 'bg-gray-100')">
+                  [class]="(filteredClients.indexOf(c) % 2 === 0 ? 'bg-white' : 'bg-gray-100')" class="hover:drop-shadow-md transition duration-100">
                 <td  class="px-5 py-5 text-left cursor-pointer">{{ c.pk }}</td>
                 <td  class="px-5 py-5 text-left cursor-pointer">{{ c.name }}</td>
 
@@ -164,3 +164,14 @@ Criar Cliente
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+

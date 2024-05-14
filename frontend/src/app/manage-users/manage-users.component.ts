@@ -106,8 +106,13 @@ export class ManageUsersComponent {
   @ViewChild('modal') modal!: ElementRef<HTMLElement>;
   modalFlowbite!: Modal;
 
+    
+  @ViewChild('modalDetails') modalDetails!: ElementRef<HTMLElement>;
+  modalDetailsFlowbite!: Modal;
+
   ngAfterViewInit() {
     this.modalFlowbite = new Modal(this.modal.nativeElement);
+    this.modalDetailsFlowbite = new Modal(this.modalDetails.nativeElement);
   }
 
   openModal() {
@@ -116,6 +121,18 @@ export class ManageUsersComponent {
 
   closeModal() {
     this.modalFlowbite.hide();
+  }
+
+  selectedUser: any;
+
+  openModalDetails(user : any) {
+    this.modalDetailsFlowbite.show();
+this.selectedUser = user;
+
+  }
+
+  closeModalDetails() {
+    this.modalDetailsFlowbite.hide();
   }
 
 

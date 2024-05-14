@@ -12,7 +12,9 @@ import { CommonModule } from '@angular/common';
 })
 export class HeaderComponent {
   private authService: AuthService;
-  user : any = [];
+  user : any = {
+    companies : [""],
+  };
 
 
   
@@ -29,6 +31,12 @@ export class HeaderComponent {
       var temp: string = value.toString(); 
       this.user = JSON.parse(temp);
       this.user = this.user[0].fields;
+
+      if (this.user.companies == null) {
+        this.user.companies = [];
+      }
+
+      console.log(this.user);
     });
   }
 }

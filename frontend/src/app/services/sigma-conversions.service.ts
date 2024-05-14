@@ -19,4 +19,14 @@ export class SigmaConversionsService {
   convertSigmaToSplunk(rule : any) {
     return this.http.post(`${AUTH_URL}convertSigmaToSplunk`, {rule: rule})
   }
+
+  convertSigmaToQRadar(rule : any) {
+    return this.http.post(`${AUTH_URL}convertSigmaToQRadar`, {rule: rule})
+  }
+
+  convertSigmaToElasticLucena(rule : any) {
+    return this.http.post(`${AUTH_URL}convertSigmaToElasticLucena`, {rule: rule})
+  }
 }
+
+

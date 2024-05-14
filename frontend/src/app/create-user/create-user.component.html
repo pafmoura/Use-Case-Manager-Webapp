@@ -39,9 +39,9 @@
                     <input id="username" [(ngModel)]="user.username" name="username" type="username" autocomplete="username" formControlName="username" required class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 </div>
                 <div class="space-y-4 col-span-2 md:col-span-1">
-                    <label for="company" class="block text-sm font-medium leading-6 text-gray-900">Empresa</label>
+                    <label for="company" class="block text-sm font-medium leading-6 text-gray-900">Clientes Atribuídos</label>
                    
-                    <select [(ngModel)]="user.company" [disabled]="isAdminSelected" formControlName="company" name="company" id ="company" class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6
+                    <select [(ngModel)]="user.company" multiple [disabled]="isAdminSelected" formControlName="company" name="company" id ="company" class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6
                     {{ !isAdminSelected ? 'opacity-100' : 'opacity-45' }},
                     {{ !isAdminSelected ? '' : 'bg-gray-100' }}
                     

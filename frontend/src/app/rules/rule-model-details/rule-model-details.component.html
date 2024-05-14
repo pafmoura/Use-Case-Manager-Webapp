@@ -9,7 +9,7 @@
 
     <div class="flex ml-4 ">
       <div class="flex items-center">
-        <img src="./assets/tag.png" class="rounded-lg size-10">
+        <img src="./assets/tag.png" class="rounded-lg size-10 hover:drop-shadow-md transition duration-300">
         <div class="ml-4">
           <h1 class="font-inter font-semibold text-xl text-gray-600">RedUC{{ruleModel.useCaseId}}</h1>
           <p class="text-gray-500">Use Case Associado</p>
@@ -17,7 +17,7 @@
       </div>
   
       <div class="flex items-center ml-12">
-        <img src="./assets/mitrelogo.png" class="rounded-lg size-10">
+        <img src="./assets/mitrelogo.png" class="rounded-lg size-10 hover:drop-shadow-md transition duration-300">
         <div class="ml-4">
           <div class="flex flex-wrap">
 
@@ -31,7 +31,7 @@
       </div>
 
       <div class="flex items-center ml-12">
-        <img src="./assets/category.png" class="rounded-lg size-10">
+        <img src="./assets/category.png" class="rounded-lg size-10 hover:drop-shadow-md transition duration-300">
         <div class="ml-4">
           <h1 class="font-inter font-semibold text-xl text-gray-600">{{ruleModel.type}}</h1>
           <p class="text-gray-500">Tipo</p>
@@ -39,9 +39,9 @@
       </div>
 
       <div class="flex items-center ml-12">
-        <img *ngIf="ruleModel.syntax === 'Sigma Rule'" src="./assets/sigmalogo.svg" class="rounded-lg size-10" alt="Sigma Logo">
-        <img *ngIf="ruleModel.syntax === 'Splunk Rule'" src="./assets/splunklogo.svg" class="rounded-lg size-10" alt="Sigma Logo">
-        <img *ngIf="ruleModel.syntax === 'QRadar Rule'" src="./assets/qradarlogo.png" class="rounded-lg size-10" alt="Sigma Logo">
+        <img *ngIf="ruleModel.syntax === 'Sigma Rule'" src="./assets/sigmalogo.svg" class="rounded-lg size-10 hover:drop-shadow-md transition duration-300" alt="Sigma Logo">
+        <img *ngIf="ruleModel.syntax === 'Splunk Rule'" src="./assets/splunklogo.svg" class="rounded-lg size-10 hover:drop-shadow-md transition duration-300" alt="Sigma Logo">
+        <img *ngIf="ruleModel.syntax === 'QRadar Rule'" src="./assets/qradarlogo.png" class="rounded-lg size-10 hover:drop-shadow-md transition duration-300" alt="Sigma Logo">
 
         
         <div class="ml-4">
@@ -55,7 +55,7 @@
       </div>
 
       <div class="flex items-center ml-12">
-        <img src="./assets/source.png" class="rounded-lg size-10">
+        <img src="./assets/source.png" class="rounded-lg size-10 hover:drop-shadow-md transition duration-300">
         <div class="ml-4">
           <h1 class="font-inter font-semibold text-xl text-gray-600">{{ruleModel.logsources}}</h1>
           <p class="text-gray-500">LogSources</p>
@@ -106,17 +106,17 @@
       <div class=" md:w-[20%] h-60 bg-gray-100 p-4 rounded-xl drop-shadow-lg">
         <h1 class="font-inter font-semibold text-xl text-gray-600 mx-auto">Ações</h1>
 
-        <button (click)="copyToClipboard()" type="Primary Block" class="flex flex-row items-center content-center justify-start gap-1 h-sm w-full py-2 my-4 px-2 border border-gray-300 drop-shadow-lg rounded-xl text-gray-700 bg-white active:text-gray-100 active:bg-redshift-hover active:ring-0 focus:ring-offset-2 focus:ring">
+        <button (click)="copyToClipboard()" type="Primary Block" class="hover:drop-shadow-md transition duration-300 flex flex-row items-center content-center justify-start gap-1 h-sm w-full py-2 my-4 px-2 border border-gray-300 drop-shadow-lg rounded-xl text-gray-700 bg-white active:text-gray-100 active:bg-redshift-hover active:ring-0 focus:ring-offset-2 focus:ring">
           <div class="fas fa-copy "></div>
           <p class="ml-2">Copiar para Clipboard</p>
       </button>
 
-      <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" type="Primary Block" class="flex flex-row items-center content-center justify-start gap-1 h-sm w-full py-2 my-4 px-2 border border-gray-300 drop-shadow-lg rounded-xl text-gray-700 bg-white active:text-gray-100 active:bg-redshift-hover active:ring-0 focus:ring-offset-2 focus:ring">
+      <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" type="Primary Block" class="hover:drop-shadow-md transition duration-300 flex flex-row items-center content-center justify-start gap-1 h-sm w-full py-2 my-4 px-2 border border-gray-300 drop-shadow-lg rounded-xl text-gray-700 bg-white active:text-gray-100 active:bg-redshift-hover active:ring-0 focus:ring-offset-2 focus:ring">
         <div class="fas fa-user-check "></div>
         <p class="ml-2">Atribuir a clientes</p>
     </button>
 
-    <button (click)="copyToClipboard()" type="Primary Block" class="flex flex-row items-center content-center justify-start gap-1 h-sm w-full py-2 my-4 px-2 border border-gray-300 drop-shadow-lg rounded-xl text-gray-700 bg-white active:text-gray-100 active:bg-redshift-hover active:ring-0 focus:ring-offset-2 focus:ring">
+    <button (click)="copyToClipboard()" type="Primary Block" class="hover:drop-shadow-md transition duration-300 flex flex-row items-center content-center justify-start gap-1 h-sm w-full py-2 my-4 px-2 border border-gray-300 drop-shadow-lg rounded-xl text-gray-700 bg-white active:text-gray-100 active:bg-redshift-hover active:ring-0 focus:ring-offset-2 focus:ring">
       <div class="fas fa-pen-nib "></div>
       <p class="ml-2">Editar modelo de Regra</p>
   </button>
@@ -136,7 +136,7 @@
 
     <div class="flex flex-wrap">
       <div class="w-1/6 p-2" *ngFor="let rule of ruleInstances">
-        <div class="bg-white p-4 rounded-lg shadow-md">
+        <div class="bg-white p-4 rounded-lg shadow-md cursor-pointer hover:drop-shadow-xl transition duration-300" [routerLink]="'/ruleDetails/'+rule.id">
           <h1 class="font-inter font-semibold text-xl text-gray-600">{{rule.client.name}}</h1>
           <p class="text-gray-500 text-sm">{{rule.logsources}}</p>
         </div>
