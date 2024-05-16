@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, ɵformatRuntimeError } from '@angular/cor
 import { HeaderComponent } from "../../layout/header/header.component";
 import { TitlebannerComponent } from "../../layout/titlebanner/titlebanner.component";
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Type } from 'class-transformer';
 import { CodeEditorComponent, CodeEditorModule, CodeModel, CodeModelChangedEvent } from '@ngstack/code-editor';
 import {editor, Range} from 'monaco-editor'
@@ -135,11 +135,11 @@ this.rulesService.createRuleModel(ruleModel).subscribe((data) => {
 }
 
 createRuleModelForm = new FormGroup({
-  title: new FormControl(''),
-  selectedUseCase: new FormControl(''),
-  selectedSyntax: new FormControl(''),
-  selectedType: new FormControl(''),
-  logsources: new FormControl(''),
+  title: new FormControl('', Validators.required),
+  selectedUseCase: new FormControl('',Validators.required),
+  selectedSyntax: new FormControl('',Validators.required),
+  selectedType: new FormControl('',Validators.required),
+  logsources: new FormControl('',Validators.required),
 
 })
 

@@ -33,35 +33,45 @@
         </div>
         <div>
           <h1 class="font-inter font-semibold text-2xl text-gray-700 mb-12">2. Efetue o registo</h1>
-            <form class="grid grid-cols-2 gap-12" (ngSubmit)="createUser()" [formGroup]="createUserForm" *ngIf="createUserForm">
-                <div class="space-y-4 col-span-2 md:col-span-1">
-                    <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Nome</label>
-                    <input id="username" [(ngModel)]="user.username" name="username" type="username" autocomplete="username" formControlName="username" required class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <form class="grid grid-cols-2 gap-12" (ngSubmit)="createUser()" [formGroup]="createUserForm" *ngIf="createUserForm">
+            <div class="space-y-4 col-span-2 md:col-span-1">
+                <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Nome</label>
+                <input id="username" [(ngModel)]="user.username" name="username" type="text" formControlName="username" required class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <div *ngIf="username?.invalid && (username?.touched || username?.dirty)" class="text-red-600 text-sm">
+                    <div *ngIf="username?.errors?.['required']">Nome é obrigatório.</div>
                 </div>
-                <div class="space-y-4 col-span-2 md:col-span-1">
-                    <label for="company" class="block text-sm font-medium leading-6 text-gray-900">Clientes Atribuídos</label>
-                   
-                    <select [(ngModel)]="user.company" multiple [disabled]="isAdminSelected" formControlName="company" name="company" id ="company" class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6
-                    {{ !isAdminSelected ? 'opacity-100' : 'opacity-45' }},
-                    {{ !isAdminSelected ? '' : 'bg-gray-100' }}
-                    
-                    ">
-                        <option *ngFor="let client of clientNames" [value]="client">{{ client }}</option>
-                      </select>
-                  
+            </div>
+            <div class="space-y-4 col-span-2 md:col-span-1">
+                <label for="companies" class="block text-sm font-medium leading-6 text-gray-900">Clientes Atribuídos</label>
+                <select multiple formControlName="companies" name="companies" id="companies" class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 {{ !isAdminSelected ? 'opacity-100' : 'opacity-45' }}, {{ !isAdminSelected ? '' : 'bg-gray-100' }}">
+                    <option *ngFor="let client of clientNames" [value]="client">{{ client }}</option>
+                </select>
+                <div *ngIf="!isAdminSelected && companies?.touched && companies?.invalid" class="text-red-600 text-sm">
+                    <div *ngIf="companies?.errors?.['required']">Clientes Atribuídos são obrigatórios para Operador Redshift.</div>
                 </div>
-                <div class="space-y-4 col-span-2 md:col-span-1">
-                    <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
-                    <input id="email" name="email" [(ngModel)]="user.email" type="email" autocomplete="email" formControlName="email" required class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+
+            <div class="space-y-4 col-span-2 md:col-span-1">
+                <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
+                <input id="email" name="email" [(ngModel)]="user.email" type="email" formControlName="email" required class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <div *ngIf="email?.invalid && (email?.touched || email?.dirty)" class="text-red-600 text-sm">
+                    <div *ngIf="email?.errors?.['required']">Email é obrigatório.</div>
+                    <div *ngIf="email?.errors?.['email']">Email não é válido.</div>
                 </div>
-                <div class="space-y-4 col-span-2 md:col-span-1">
-                    <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
-                    <input id="password" name="password" type="password" [(ngModel)]="user.password" autocomplete="password" formControlName="password" required class="block w-full rounded-md border-0  px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+            <div class="space-y-4 col-span-2 md:col-span-1">
+                <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+                <input id="password" name="password" type="password" formControlName="password" required class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <div *ngIf="password?.invalid && (password?.touched || password?.dirty)" class="text-red-600 text-sm">
+                    <div *ngIf="password?.errors?.['required']">Password é obrigatório.</div>
+                    <div *ngIf="password?.errors?.['minlength']">Password deve ter pelo menos 6 caracteres.</div>
                 </div>
-                <div class="space-y-6 col-span-2">
-                    <button type="submit" class="w-full md:w-[25rem] py-2.5 px-5 text-white font-semibold bg-redshift-red rounded-md hover:bg-redshift-red-dark">Registar</button>
-                </div>
-            </form>
+            </div>
+            <div class="space-y-6 col-span-2">
+                <button type="submit" [disabled]="createUserForm.invalid" class="disabled:opacity-60 w-full md:w-[25rem] py-2.5 px-5 text-white font-semibold bg-redshift-red rounded-md hover:bg-redshift-red-dark">Registar</button>
+            </div>
+        </form>
+        
         </div>
     </div>
 </div>

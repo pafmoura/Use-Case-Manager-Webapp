@@ -38,9 +38,7 @@ numberOfRuleModels : number = 0;
 
     this.authService.loggedInInfo().subscribe((value) => {
       var temp: string = value.toString(); 
-      this.user = JSON.parse(temp);
-      this.user = this.user[0].fields;
-
+this.user = value;
       if (this.user.companies == null) {
         this.user.companies = [];
       }

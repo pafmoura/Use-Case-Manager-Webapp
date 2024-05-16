@@ -15,9 +15,9 @@ User = get_user_model()
 @permission_classes([IsAuthenticated])
 def LoggedInInfo(request):
     if request.method == 'GET':
-        user = serializers.serialize('json', [request.user])
-        
-        return JsonResponse(user, safe=False)
+        user = request.user
+        serializer = UserSerializer(user)        
+        return JsonResponse(serializer.data, safe=False)
     else:
         return JsonResponse({'error': 'Invalid request method'})
     

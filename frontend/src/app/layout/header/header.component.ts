@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 export class HeaderComponent {
   private authService: AuthService;
   user : any = {
+    username : "",
     companies : [""],
   };
 
@@ -28,10 +29,8 @@ export class HeaderComponent {
    
     initFlowbite();
     this.authService.loggedInInfo().subscribe((value) => {
-      var temp: string = value.toString(); 
-      this.user = JSON.parse(temp);
-      this.user = this.user[0].fields;
-
+      console.log(value);
+     this.user = value;
       if (this.user.companies == null) {
         this.user.companies = [];
       }

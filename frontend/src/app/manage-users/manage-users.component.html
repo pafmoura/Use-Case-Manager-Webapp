@@ -34,13 +34,17 @@
           <table class="min-w-full leading-normal">
             <thead>
               <tr>
-                <th (click)="sortTable('id')" class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                <th (click)="sortTable('pk')" class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                   ID
-                  <span [class]="sortType === 'id' ? (sortReverse ? 'fas fa-caret-up' : 'fas fa-caret-down') : ''"></span>
+                  <span [class]="sortType === 'pk' ? (sortReverse ? 'fas fa-caret-up' : 'fas fa-caret-down') : ''"></span>
                 </th>
                 <th (click)="sortTable('username')" class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                   Nome
                   <span [class]="sortType === 'username' ? (sortReverse ? 'fas fa-caret-up' : 'fas fa-caret-down') : ''"></span>
+                </th>
+                <th (click)="sortTable('email')" class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  Email
+                  <span [class]="sortType === 'email' ? (sortReverse ? 'fas fa-caret-up' : 'fas fa-caret-down') : ''"></span>
                 </th>
                 <th (click)="sortTable('company')" class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                   Clientes Atribuídos
@@ -62,19 +66,20 @@
             <tbody>
               <tr *ngFor="let u of filteredUsers"
                   [class]="(filteredUsers.indexOf(u) % 2 === 0 ? 'bg-white' : 'bg-gray-100')"
-                  class="hover:drop-shadow-md transition duration-100">
+                  class="hover:drop-shadow-md transition duration-100 cursor-pointer">
 
                   
                   
                 <td (click)="openModalDetails(u)" class="px-5 py-5 text-left ">{{ u.pk }}</td>
                 <td (click)="openModalDetails(u)" class="px-5 py-5 text-left ">{{ u.username }}</td>
+                <td (click)="openModalDetails(u)" class="px-5 py-5 text-left ">{{ u.email }}</td>
                 <td (click)="openModalDetails(u)" class="px-5 py-5 text-left ">{{ u.companies ? u.companies : 'N/A' }}</td>
                 <td (click)="openModalDetails(u)" class="px-5 py-5 text-left ">{{ u.date_joined | date: 'dd/MM/yyyy' }}</td>
                 <td (click)="openModalDetails(u)" class="px-5 py-5 text-left ">{{ u.companies ? 'Operador' : 'Administrador' }}</td>
   
                 <td class="px-5 py-5 ">
-                  <button data-modal-target="deleteModal" (click)="updateSelectDelete(u.pk); openModal()"  class="bg-red-500 text-white px-3 py-1 rounded-md">
-                    <i class="fas fa-trash-alt"></i>
+                  <button data-modal-target="deleteModal" (click)="updateSelectDelete(u.pk); openModal()"  class="bg-red-500 text-white px-3 py-1 rounded-md hover:shadow-lg transition duration-300">
+                    <i class="fas fa-trash-alt "></i>
                   </button>
 
                   
@@ -166,10 +171,10 @@
               </div>
 
 
-      <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-        <button data-modal-hide="static-modal" (click)="closeModalDetails()" data-modal-target="static-modal" type="button" class="text-white bg-redshift-red hover:bg-redshift-hover focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Fechar</button>
-    </div>
-
+    
     
   </div>
+  <div class="flex justify-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+    <button data-modal-hide="static-modal" (click)="closeModalDetails()" data-modal-target="static-modal" type="button" class="text-white bg-redshift-red hover:bg-redshift-hover focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Fechar</button>
+</div>
 </div>
