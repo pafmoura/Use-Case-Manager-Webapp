@@ -34,7 +34,7 @@ export class CreateUseCaseComponent {
         title: new FormControl('', Validators.required),
         description: new FormControl('', Validators.required),
         mitigation: new FormControl('', Validators.required),
-        playbook: new FormControl('', [Validators.required, Validators.pattern('(https?://.*)')]),  // URL pattern validation
+        playbook: new FormControl(''),  
         mitreTechniques: new FormControl([], Validators.required),
         cncsClass: new FormControl('', Validators.required),
         cncsType: new FormControl('', Validators.required),
@@ -59,6 +59,18 @@ export class CreateUseCaseComponent {
         this.selectedCategoryValues = this.taxonomiaCNCS.find((entry: { [x: string]: any; }) => entry[this.selectedCategory])?.[this.selectedCategory] || [];
     }
 
+    selectedFile: File | null = null;
+    onFileSelected(event: Event): void {
+        console.log('File selected');
+        const input = event.target as HTMLInputElement;
+        if (input.files && input.files.length > 0) {
+            this.selectedFile = input.files[0];
+            console.log('File selected:', this.selectedFile);
+        }
+    
+    }
+
+
     createUseCase() {
 
        var useCase : any = this.createUseCaseForm.value;
@@ -79,9 +91,24 @@ export class CreateUseCaseComponent {
         useCase.attackVectors = useCase.attackVectors?.map((vector:any) => vector.value);
     }
 
+    if(this.selectedFile != null){
+        useCase.playbook = this.selectedFile;
+    }
+
+    const useCaseData = new FormData();
+    useCaseData.append('title', useCase.title);
+    useCaseData.append('description', useCase.description);
+    useCaseData.append('mitigation', useCase.mitigation);
+    useCaseData.append('playbook', useCase.playbook);
+    useCaseData.append('mitreTechniques', JSON.stringify(useCase.mitreTechniques));
+    useCaseData.append('cncsClass', useCase.cncsClass);
+    useCaseData.append('cncsType', useCase.cncsType);
+    useCaseData.append('attackVectors', JSON.stringify(useCase.attackVectors));
+    useCaseData.append('rules', JSON.stringify(useCase.rules));
+    useCaseData.append('phaseTasks', JSON.stringify(useCase.phaseTasks));
 
 
-            this.usecasesService.createUseCase(this.createUseCaseForm.value).subscribe({
+            this.usecasesService.createUseCase(useCaseData).subscribe({
                 next: () => {
                     this.router.navigate(['/manage-use-cases']);
                 },

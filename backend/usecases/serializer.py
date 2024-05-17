@@ -1,13 +1,17 @@
 from rest_framework import serializers
 from usecases.models import UseCase
 from rest_framework import serializers
-from usecases.models import UseCase
+
+
 
 
 class UseCaseSerializer(serializers.ModelSerializer):
+    playbook = serializers.ImageField(required=False)
+
+   
     class Meta:
         model = UseCase
-        fields = '__all__'
+        fields = ['id', 'title', 'cncsClass', 'cncsType', 'description', 'mitigation', 'mitreTechniques', 'phaseTasks', 'rules', 'attackVectors', 'playbook']
 
 
         

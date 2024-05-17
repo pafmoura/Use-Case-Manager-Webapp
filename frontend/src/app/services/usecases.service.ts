@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 const AUTH_URL = 'http://localhost:8000/usecases/';
@@ -11,9 +11,14 @@ export class UsecasesService {
 
   constructor(private http: HttpClient) {}
 
-  createUseCase(useCase: any) {
-    return this.http.post<any>(`${AUTH_URL}createUseCase`, useCase);
+  createUseCase(useCase: FormData) {
+    return this.http.post<any>(`${AUTH_URL}createUseCase`, useCase, {
+      headers: new HttpHeaders({
+        'enctype': 'multipart/form-data'
+      })
+    });
   }
+
 
   getUseCases() {
     return this.http.get<any>(`${AUTH_URL}getUseCases`);

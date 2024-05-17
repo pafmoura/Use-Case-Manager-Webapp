@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 
 from usecases.serializer import UseCaseSerializer
@@ -29,24 +30,35 @@ def getTechniqueById(request, id):
 @api_view(['POST'])
 def createUseCase(request):
     if request.method == 'POST':
-        data = request.data
-        new_usecase = UseCase(
-        title = data['title'],
-        description = data['description'],
-        mitigation = data['mitigation'],
-        playbook = data['playbook'],
-        mitreTechniques = data['mitreTechniques'],
-        cncsClass = data['cncsClass'],
-        cncsType = data['cncsType'],
-        phaseTasks = data['phaseTasks'],
-        rules = data['rules'],
-        attackVectors = data['attackVectors'],
-        
-        )
-        new_usecase.save()
-        return JsonResponse(data, safe=False)
-    else:
-        return JsonResponse({'error': 'Invalid request method'})
+        try:
+            data = request.data
+
+            mitreTechniques = json.loads(data.get('mitreTechniques', '[]'))
+            phaseTasks = json.loads(data.get('phaseTasks', '[]'))
+            rules = json.loads(data.get('rules', '[]'))
+            attackVectors = json.loads(data.get('attackVectors', '[]'))
+
+            new_usecase = UseCase(
+                title=data['title'],
+                description=data['description'],
+                mitigation=data['mitigation'],
+                playbook=data['playbook'],
+                mitreTechniques=mitreTechniques,
+                cncsClass=data['cncsClass'],
+                cncsType=data['cncsType'],
+                phaseTasks=phaseTasks,
+                rules=rules,
+                attackVectors=attackVectors,
+            )
+            new_usecase.save()
+            return JsonResponse({'message': 'Use case created successfully!'}, status=status.HTTP_201_CREATED)
+        except KeyError as e:
+            return JsonResponse({'error': f'Missing field: {str(e)}'}, status=status.HTTP_400_BAD_REQUEST)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON format for one of the fields'}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    return JsonResponse({'error': 'Invalid request method'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
     
 
 @api_view(['GET'])

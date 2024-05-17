@@ -1,7 +1,15 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 
+
+from rest_framework import permissions
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework import viewsets
+
 # Create your models here.
+
+def upload_to(instance, filename):
+    return 'images/{filename}'.format(filename=filename)
 
 
 class UseCase(models.Model):
@@ -14,7 +22,19 @@ class UseCase(models.Model):
     phaseTasks = ArrayField(models.JSONField(blank=True, null=True), blank=True, null=True)
     rules = ArrayField(models.JSONField(blank=True, null=True), blank=True, null=True)
     attackVectors = ArrayField(models.CharField( blank=True, null=True),blank=True, null=True)
-    playbook = models.CharField(max_length=1000, blank=True, null=True)
+    playbook = models.ImageField(upload_to=upload_to, blank=True, null=True)
+
+
+class UseCaseViewSet(viewsets.ModelViewSet):
+    from usecases.serializer import UseCaseSerializer
+    queryset = UseCase.objects.order_by('-id')
+    serializer_class = UseCaseSerializer
+    parser_classes = (MultiPartParser, FormParser)
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(creator=self.request.user)
 
 
 #class UseCase(models.Model):

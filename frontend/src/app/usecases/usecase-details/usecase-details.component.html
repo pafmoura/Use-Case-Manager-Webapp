@@ -34,7 +34,7 @@
       </div>
 
       <div class="flex items-center ml-12">
-        <img (click)="selectImage()" [src]="usecase.playbook" class="rounded-lg size-10">
+        <img (click)="selectImage()" [src]="'http://localhost:8000'+usecase.playbook" class="rounded-lg size-10">
         <div class="ml-4 " (click)="selectImage()">
             <h1 class="font-inter font-semibold text-xl text-gray-600">Diagrama Playbook <i class="fas fa-angle-right"></i></h1>
         </div>
@@ -210,7 +210,7 @@
 
 <div *ngIf="showModal" class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 transition duration-300">
   <div class="bg-white p-4 rounded-lg shadow-lg transition duration-300">
-    <img [src]="usecase.playbook" class="max-w-full max-h-full" alt="Selected Image">
+    <img [src]="'http://localhost:8000'+usecase.playbook" class="max-w-full max-h-full" alt="Selected Image">
     <button (click)="closeModal()" class="absolute top-0 right-0 m-2 p-2 bg-gray-200 rounded-full hover:bg-gray-300">
       <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
     </button>
