@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RulesService } from '../../services/rules.service';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HeaderComponent } from "../../layout/header/header.component";
 import { TitlebannerComponent } from "../../layout/titlebanner/titlebanner.component";
 import { UsecasesService } from '../../services/usecases.service';
@@ -20,7 +20,7 @@ import { AuthService } from '../../services/auth.service';
 export class RuleModelDetailsComponent {
 selectLogsources: any;
   
-  constructor( private authService : AuthService, private route: ActivatedRoute, private rulesService: RulesService, private useCaseService : UsecasesService, private clipboard: Clipboard )  {}
+  constructor( private authService : AuthService, private route: ActivatedRoute, private rulesService: RulesService, private useCaseService : UsecasesService, private clipboard: Clipboard, private router: Router )  {}
 
 code: any = "";
   
@@ -188,6 +188,10 @@ this.clipboard.copy(this.code);
 
 this.rulesService.createRule(rule).subscribe((data: any) => {
   console.log(data);
+
+  
+
+  this.router.navigate(['/manage-rules']);
 
 });
 

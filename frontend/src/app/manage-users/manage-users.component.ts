@@ -44,6 +44,13 @@ export class ManageUsersComponent {
     console.log('Manage Users Component');
     this.authService.getUsers().subscribe((data: any) => {
       this.users = data
+      this.users.forEach((user: any) => {
+        if (user.companies == null) {
+          user.companies = [];
+        }
+      });
+
+      this.startFilters();
 
       console.log(data)
     
@@ -97,7 +104,25 @@ export class ManageUsersComponent {
 
 
   get filteredUsers() {
-   return this.users.filter((u: any) => u.email.toLowerCase().includes(this.nameSearch.toLowerCase()));
+    var f1 = this.users.filter((u: any) => u.email.toLowerCase().includes(this.nameSearch.toLowerCase()));
+    var f2 = this.selectedClients.length > 0 ? f1.filter((u: any) => u.companies.some((c: any) => this.selectedClients.includes(c))) : f1;
+  
+    var f3;
+    if (this.selectedRoles === '' || this.selectedRoles.includes('Operador') && this.selectedRoles.includes('Administrador')) {
+   
+      f3 = f2;
+    } else if (this.selectedRoles.includes('Operador') ) {
+      f3 = f2.filter((u: any) => u.companies && u.companies.length > 0);
+    } else if (this.selectedRoles.includes('Administrador')) {
+      f3 = f2.filter((u: any) => !u.companies || u.companies.length === 0);
+    }
+    
+    else {
+      f3 = f2;
+    }
+
+  
+    return f3;
   }
 
  
@@ -134,6 +159,30 @@ this.selectedUser = user;
   closeModalDetails() {
     this.modalDetailsFlowbite.hide();
   }
+
+  uniqueClients : any = [];
+  roles = ['Administrador', 'Operador'];
+
+
+  selectedClients: any = [];
+  selectedRoles: any = [];
+
+  startFilters() {
+    
+    this.uniqueClients = Array.from(new Set(this.users.flatMap((item: any) => item.companies)));
+
+    console.log(this.users);
+  }
+
+  clearSelectedClients() {
+    this.selectedClients = [];
+  }
+
+  clearSelectedRoles() {
+    this.selectedRoles = [];
+  }
+
+  
 
 
 }
