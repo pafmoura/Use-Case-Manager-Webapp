@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { initFlowbite } from 'flowbite';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -18,8 +19,12 @@ export class HeaderComponent {
   };
 
 
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/']);
+  }
   
-  constructor(authService: AuthService) {
+  constructor(authService: AuthService, private router : Router) {
     this.authService = authService;
   }
 

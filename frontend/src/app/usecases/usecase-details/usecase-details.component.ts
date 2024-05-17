@@ -5,7 +5,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { UsecasesService } from '../../services/usecases.service';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { Modal, initFlowbite } from 'flowbite';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { RulesService } from '../../services/rules.service';
 
@@ -14,7 +14,7 @@ import { RulesService } from '../../services/rules.service';
     standalone: true,
     templateUrl: './usecase-details.component.html',
     styleUrl: './usecase-details.component.css',
-    imports: [HeaderComponent, TitlebannerComponent, DecimalPipe, CommonModule, RouterModule, ReactiveFormsModule]
+    imports: [HeaderComponent, TitlebannerComponent, DecimalPipe, CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
 export class UsecaseDetailsComponent {
 
@@ -151,6 +151,31 @@ this.usecasesService.getUseCaseById(this.route.snapshot.params['id']).subscribe(
 
       selectedPhase: any;
 
+      isEditing: boolean = false;
+      enableEdit() {
+        this.isEditing = true;
+      }
+    
+      saveTask() {
+
+console.log(this.usecase.phaseTasks);
+
+this.usecasesService.updatePhaseTasks(this.usecase.id, this.usecase.phaseTasks).subscribe((data: any) => {
+    console.log(data);
+    this.isEditing = false;
+    this.showTaskDetails = false;
+});
+        
+
+      }
+    
+      cancelEdit() {
+        this.isEditing = false;
+        this.showTaskDetails = false;
+      }
+    
+    
+
       createTask() : void {
         const title: string = this.createTaskForm.value?.title || '';
         const description: string | null = this.createTaskForm.value?.description || null;
@@ -177,12 +202,8 @@ this.usecasesService.getUseCaseById(this.route.snapshot.params['id']).subscribe(
             });
 
 
-      }
-      
-
-    }
-
-
+          }      
+        }
 
 
 
