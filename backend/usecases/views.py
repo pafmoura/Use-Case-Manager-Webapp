@@ -175,3 +175,25 @@ def updatePhaseTasks(request, id):
     else:
         return JsonResponse({'error': 'Invalid request method'})
     
+
+@api_view(['POST'])
+def updateUseCase(request, id):
+    if request.method == 'POST':
+        usecase = UseCase.objects.get(id=id)
+        data = request.data
+        usecase.title = data['title']
+        usecase.description = data['description']
+        usecase.mitigation = data['mitigation']
+        usecase.playbook = data['playbook']
+        usecase.mitreTechniques = data['mitreTechniques']
+        usecase.cncsClass = data['cncsClass']
+        usecase.cncsType = data['cncsType']
+        usecase.rules = data['rules']
+        usecase.attackVectors = data['attackVectors']
+        usecase.save()
+        serializer = UseCaseSerializer(usecase, many=False)
+        return JsonResponse(serializer.data, safe=False)
+    else:
+        return JsonResponse({'error': 'Invalid request method'})
+    
+    

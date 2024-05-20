@@ -81,7 +81,7 @@
                 <td (click)="openModalDetails(u)" class="px-5 py-5 text-left ">{{ u.email }}</td>
                 <td (click)="openModalDetails(u)" class="px-5 py-5 text-left ">{{ u.companies ? u.companies : 'N/A' }}</td>
                 <td (click)="openModalDetails(u)" class="px-5 py-5 text-left ">{{ u.date_joined | date: 'dd/MM/yyyy' }}</td>
-                <td (click)="openModalDetails(u)" class="px-5 py-5 text-left ">{{ u.companies ? 'Operador' : 'Administrador' }}</td>
+                <td (click)="openModalDetails(u)" class="px-5 py-5 text-left ">{{ u.companies.length !== 0 ? 'Operador' : 'Administrador' }}</td>
   
                 <td class="px-5 py-5 ">
                   <button data-modal-target="deleteModal" (click)="updateSelectDelete(u.pk); openModal()"  class="bg-red-500 text-white px-3 py-1 rounded-md hover:shadow-lg transition duration-300">
@@ -223,7 +223,7 @@
               </div>
               <div class="flex items-center space-x-2">
                 <span class="text-gray-500 dark:text-gray-400">Role:</span>
-                <span class="text-gray-900 dark:text-white">{{selectedUser?.company ? 'Operador' : 'Administrador'}}</span>
+                <span class="text-gray-900 dark:text-white">{{selectedUser?.companies.length ? 'Operador' : 'Administrador'}}</span>
               </div>
               <div class="flex items-center space-x-2">
                 <span class="text-gray-500 dark:text-gray-400">Clientes Atribuídos:</span>

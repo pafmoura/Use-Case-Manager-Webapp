@@ -21,6 +21,7 @@ import { ReadRuleModelsComponent } from './rules/OperatorRead/read-rule-models/r
 import { ReadUseCasesComponent } from './rules/OperatorRead/read-use-cases/read-use-cases.component';
 import { MyInstanceRulesComponent } from './rules/OperatorRead/my-instance-rules/my-instance-rules.component';
 import { StatisticsPageComponent } from './statistics/statistics-page/statistics-page.component';
+import { EditUseCaseComponent } from './usecases/edit-use-case/edit-use-case.component';
 
 export const routes: Routes = [
   { path: '', component: LandingpageComponent},
@@ -42,5 +43,6 @@ export const routes: Routes = [
   {path: 'read-use-cases', component: ReadUseCasesComponent},
   {path: 'my-instance-rules', component: MyInstanceRulesComponent},
   {path: 'statistics', component: StatisticsPageComponent},
+  {path: 'edit-usecase/:id', component: EditUseCaseComponent},
   { path: '**', component: PageNotFoundComponent },
 ];
