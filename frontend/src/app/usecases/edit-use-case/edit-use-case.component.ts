@@ -42,6 +42,7 @@ taxonomiaCNCS : any = [
 ];
 
 
+playbookLink: string = '';
 chavesTaxonomia = ["Código Malicioso", "Disponibilidade", "Recolha de Informação", "Intrusão", "Tentativa de Intrusão", "Segurança da Informação", "Fraude", "Conteúdo Abusivo", "Vulnerabilidade", "Outro"];
 selectedCategory: string = '';
 selectedSubcategory: string = '';
@@ -70,10 +71,18 @@ ngOnInit(): void {
           mitreTechniques: useCase.mitreTechniques,
           cncsClass: useCase.cncsClass,
           cncsType: useCase.cncsType,
-          attackVectors: useCase.attackVectors
+          attackVectors: useCase.attackVectors,
+          playbook: useCase.playbook
         });
         this.selectedCategory = useCase.cncsClass;
         this.updateCNCSValues();
+        this.playbookLink = useCase.playbook;
+
+        //remove the first /media on the string
+        this.playbookLink = this.playbookLink.substring(6);
+
+        console.log(this.playbookLink);
+        console.log("AQUIIIIIIII");
       });
     }
 }
@@ -101,30 +110,38 @@ updateUseCase() {
   ];
 
   
-
-
   const useCaseData = new FormData();
   useCaseData.append('title', useCase.title);
   useCaseData.append('description', useCase.description);
   useCaseData.append('mitigation', useCase.mitigation);
-  if (this.selectedFile) {
+  if (this.selectedFile !== null) {
+    console.log("ENTROU");
     useCaseData.append('playbook', this.selectedFile);
   } else {
-    useCaseData.append('playbook', useCase.playbook);
-  }
-    useCaseData.append('mitreTechniques', `{${useCase.mitreTechniques.join(',')}}`);
+    console.log(this.playbookLink);
+    console.log("ENTROU NESTA ");
+useCaseData.append('playbook', this.playbookLink);
+
+    }
+
+
+  const formattedAttackVectors = useCase.attackVectors.map((av: any) => typeof av === 'string' ? av : av.value);
+useCaseData.append('attackVectors', `{${formattedAttackVectors.join(',')}}`);
+
+const formattedMitreTechniques = useCase.mitreTechniques.map((mt: any) => typeof mt === 'string' ? mt : mt.value);
+useCaseData.append('mitreTechniques', `{${formattedMitreTechniques.join(',')}}`);
   useCaseData.append('cncsClass', useCase.cncsClass);
   useCaseData.append('cncsType', useCase.cncsType);
-  useCaseData.append('attackVectors', `{${useCase.attackVectors.join(',')}}`);
+
+
+
+
   useCaseData.append('rules', `{${useCase.rules.join(',')}}`);
   useCaseData.append('phaseTasks', JSON.stringify(useCase.phaseTasks));
 
   const useCaseId = this.route.snapshot.paramMap.get('id');
   if (useCaseId) {
-    console.log(useCaseData.forEach((value, key) => {
-
-      console.log(key, value);
-  }));
+  
       this.usecasesService.updateUseCase(Number(useCaseId), useCaseData).subscribe({
           next: () => {
               this.router.navigate(['/manage-use-cases']);

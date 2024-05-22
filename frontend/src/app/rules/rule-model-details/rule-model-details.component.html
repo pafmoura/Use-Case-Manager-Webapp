@@ -103,7 +103,7 @@
       </div>
 
       
-      <div class=" md:w-[20%] h-60 bg-gray-100 p-4 rounded-xl drop-shadow-lg">
+      <div class=" md:w-[20%] h-60 bg-gray-100 p-4 rounded-xl drop-shadow-lg"  >
         <h1 class="font-inter font-semibold text-xl text-gray-600 mx-auto">Ações</h1>
 
         <button (click)="copyToClipboard()" type="Primary Block" class="hover:drop-shadow-md transition duration-300 flex flex-row items-center content-center justify-start gap-1 h-sm w-full py-2 my-4 px-2 border border-gray-300 drop-shadow-lg rounded-xl text-gray-700 bg-white active:text-gray-100 active:bg-redshift-hover active:ring-0 focus:ring-offset-2 focus:ring">
@@ -116,16 +116,16 @@
         <p class="ml-2">Atribuir a clientes</p>
     </button>
 
-    <button (click)="copyToClipboard()" type="Primary Block" class="hover:drop-shadow-md transition duration-300 flex flex-row items-center content-center justify-start gap-1 h-sm w-full py-2 my-4 px-2 border border-gray-300 drop-shadow-lg rounded-xl text-gray-700 bg-white active:text-gray-100 active:bg-redshift-hover active:ring-0 focus:ring-offset-2 focus:ring">
+    <button *ngIf="user.companies.length===0" (click)="copyToClipboard()" type="Primary Block" class="hover:drop-shadow-md transition duration-300 flex flex-row items-center content-center justify-start gap-1 h-sm w-full py-2 my-4 px-2 border border-gray-300 drop-shadow-lg rounded-xl text-gray-700 bg-white active:text-gray-100 active:bg-redshift-hover active:ring-0 focus:ring-offset-2 focus:ring">
       <div class="fas fa-pen-nib "></div>
       <p class="ml-2">Editar modelo de Regra</p>
   </button>
 
  
-
-
-      
         </div>
+
+
+
     
    
     
@@ -148,7 +148,7 @@
 
 
 
-    <div id="crud-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div id="crud-modal"  tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
       <div class="relative p-4 w-10/12 min-w-96 max-h-full ">
           <!-- Modal content -->
           <div class="relative  bg-white rounded-lg shadow dark:bg-gray-700">
@@ -170,9 +170,15 @@
                       
                     <div class="col-span-1 row-span-1">
                           <label for="Copiar" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seleção de cliente</label>
-                          <select id="client" name="client" formControlName="client" required  class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600  sm:text-sm sm:leading-6">
+                         
+                         
+                          <select *ngIf="user.companies.length===0" id="client" name="client" formControlName="client" required  class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600  sm:text-sm sm:leading-6">
                             <option *ngFor="let client of clients" [ngValue]="client.pk">{{ client.name }}</option>
                         </select>
+
+                        <select *ngIf="user.companies.length>0" id="client" name="client" formControlName="client" required  class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600  sm:text-sm sm:leading-6">
+                          <option *ngFor="let client of user.companies" [ngValue]="client">{{ client }}</option>
+                      </select>
         
                         </div>
                         

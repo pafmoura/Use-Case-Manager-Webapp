@@ -30,7 +30,12 @@ selectClient : any;
 
 ruleInstances : any = []
 
-user : any = []
+user : any = {
+  companies: []
+
+}
+
+usercompanynames : any = [];
 
 
   ruleModel :any = {
@@ -146,10 +151,12 @@ onCodeChanged(value : any) {
 
             this.authService.loggedInInfo().subscribe((value) => {
               this.user = value;
-              console.log(this.user);
-              if (this.user.companies == null) {
+              if (this.user.companies === null) {
                 this.user.companies = [];
               }
+              console.log("USER")
+              console.log(this.user);
+              
 
               if (this.user.companies.length > 0) {
                 this.clients = this.clients.filter((client: any) => this.user.companies.includes(client.name));
@@ -180,7 +187,19 @@ this.clipboard.copy(this.code);
   logsources: this.createRuleForm.get('logsources')?.value,
   client: this.createRuleForm.get('client')?.value
 
+  
  
+  }
+
+  if (typeof rule.client === 'string') {
+    console.log("entrou aqui")
+
+    console.log(this.clients)
+
+    const client = this.clients.find((c: any) => c.name === rule.client);
+    if (client) {
+      rule.client = client.pk;
+    }
   }
 
   console.log(rule);

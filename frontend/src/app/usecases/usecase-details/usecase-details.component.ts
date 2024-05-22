@@ -8,6 +8,7 @@ import { Modal, initFlowbite } from 'flowbite';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { RulesService } from '../../services/rules.service';
+import { compileDeclareNgModuleFromMetadata } from '@angular/compiler';
 
 @Component({
     selector: 'app-usecase-details',
@@ -97,6 +98,11 @@ showTaskDetails: any;
 
         this.authService.loggedInInfo().subscribe((value) => {
             this.user = value;
+            console.log(this.user);
+
+            if(this.user.companies === null) {
+                this.user.companies = [];
+            }
           });
         
 
