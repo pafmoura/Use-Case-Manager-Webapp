@@ -38,21 +38,7 @@
         </div>
       </div>
 
-      <div class="flex items-center ml-12">
-        <img *ngIf="ruleModel.syntax === 'Sigma Rule'" src="./assets/sigmalogo.svg" class="rounded-lg size-10 hover:drop-shadow-md transition duration-300" alt="Sigma Logo">
-        <img *ngIf="ruleModel.syntax === 'Splunk Rule'" src="./assets/splunklogo.svg" class="rounded-lg size-10 hover:drop-shadow-md transition duration-300" alt="Sigma Logo">
-        <img *ngIf="ruleModel.syntax === 'QRadar Rule'" src="./assets/qradarlogo.png" class="rounded-lg size-10 hover:drop-shadow-md transition duration-300" alt="Sigma Logo">
-
-        
-        <div class="ml-4">
-          <h1 class="font-inter font-semibold text-xl text-gray-600">{{ruleModel.syntax}}</h1>
-          <p class="text-gray-500">Sintaxe</p>
-        </div>
-
-
-
-
-      </div>
+      
 
       <div class="flex items-center ml-12">
         <img src="./assets/source.png" class="rounded-lg size-10 hover:drop-shadow-md transition duration-300">
@@ -166,7 +152,7 @@
               </div>
               <!-- Modal body -->
               <form class="p-4 md:p-5" [formGroup]="createRuleForm">
-                  <div class="grid gap-4 mb-4 grid-cols-2">
+                  <div class="grid gap-4 mb-4 grid-cols-2 grid-rows-2">
                       
                     <div class="col-span-1 row-span-1">
                           <label for="Copiar" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seleção de cliente</label>
@@ -185,7 +171,7 @@
 
                         <div class="col-span-1 row-span-2">
                           <label for="logsources" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Logsources</label>
-                          <select id="logsources" name="logsources" formControlName="logsources" required multiple  class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600  sm:text-sm sm:leading-6">
+                          <select id="logsources" name="logsources" formControlName="logsources" required multiple  class="block w-full rounded-md border-0 h-32 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600  sm:text-sm sm:leading-6">
                             <option *ngFor="let logsource of ruleModel.logsources" [ngValue]="logsource">{{ logsource }}</option>
                         </select>
 
@@ -193,6 +179,22 @@
                         
                        
         
+                        </div>
+
+
+                        <div class="col-span-1 row-span-1">
+                          <label for="Copiar" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seleção de Sintaxe</label>
+                         
+                         
+                          <select id="syntax" name="syntax" formControlName="syntax" required class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            <ng-container *ngIf="ruleModel.type === 'SOAR'">
+                                <option *ngFor="let sintax of soarSintaxes" [ngValue]="sintax">{{ sintax }}</option>
+                            </ng-container>
+                            <ng-container *ngIf="ruleModel.type === 'SIEM'">
+                                <option *ngFor="let sintax of siemSintaxes" [ngValue]="sintax">{{ sintax }}</option>
+                            </ng-container>
+                        </select>
+
                         </div>
 
                         

@@ -8,12 +8,15 @@ from rules.models import Rule, RuleModel
 from rest_framework import viewsets
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
+from drf_yasg.utils import swagger_auto_schema
 
+
+@swagger_auto_schema(method='post', request_body=RuleModelSerializer)
 @api_view(['POST'])
 def createRuleModel(request):
     if request.method == 'POST':
         data = request.data
-        new_rule = RuleModel(title=data['title'], useCaseId=data['useCaseId'], logsources=data['logsources'], type=data['type'], syntax=data['syntax'], ruleCode=data['ruleCode'])
+        new_rule = RuleModel(title=data['title'], useCaseId=data['useCaseId'], logsources=data['logsources'], type=data['type'], ruleCode=data['ruleCode'])
         new_rule.save()
         return JsonResponse(data, safe=False)
     else:
@@ -61,13 +64,14 @@ def deleteRuleModelById(request, id):
         return JsonResponse({'error': 'Invalid request method'})
     
 
+@swagger_auto_schema(method='post', request_body=RuleSerializer)
 @api_view(['POST'])
 def createRule(request):
     if request.method == 'POST':
         data = request.data
         ruleModel = RuleModel.objects.get(id=data['ruleModel'])
         client = Company.objects.get(id=data['client'])
-        new_rule = Rule(ruleModel=ruleModel, logsources=data['logsources'], ruleCode=data['ruleCode'], client=client)
+        new_rule = Rule(ruleModel=ruleModel, logsources=data['logsources'], ruleCode=data['ruleCode'], syntax=data['syntax'], client=client)
         new_rule.save()
         return JsonResponse(data, safe=False)
 

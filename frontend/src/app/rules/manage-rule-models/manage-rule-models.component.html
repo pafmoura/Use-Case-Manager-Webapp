@@ -91,10 +91,10 @@
                   Tipo
                   <span [class]="sortType === 'type' ? (sortReverse ? 'fas fa-caret-up' : 'fas fa-caret-down') : ''"></span>
                 </th>
-                <th (click)="sortTable('syntax')" class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+            <!--    <th (click)="sortTable('syntax')" class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                   Sintaxe
                   <span [class]="sortType === 'syntax' ? (sortReverse ? 'fas fa-caret-up' : 'fas fa-caret-down') : ''"></span>
-                </th>
+                </th>-->
                 <th (click)="sortTable('logsources')" class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                   Logsources
                   <span [class]="sortType === 'logsources' ? (sortReverse ? 'fas fa-caret-up' : 'fas fa-caret-down') : ''"></span>
@@ -114,7 +114,8 @@
                 <td  class="px-5 py-5 text-left cursor-pointer "> <p class="font-medium">{{ u.title }} </p></td>
                 <td  class="px-5 py-5 text-left cursor-pointer">  <div class="flex"> <p class="text-redshift-red font-medium">Red</p>UC {{ u.useCaseId }} </div></td>
                 <td class="px-5 py-5 text-left cursor-pointer">{{ u.type }}</td>
-                <td class="px-5 py-5 text-left cursor-pointer">
+              
+              <!--  <td class="px-5 py-5 text-left cursor-pointer">
                   <div class="flex ">
                     <img *ngIf="u.syntax === 'Sigma Rule'" src="./assets/sigmalogo.svg" class="h-6 w-6 mr-1" alt="Sigma Logo">
                     <img *ngIf="u.syntax === 'Splunk Rule'" src="./assets/splunklogo.svg" class="h-6 w-6 mr-1" alt="Sigma Logo">
@@ -124,7 +125,7 @@
 
                      <p class="drop-shadow-xl"> {{ u.syntax}} </p>
                   </div>
-              </td>
+              </td>-->
 
 
                 <td class="px-5 py-5 text-left cursor-pointer">
@@ -195,7 +196,8 @@
    </button>
  <div class="py-4 overflow-y-auto">
      <ul class="space-y-2 font-medium">
-        <li>
+      <!-- 
+      <li>
           
         
         <div class="flex items-center p-2 text-gray-600 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -210,7 +212,7 @@
           <option *ngFor="let sintax of uniqueSintaxes" [ngValue]="sintax">{{ sintax }}</option>
       </select>
     </li>
-
+-->
     <li>
           
         

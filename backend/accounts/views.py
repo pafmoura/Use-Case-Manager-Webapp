@@ -7,6 +7,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from django.contrib.auth import get_user_model
 from django.core import serializers
+from drf_yasg.utils import swagger_auto_schema
+
 
 # Create your views here.
 User = get_user_model()
@@ -22,6 +24,7 @@ def LoggedInInfo(request):
         return JsonResponse({'error': 'Invalid request method'})
     
 
+@swagger_auto_schema(method='post', request_body=UserSerializer)
 @api_view(['POST'])
 def createUser(request):
     print(request.data)
@@ -61,6 +64,9 @@ def getCompanies(request):
     else:
         return JsonResponse({'error': 'Invalid request method'})
     
+
+
+@swagger_auto_schema(method='post', request_body=CompanySerializer)
 @api_view(['POST'])
 def createCompany(request):
     if request.method == 'POST':

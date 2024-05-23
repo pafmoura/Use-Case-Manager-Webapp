@@ -37,7 +37,6 @@ ngOnInit() {
 }
 
 selectedUseCase : any = "";
-selectedSyntax : any = "";
 
 code : any = "";
 
@@ -54,44 +53,12 @@ typeKeys() {
   return Object.keys(this.types);
 }
 
-syntaxesForSelectedType() {
-  if (this.selectedType === 'SIEM') {
-    return this.types.SIEM;
-  } else if (this.selectedType === 'SOAR') {
-    return this.types.SOAR;
-  }
-  return []; 
-}
 
 
 selectedType: any = "SIEM";
 
-setDefaultCode() {
-
-  
-  this.defaultCode = this.examples[this.selectedSyntax];
 
 
-var newModel = {
-  value: this.defaultCode,
-  language: '',
-  uri: ''
-}
-
-  this.selectedModel = JSON.parse(JSON.stringify(newModel));
-
-
-}
-
-  async onSyntaxChanged() {
-
-
-
-  this.setDefaultCode();
-
-
-
-}
 
 
   defaultCode = ``
@@ -105,7 +72,6 @@ var newModel = {
     var ruleModel = {
       title: this.createRuleModelForm.value.title,
       useCaseId: this.selectedUseCase,
-      syntax: this.selectedSyntax,
       type: this.selectedType,
       ruleCode: this.selectedModel.value,
       logsources: logsources
@@ -128,7 +94,6 @@ this.rulesService.createRuleModel(ruleModel).subscribe((data) => {
   ruleModel :any = {
     title: "",
     useCaseId: "",
-    syntax: "",
     type: "",
     ruleCode: "",
     logsources: []
@@ -137,7 +102,6 @@ this.rulesService.createRuleModel(ruleModel).subscribe((data) => {
 createRuleModelForm = new FormGroup({
   title: new FormControl('', Validators.required),
   selectedUseCase: new FormControl('',Validators.required),
-  selectedSyntax: new FormControl('',Validators.required),
   selectedType: new FormControl('',Validators.required),
   logsources: new FormControl('',Validators.required),
 

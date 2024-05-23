@@ -39,13 +39,13 @@
       </div>
 
       <div class="flex items-center ml-12">
-        <img *ngIf="rule.ruleModel.syntax === 'Sigma Rule'" src="./assets/sigmalogo.svg" class="rounded-lg size-10" alt="Sigma Logo">
-        <img *ngIf="rule.ruleModel.syntax === 'Splunk Rule'" src="./assets/splunklogo.svg" class="rounded-lg size-10" alt="Sigma Logo">
-        <img *ngIf="rule.ruleModel.syntax === 'QRadar Rule'" src="./assets/qradarlogo.png" class="rounded-lg size-10" alt="Sigma Logo">
+        <img *ngIf="rule.syntax === 'Sigma Rule'" src="./assets/sigmalogo.svg" class="rounded-lg size-10" alt="Sigma Logo">
+        <img *ngIf="rule.syntax === 'Splunk Rule'" src="./assets/splunklogo.svg" class="rounded-lg size-10" alt="Sigma Logo">
+        <img *ngIf="rule.syntax === 'QRadar Rule'" src="./assets/qradarlogo.png" class="rounded-lg size-10" alt="Sigma Logo">
 
         
         <div class="ml-4">
-          <h1 class="font-inter font-semibold text-xl text-gray-600">{{rule.ruleModel.syntax}}</h1>
+          <h1 class="font-inter font-semibold text-xl text-gray-600">{{rule.syntax}}</h1>
           <p class="text-gray-500">Sintaxe</p>
         </div>
 
@@ -80,10 +80,11 @@
 
 <div class="ml-4 mt-8">
 
-  <div class="flex space-x-10">
+  
+  <div class="flex space-x-10" [class.hidden]="rule.syntax !== 'Sigma Rule'">
 
 
-         <button type="submit" (click)="convertSigmaToSplunk()"  data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="text-black inline-flex items-center bg-gray-200 hover:bg-redshift-hover transition duration-300 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+         <button  type="submit" (click)="convertSigmaToSplunk()"  data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="text-black inline-flex items-center bg-gray-200 hover:bg-redshift-hover transition duration-300 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                   <img class="h-6 w-6 mr-3" src="./assets/splunklogo.svg">
                     Converter para Splunk Rule
 

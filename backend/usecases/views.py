@@ -12,6 +12,7 @@ from rest_framework import permissions
 import enterpriseattack
 from rest_framework.decorators import api_view
 from django.http import JsonResponse
+from drf_yasg.utils import swagger_auto_schema
 
 attack = enterpriseattack.Attack()
 
@@ -27,6 +28,8 @@ def getTechniqueById(request, id):
     else:
         return JsonResponse({'error': 'Invalid request method'})
     
+
+@swagger_auto_schema(method='post', request_body=UseCaseSerializer)
 @api_view(['POST'])
 def createUseCase(request):
     if request.method == 'POST':
@@ -162,6 +165,7 @@ def getUseCaseById(request, id):
         return JsonResponse({'error': 'Invalid request method'})
 
 
+@swagger_auto_schema(method='post', request_body=UseCaseSerializer )
 @api_view(['POST'])
 def updatePhaseTasks(request, id):
     if request.method == 'POST':
@@ -176,6 +180,7 @@ def updatePhaseTasks(request, id):
         return JsonResponse({'error': 'Invalid request method'})
     
 
+@swagger_auto_schema(method='post', request_body=UseCaseSerializer)
 @api_view(['POST'])
 def updateUseCase(request, id):
     if request.method == 'POST':

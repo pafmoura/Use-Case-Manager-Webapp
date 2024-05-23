@@ -32,15 +32,7 @@
         </div>
     </div>
 
-    <div class="space-y-4 col-span-2 md:col-span-1">
-        <label for="selectedSyntax" class="block text-sm font-medium leading-6 text-gray-900">Sintaxe</label>
-        <select (change)="onSyntaxChanged()" id="selectedSyntax" name="selectedSyntax" formControlName="selectedSyntax" [(ngModel)]="selectedSyntax" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-            <option *ngFor="let syntax of syntaxesForSelectedType()" [value]="syntax">{{syntax}}</option>
-        </select>
-        <div *ngIf="createRuleModelForm.get('selectedSyntax')?.touched && createRuleModelForm.get('selectedSyntax')?.invalid" class="text-red-600 text-sm">
-            A Sintaxe é obrigatória.
-        </div>
-    </div>
+    
 
     <div class="space-y-4 col-span-2 md:col-span-1">
         <label for="logsources" class="block text-sm font-medium leading-6 text-gray-900">LogSources Associadas</label>

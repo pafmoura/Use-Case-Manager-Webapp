@@ -42,3 +42,19 @@ def convertSigmaToElasticLucena(request):
     return JsonResponse( backend.convert(rules) , safe=False)
 
 
+@api_view(['POST'])
+def convertSigma(request):
+    print(request.data['backend'])
+    rule = request.data['rule']
+    backend = request.data['backend']
+    if backend == 'Splunk Rule':
+        backend = SplunkBackend()
+    elif backend == 'QRadar Rule':
+        backend = QRadarAQLBackend()
+    elif backend == 'Elastic Rule':
+        backend = LuceneBackend()
+    else:
+        return JsonResponse(request.data['rule'], safe=False)
+    rules = SigmaCollection.from_yaml(rule)
+
+    return JsonResponse( backend.convert(rules) , safe=False)

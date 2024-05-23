@@ -9,6 +9,7 @@ import {Clipboard} from '@angular/cdk/clipboard';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { SigmaConversionsService } from '../../services/sigma-conversions.service';
 
 @Component({
     selector: 'app-rule-model-details',
@@ -20,7 +21,7 @@ import { AuthService } from '../../services/auth.service';
 export class RuleModelDetailsComponent {
 selectLogsources: any;
   
-  constructor( private authService : AuthService, private route: ActivatedRoute, private rulesService: RulesService, private useCaseService : UsecasesService, private clipboard: Clipboard, private router: Router )  {}
+  constructor(private sigmaConversionsService : SigmaConversionsService ,private authService : AuthService, private route: ActivatedRoute, private rulesService: RulesService, private useCaseService : UsecasesService, private clipboard: Clipboard, private router: Router )  {}
 
 code: any = "";
   
@@ -41,7 +42,6 @@ usercompanynames : any = [];
   ruleModel :any = {
     title: "",
     useCaseId: "",
-    syntax: "",
     type: "",
     ruleCode: "empty"
 }
@@ -180,46 +180,83 @@ this.clipboard.copy(this.code);
 
 
 
-  createRule(){
- var rule = {
-  ruleModel : this.ruleModel.id,
-  ruleCode : this.createRuleForm.get('modalCode')?.value,
-  logsources: this.createRuleForm.get('logsources')?.value,
-  client: this.createRuleForm.get('client')?.value
+  async createRule() {
+    var rule = {
+      ruleModel: this.ruleModel.id,
+      ruleCode: this.createRuleForm.get('modalCode')?.value,
+      logsources: this.createRuleForm.get('logsources')?.value,
+      client: this.createRuleForm.get('client')?.value,
+      syntax: this.createRuleForm.get('syntax')?.value
+    };
 
-  
- 
-  }
+    console.log(rule);
 
-  if (typeof rule.client === 'string') {
-    console.log("entrou aqui")
+    if (typeof rule.client === 'string') {
+      console.log("entrou aqui");
+      console.log(this.clients);
 
-    console.log(this.clients)
+      const client = this.clients.find((c: any) => c.name === rule.client);
+      if (client) {
+        rule.client = client.pk;
+      }
+    }
 
-    const client = this.clients.find((c: any) => c.name === rule.client);
-    if (client) {
-      rule.client = client.pk;
+    console.log(rule);
+    console.log(this.clients);
+
+    try {
+      const data = await this.convertRuleToBackend(rule.syntax);
+      rule.ruleCode = data;
+
+      console.log(rule);
+      this.rulesService.createRule(rule).subscribe((data: any) => {
+        console.log(data);
+        this.router.navigate(['/manage-rules']);
+      });
+    } catch (e) {
+      console.error(e);
     }
   }
-
-  console.log(rule);
-  console.log(this.clients)
-
-this.rulesService.createRule(rule).subscribe((data: any) => {
-  console.log(data);
-
-  
-
-  this.router.navigate(['/manage-rules']);
-
-});
-
-}
 
  createRuleForm = new FormGroup({
   modalCode: new FormControl(this.ruleModel.ruleCode),
   logsources: new FormControl(null),
-  client: new FormControl('')
+  client: new FormControl(''),
+  syntax: new FormControl('')
  })
-  
+
+soarSintaxes = ['Yara Rule']
+siemSintaxes = ['Sigma Rule', 'Splunk Rule', 'QRadar Rule', 'Elastic Rule']
+
+
+convertedCode : any;
+
+convertRuleToBackend(selectedSyntax: any): Promise<any> {
+  return new Promise((resolve, reject) => {
+    if (selectedSyntax === 'Yara Rule') {
+      resolve(this.ruleModel.ruleCode);
+    } else if (selectedSyntax === 'Sigma Rule') {
+      resolve(this.ruleModel.ruleCode);
+    } else if (selectedSyntax === 'Splunk Rule') {
+      this.sigmaConversionsService.convertSigmaToSplunk(this.ruleModel.ruleCode).subscribe(
+        (data: any) => {
+          console.log("entrou aqui");
+          console.log(data);
+          resolve(data);
+        },
+        (error: any) => reject(error)
+      );
+    } else if (selectedSyntax === 'QRadar Rule') {
+      this.sigmaConversionsService.convertSigmaToQRadar(this.ruleModel.ruleCode).subscribe(
+        (data: any) => resolve(data),
+        (error: any) => reject(error)
+      );
+    } else if (selectedSyntax === 'Elastic Rule') {
+      this.sigmaConversionsService.convertSigmaToElasticLucena(this.ruleModel.ruleCode).subscribe(
+        (data: any) => resolve(data),
+        (error: any) => reject(error)
+      );
+    }
+  });
+}
 }

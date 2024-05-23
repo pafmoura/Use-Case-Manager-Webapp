@@ -107,12 +107,12 @@
                 <td class="px-5 py-5 text-left cursor-pointer">{{ u.ruleModel.type }}</td>
                 <td class="px-5 py-5 text-left cursor-pointer">
                   <div class="flex ">
-                    <img *ngIf="u.ruleModel.syntax === 'Sigma Rule'" src="./assets/sigmalogo.svg" class="h-6 w-6 mr-1" alt="Sigma Logo">
-                    <img *ngIf="u.ruleModel.syntax === 'Splunk Rule'" src="./assets/splunklogo.svg" class="h-6 w-6 mr-1" alt="Sigma Logo">
-                    <img *ngIf="u.ruleModel.syntax === 'QRadar Rule'" src="./assets/qradarlogo.png" class="h-6 w-6 mr-1" alt="Sigma Logo">
-                    <img *ngIf="u.ruleModel.syntax === 'Elastic Lucene Rule'" src="./assets/elasticlogo.png" class="h-6 w-6 mr-1" alt="Sigma Logo">
+                    <img *ngIf="u.syntax === 'Sigma Rule'" src="./assets/sigmalogo.svg" class="h-6 w-6 mr-1" alt="Sigma Logo">
+                    <img *ngIf="u.syntax === 'Splunk Rule'" src="./assets/splunklogo.svg" class="h-6 w-6 mr-1" alt="Sigma Logo">
+                    <img *ngIf="u.syntax === 'QRadar Rule'" src="./assets/qradarlogo.png" class="h-6 w-6 mr-1" alt="Sigma Logo">
+                    <img *ngIf="u.syntax === 'Elastic Rule'" src="./assets/elasticlogo.png" class="h-6 w-6 mr-1" alt="Sigma Logo">
 
-                     <p class="drop-shadow-xl"> {{ u.ruleModel.syntax}} </p>
+                     <p class="drop-shadow-xl"> {{ u.syntax}} </p>
                   </div>
               </td>
 
