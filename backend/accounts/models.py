@@ -35,11 +35,12 @@ class MyAccountManager(BaseUserManager):
 
 
 
-    def create_superuser(self, email, password, username ='Administrator'):
+    def create_superuser(self, email, password, username ='Administrator', companies = []):
         user = self.create_user(
             email=self.normalize_email(email),
             password=password,
             username=username,
+            companies = companies
         )
         user.is_admin = True
         user.is_staff = True

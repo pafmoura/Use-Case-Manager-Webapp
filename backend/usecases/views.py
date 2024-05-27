@@ -12,11 +12,16 @@ from rest_framework import permissions
 import enterpriseattack
 from rest_framework.decorators import api_view
 from django.http import JsonResponse
-from drf_yasg.utils import swagger_auto_schema
+from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import OpenApiResponse
 
 attack = enterpriseattack.Attack()
 
-
+@extend_schema(description='Get technique by ID',
+                responses={
+                     200: OpenApiResponse(response=None, description='Technique retrieved successfully'),
+                     400: OpenApiResponse(response=None, description='Invalid request method')
+                })
 @api_view(['GET'])
 def getTechniqueById(request, id):
     if request.method == 'GET':
@@ -29,7 +34,39 @@ def getTechniqueById(request, id):
         return JsonResponse({'error': 'Invalid request method'})
     
 
-@swagger_auto_schema(method='post', request_body=UseCaseSerializer)
+
+def getTechniqueTacticById(request, id):
+    for technique in attack.techniques:
+        if technique.id == id:
+            tactics = [tactic.name for tactic in technique.tactics]
+            return JsonResponse(tactics, safe=False)
+    return None    
+
+def getTechniqueTacticBasedOnListIds(request):
+    ids = request.GET.get('ids', '').split(',')
+    tactic_counts = {}
+    for id in ids:
+        for technique in attack.techniques:
+            if technique.id == id:
+                for tactic in technique.tactics:
+                    if tactic.name in tactic_counts:
+                        tactic_counts[tactic.name] += 1
+                    else:
+                        tactic_counts[tactic.name] = 1
+                break
+    
+    # Converter o dicionário de contagens em uma lista de pares (tática, contagem)
+    tactic_list = [{"tactic": tactic, "count": count} for tactic, count in tactic_counts.items()]
+    
+    return JsonResponse(tactic_list, safe=False)
+
+@extend_schema(request=UseCaseSerializer,
+               description='Create a new use case.',
+               responses={
+                   201: OpenApiResponse(response=UseCaseSerializer, description='Use case created successfully'),
+                   400: OpenApiResponse(response=None, description='Invalid request method'),
+                   500: OpenApiResponse(response=None, description='An error occurred')
+               })
 @api_view(['POST'])
 def createUseCase(request):
     if request.method == 'POST':
@@ -64,6 +101,11 @@ def createUseCase(request):
     return JsonResponse({'error': 'Invalid request method'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
     
 
+@extend_schema(description='Get all mitigations based on technique ID.',
+                responses={
+                     200: OpenApiResponse(response=None, description='Techniques retrieved successfully'),
+                     400: OpenApiResponse(response=None, description='Invalid request method')
+                })
 @api_view(['GET'])
 def getMitigationsByTechniqueId(request, id):
 
@@ -92,6 +134,12 @@ def getMitigationsByTechniqueId(request, id):
     return JsonResponse(Mitigations, safe=False)
 
 
+@extend_schema(description='Get all data sources based on technique ID.',
+                responses={
+                     200: OpenApiResponse(response=None, description='Data sources retrieved successfully'),
+                     400: OpenApiResponse(response=None, description='Invalid request method')
+                })
+@api_view(['GET'])
 def getDataSourcesByTechniqueId(request, id):
     techniques = attack.techniques
     selected_technique = attack.techniques[1]
@@ -113,6 +161,13 @@ def getDataSourcesByTechniqueId(request, id):
 
     return JsonResponse(techniqueDatasources, safe=False)
 
+
+@extend_schema(description='Get all components based on technique ID.',
+                responses={
+                        200: OpenApiResponse(response=None, description='Components retrieved successfully'),
+                        400: OpenApiResponse(response=None, description='Invalid request method')
+                })
+@api_view(['GET'])
 def getComponentsByTechniqueId(request, id):
     techniques = attack.techniques
     selected_technique = attack.techniques[1]
@@ -134,6 +189,11 @@ def getComponentsByTechniqueId(request, id):
     return JsonResponse(techniqueDatasources, safe=False)
 
 
+@extend_schema(description='Get all UseCases.',
+                responses={
+                        200: OpenApiResponse(response=None, description='Use Cases retrieved successfully'),
+                        400: OpenApiResponse(response=None, description='Invalid request method')
+                })
 @api_view(['GET'])
 def getUseCases(request):
     if request.method == 'GET':
@@ -145,7 +205,12 @@ def getUseCases(request):
         return JsonResponse(serializer.data, safe=False)
     else:
         return JsonResponse({'error': 'Invalid request method'})
-    
+
+@extend_schema(description='Delete UseCase based on ID.',
+                responses={
+                        200: OpenApiResponse(response=None, description='Use Case deleted successfully'),
+                        400: OpenApiResponse(response=None, description='Invalid request method')
+                })
 @api_view(['POST'])
 def deleteUseCase(request, id):
     if request.method == 'POST':
@@ -155,6 +220,12 @@ def deleteUseCase(request, id):
     else:
         return JsonResponse({'error': 'Invalid request method'})
     
+
+@extend_schema(description='Get UseCase based on ID.',
+                responses={
+                        200: OpenApiResponse(response=None, description='Use Case retrieved successfully'),
+                        400: OpenApiResponse(response=None, description='Invalid request method')
+                })
 @api_view(['GET'])
 def getUseCaseById(request, id):
     if request.method == 'GET':
@@ -165,7 +236,12 @@ def getUseCaseById(request, id):
         return JsonResponse({'error': 'Invalid request method'})
 
 
-@swagger_auto_schema(method='post', request_body=UseCaseSerializer )
+@extend_schema(request=UseCaseSerializer,
+                description='Update phase tasks based on UseCase ID.',
+                responses={
+                        200: OpenApiResponse(response=None, description='Phase tasks updated successfully'),
+                        400: OpenApiResponse(response=None, description='Invalid request method')
+                })
 @api_view(['POST'])
 def updatePhaseTasks(request, id):
     if request.method == 'POST':
@@ -180,7 +256,13 @@ def updatePhaseTasks(request, id):
         return JsonResponse({'error': 'Invalid request method'})
     
 
-@swagger_auto_schema(method='post', request_body=UseCaseSerializer)
+
+@extend_schema(request=UseCaseSerializer,
+                description='Update UseCase based on ID.',
+                responses={
+                        200: OpenApiResponse(response=None, description='Use Case updated successfully'),
+                        400: OpenApiResponse(response=None, description='Invalid request method')
+                })
 @api_view(['POST'])
 def updateUseCase(request, id):
     if request.method == 'POST':

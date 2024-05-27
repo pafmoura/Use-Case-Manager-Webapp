@@ -2,7 +2,6 @@ from django.urls import path
 from sigmaconversions.views import convertSigma, convertSigmaToElasticLucena, convertSigmaToQRadar, convertSigmaToSplunk
 from rest_framework.urlpatterns import format_suffix_patterns
 
-from api import views
 
 urlpatterns = [
     path('convertSigmaToSplunk', convertSigmaToSplunk, name='convertSigmaToSplunk'),

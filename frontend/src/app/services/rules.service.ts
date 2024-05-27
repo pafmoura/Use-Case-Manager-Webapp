@@ -47,5 +47,38 @@ export class RulesService {
     return this.http.get(`${AUTH_URL}getRuleById/${id}`)
   }
 
+
+  createRegisteredLogSource(logSource : any) {
+    return this.http.post(`${AUTH_URL}createRegisteredLogSource`, logSource)
+  }
+
+  getRegisteredLogSources() {
+    return this.http.get(`${AUTH_URL}getRegisteredLogSources`)
+  }
+
+  deleteLogSourceById(id: number) {
+    return this.http.post(`${AUTH_URL}deleteLogSourceById/${id}`, id)
+  }
+
+  updateRuleModelCode(ruleCode : any, id: number) {
+    return this.http.post(`${AUTH_URL}updateRuleModelCode/${id}`, {ruleCode : ruleCode}, 
+    {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    
+  }
+
+  updateRuleCode(ruleCode : any, id: number) {
+    return this.http.post(`${AUTH_URL}updateRuleCode/${id}`, {ruleCode : ruleCode}, 
+    {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    
+  }
+
  
 }

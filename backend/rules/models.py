@@ -22,4 +22,11 @@ class Rule(models.Model):
     client = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
     def __str__(self):
         return self.ruleCode
+
+
+class RegisteredLogSource(models.Model):
+    name = models.CharField(unique=False, null=True)
+    description = models.CharField(unique=False, null=True)
+    def __str__(self):
+        return self.name
     

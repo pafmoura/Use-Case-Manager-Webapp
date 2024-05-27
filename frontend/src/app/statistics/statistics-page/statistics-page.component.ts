@@ -10,13 +10,14 @@ import { RulesPerTypeComponent } from "../rules-per-type/rules-per-type.componen
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
+import { RadarTacticsComponent } from "../radar-tactics/radar-tactics.component";
 
 @Component({
     selector: 'app-statistics-page',
     standalone: true,
     templateUrl: './statistics-page.component.html',
     styleUrl: './statistics-page.component.css',
-    imports: [HeaderComponent,FormsModule , TitlebannerComponent, RulesPerSyntaxComponent, CommonModule, RulesPerLogsourceComponent, RulesPerTypeComponent]
+    imports: [HeaderComponent, FormsModule, TitlebannerComponent, RulesPerSyntaxComponent, CommonModule, RulesPerLogsourceComponent, RulesPerTypeComponent, RadarTacticsComponent]
 })
 export class StatisticsPageComponent {
 

@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "drf_yasg",
+    'drf_spectacular',
     # Disable Django's own staticfiles handling in favour of WhiteNoise, for
     # greater consistency between gunicorn and `./manage.py runserver`. See:
     # http://whitenoise.evans.io/en/stable/django.html#using-whitenoise-in-development
@@ -54,7 +54,6 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "accounts",
-    "api",
     "usecases",
     "rules",
     "sigmaconversions",
@@ -159,6 +158,30 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.MultiPartParser',
         'rest_framework.parsers.JSONParser',
     ],
+        'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema'
+}
+
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'RedUCM API',
+    'DESCRIPTION': """
+The Use Case Manager aims to be characterized as an aggregator portal for the Use Cases used at RedShift, where, 
+through a WebApp, allows access, storage, consultation and extraction of the different use-cases, containing information 
+and allows the extraction of detection rules for each case.
+
+This documentation aims to describe the REST API that supports the application, allowing interaction with it.
+
+The API is made up of different endpoints, each with a specific purpose, allowing interaction with the application in different ways.
+
+"""
+    
+    
+    ,
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'DISABLE_ERRORS_AND_WARNINGS': True,
+    'CONTACT': {
+        'name': 'Pedro António Ferra Moura'}
 }
 
 # =======================================================

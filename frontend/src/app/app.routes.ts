@@ -22,18 +22,20 @@ import { ReadUseCasesComponent } from './rules/OperatorRead/read-use-cases/read-
 import { MyInstanceRulesComponent } from './rules/OperatorRead/my-instance-rules/my-instance-rules.component';
 import { StatisticsPageComponent } from './statistics/statistics-page/statistics-page.component';
 import { EditUseCaseComponent } from './usecases/edit-use-case/edit-use-case.component';
+import { ManageLogsourcesComponent } from './rules/manage-logsources/manage-logsources.component';
+import { isAdminGuard } from './helper/is-admin.guard';
 
 export const routes: Routes = [
   { path: '', component: LandingpageComponent},
   { path: 'home', component: HomeComponent, canActivate: [authGuard] },
   { path: 'login', component: LoginComponent },
-  { path: 'manage-users', component: ManageUsersComponent},
-  { path: 'create-user', component: CreateUserComponent },
-  {path: 'manage-clients', component: ManageClientsComponent},
-  {path: 'create-usecase', component: CreateUseCaseComponent},
+  { path: 'manage-users', component: ManageUsersComponent, canActivate: [isAdminGuard]},
+  { path: 'create-user', component: CreateUserComponent, canActivate: [isAdminGuard] },
+  {path: 'manage-clients', component: ManageClientsComponent, canActivate: [isAdminGuard]},
+  {path: 'create-usecase', component: CreateUseCaseComponent, canActivate: [isAdminGuard]},
   {path: 'manage-use-cases', component: ManageUseCasesComponent},
   {path: 'usecaseDetails/:id', component: UsecaseDetailsComponent},
-  {path: 'create-rule-model', component: CreateRuleModelComponent},
+  {path: 'create-rule-model', component: CreateRuleModelComponent, canActivate: [isAdminGuard]},
   {path: 'techniqueDetails/:id', component: TechniqueDetailsComponent},
   {path: 'manage-rule-models', component: ManageRuleModelsComponent},
   {path: 'ruleModelDetails/:id', component: RuleModelDetailsComponent},
@@ -43,6 +45,7 @@ export const routes: Routes = [
   {path: 'read-use-cases', component: ReadUseCasesComponent},
   {path: 'my-instance-rules', component: MyInstanceRulesComponent},
   {path: 'statistics', component: StatisticsPageComponent},
-  {path: 'edit-usecase/:id', component: EditUseCaseComponent},
+  {path: 'edit-usecase/:id', component: EditUseCaseComponent, canActivate: [isAdminGuard]},
+  {path: 'manage-logsources', component: ManageLogsourcesComponent, canActivate: [isAdminGuard]},
   { path: '**', component: PageNotFoundComponent },
 ];

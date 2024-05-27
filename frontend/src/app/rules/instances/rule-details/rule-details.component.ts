@@ -176,6 +176,18 @@ this.clipboard.copy(this.code);
     });
   }
 
+  message: string = "";
+  updateRuleCode() {
+    this.rulesService.updateRuleCode(this.selectedModel.value, this.rule.id).subscribe((data: any) => {
+      console.log(data);
+      this.message = data.message;
+
+      setTimeout(() => {
+        this.message = "";
+      }, 4000);
+    });
+  }
+
 
   
 }

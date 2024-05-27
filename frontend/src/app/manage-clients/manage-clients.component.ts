@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { TagInputModule } from 'ngx-chips';
+import { RulesService } from '../services/rules.service';
 
 
 @Component({
@@ -25,13 +26,22 @@ export class ManageClientsComponent {
   clients : any = [ ]
 
 
-constructor(private authService : AuthService) { }
+constructor(private authService : AuthService, private rulesService : RulesService) { }
+
+registeredLogsources : any = [];
 
   ngOnInit() {
     this.authService.getClients().subscribe((data: any) => {
       this.clients = data
 
       console.log(data)
+
+        this.rulesService.getRegisteredLogSources().subscribe((data : any) => {
+          console.log(data);
+          this.registeredLogsources = data.map((logsource: any) => logsource.name);
+    
+        })
+      
     
     });
 

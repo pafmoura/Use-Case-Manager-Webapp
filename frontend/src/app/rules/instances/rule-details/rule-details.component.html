@@ -4,6 +4,22 @@
 <app-titlebanner title="Regra {{rule.id}} - {{rule.client.name}}" image="./assets/bannercover.jpg"></app-titlebanner>
 
 
+<div *ngIf="message" id="toast-success" class="fixed top-4 right-4 flex items-center w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+  <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+      <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+    </svg>
+    <span class="sr-only">Check icon</span>
+  </div>
+  <div class="ms-3 text-sm font-normal">{{message}}</div>
+  <button type="button" (click)="message=''" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-success" aria-label="Close">
+    <span class="sr-only">Close</span>
+    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+    </svg>
+  </button>
+</div>
+
 <div class="mx-16 pt-6 ">
     <h1 class="font-inter font-semibold text-2xl text-gray-700 mb-4">{{rule.ruleModel.title}}</h1>
 
@@ -144,7 +160,8 @@
       </div>
 
       
-      <div class=" md:w-[20%] h-72 bg-gray-100 p-4 rounded-xl drop-shadow-lg">
+      <div class=" md:w-[20%] h-72  ">
+        <div class="bg-gray-100 rounded-xl drop-shadow-lg p-4">
         <h1 class="font-inter font-semibold text-xl text-gray-600 mx-auto">Informação Geral</h1>
 
         <div class="items-center mt-4">
@@ -160,7 +177,7 @@
             <h1 class="font-inter font-semibold text-xl text-gray-600">{{usecase.title}}</h1>
             <p class="text-gray-500 text-md">Nome do Use Case</p>
           </div>
-
+        </div>
 
  
 
@@ -168,9 +185,16 @@
       
         </div>
     
-   
+        <button  type="Primary Block" (click)="updateRuleCode()" class="hover:drop-shadow-md transition duration-300 flex flex-row items-center content-center justify-start gap-1 h-sm w-full py-2 my-4 px-2 border border-gray-300 drop-shadow-lg rounded-xl text-gray-700 bg-white active:text-gray-100 active:bg-redshift-hover active:ring-0 focus:ring-offset-2 focus:ring">
+          <div class="fas fa-save "></div>
+          <p class="ml-2">Guardar alterações</p>
+      </button>
+    
     
     </div>
+
+
+
 
 
     <div id="crud-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">

@@ -23,6 +23,7 @@ export class CreateRuleModelComponent {
 
 usecases : any = ['Vazio'];
 
+registeredLogsources : string[] = ['Vazio'];
 
 constructor(private useCasesService : UsecasesService, private rulesService : RulesService, private router : Router) { }
 
@@ -32,6 +33,13 @@ ngOnInit() {
 
   this.useCasesService.getUseCases().subscribe((data) => {
     this.usecases = data;
+
+    this.rulesService.getRegisteredLogSources().subscribe((data : any) => {
+      console.log(data);
+      this.registeredLogsources = data.map((logsource: any) => logsource.name);
+
+    })
+
   })
 
 }

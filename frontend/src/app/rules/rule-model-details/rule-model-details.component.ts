@@ -21,6 +21,7 @@ import { SigmaConversionsService } from '../../services/sigma-conversions.servic
 export class RuleModelDetailsComponent {
 selectLogsources: any;
   
+registeredLogsources: any = [];
   constructor(private sigmaConversionsService : SigmaConversionsService ,private authService : AuthService, private route: ActivatedRoute, private rulesService: RulesService, private useCaseService : UsecasesService, private clipboard: Clipboard, private router: Router )  {}
 
 code: any = "";
@@ -162,6 +163,11 @@ onCodeChanged(value : any) {
                 this.clients = this.clients.filter((client: any) => this.user.companies.includes(client.name));
               }
               console.log(this.ruleInstances);
+
+
+
+              
+
           });
         });
         });
@@ -178,6 +184,17 @@ this.clipboard.copy(this.code);
     
   }
 
+  message : string = "";
+  updateRuleModelCode() {
+    this.rulesService.updateRuleModelCode(this.selectedModel.value, this.ruleModel.id).subscribe((data: any) => {
+      console.log(this.message);
+      this.message = data.message;
+
+      setTimeout(() => {
+        this.message = "";
+      }, 4000);
+    });
+  }
 
 
   async createRule() {
@@ -205,7 +222,7 @@ this.clipboard.copy(this.code);
     console.log(this.clients);
 
     try {
-      const data = await this.convertRuleToBackend(rule.syntax);
+      const data = await this.convertRuleToBackend(rule.syntax, rule.ruleCode);
       rule.ruleCode = data;
 
       console.log(rule);
@@ -231,14 +248,14 @@ siemSintaxes = ['Sigma Rule', 'Splunk Rule', 'QRadar Rule', 'Elastic Rule']
 
 convertedCode : any;
 
-convertRuleToBackend(selectedSyntax: any): Promise<any> {
+convertRuleToBackend(selectedSyntax: any, ruleCode : any): Promise<any> {
   return new Promise((resolve, reject) => {
     if (selectedSyntax === 'Yara Rule') {
-      resolve(this.ruleModel.ruleCode);
+      resolve(ruleCode);
     } else if (selectedSyntax === 'Sigma Rule') {
-      resolve(this.ruleModel.ruleCode);
+      resolve(ruleCode);
     } else if (selectedSyntax === 'Splunk Rule') {
-      this.sigmaConversionsService.convertSigmaToSplunk(this.ruleModel.ruleCode).subscribe(
+      this.sigmaConversionsService.convertSigmaToSplunk(ruleCode).subscribe(
         (data: any) => {
           console.log("entrou aqui");
           console.log(data);
@@ -247,12 +264,12 @@ convertRuleToBackend(selectedSyntax: any): Promise<any> {
         (error: any) => reject(error)
       );
     } else if (selectedSyntax === 'QRadar Rule') {
-      this.sigmaConversionsService.convertSigmaToQRadar(this.ruleModel.ruleCode).subscribe(
+      this.sigmaConversionsService.convertSigmaToQRadar(ruleCode).subscribe(
         (data: any) => resolve(data),
         (error: any) => reject(error)
       );
     } else if (selectedSyntax === 'Elastic Rule') {
-      this.sigmaConversionsService.convertSigmaToElasticLucena(this.ruleModel.ruleCode).subscribe(
+      this.sigmaConversionsService.convertSigmaToElasticLucena(ruleCode).subscribe(
         (data: any) => resolve(data),
         (error: any) => reject(error)
       );
