@@ -8,13 +8,13 @@ export const isAdminGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
   return authService.loggedInInfo().pipe(
-    tap((data: any) => {
-      if (data.companies !== null) {
-        router.navigate(['/home']);
-      }
-    }),
     map((data: any) => {
-      return data.companies === null;
+      if (data.companies === null || data.companies.length === 0) {
+        return true; // Permite acesso
+      } else {
+        router.navigate(['/home']); // Redireciona para '/home' se não for admin
+        return false; // Bloqueia acesso
+      }
     })
   );
 }

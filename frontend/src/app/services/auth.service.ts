@@ -126,6 +126,10 @@ export class AuthService {
     return this.http.get<any>(`${AUTH_URL}getLogsourcesByClient/${clientName}`, { headers });
   }
 
+  updateUserInfo(userData: any, id : any): Observable<any> {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${AUTH_URL}updateUserInfo/`+id, userData, { headers });
+  }
   
 
 

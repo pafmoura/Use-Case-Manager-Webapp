@@ -24,6 +24,7 @@ import { StatisticsPageComponent } from './statistics/statistics-page/statistics
 import { EditUseCaseComponent } from './usecases/edit-use-case/edit-use-case.component';
 import { ManageLogsourcesComponent } from './rules/manage-logsources/manage-logsources.component';
 import { isAdminGuard } from './helper/is-admin.guard';
+import { UpdateUserComponent } from './update-user/update-user.component';
 
 export const routes: Routes = [
   { path: '', component: LandingpageComponent},
@@ -37,9 +38,9 @@ export const routes: Routes = [
   {path: 'usecaseDetails/:id', component: UsecaseDetailsComponent},
   {path: 'create-rule-model', component: CreateRuleModelComponent, canActivate: [isAdminGuard]},
   {path: 'techniqueDetails/:id', component: TechniqueDetailsComponent},
-  {path: 'manage-rule-models', component: ManageRuleModelsComponent},
+  {path: 'manage-rule-models', component: ManageRuleModelsComponent, canActivate: [isAdminGuard]},
   {path: 'ruleModelDetails/:id', component: RuleModelDetailsComponent},
-  {path: 'manage-rules', component: ManageRulesComponent},
+  {path: 'manage-rules', component: ManageRulesComponent, canActivate: [isAdminGuard]},
   {path: 'ruleDetails/:id', component: RuleDetailsComponent},
   {path: 'read-rule-models', component: ReadRuleModelsComponent},
   {path: 'read-use-cases', component: ReadUseCasesComponent},
@@ -47,5 +48,6 @@ export const routes: Routes = [
   {path: 'statistics', component: StatisticsPageComponent},
   {path: 'edit-usecase/:id', component: EditUseCaseComponent, canActivate: [isAdminGuard]},
   {path: 'manage-logsources', component: ManageLogsourcesComponent, canActivate: [isAdminGuard]},
+  {path: 'update-user/:id', component: UpdateUserComponent, canActivate: [isAdminGuard]},
   { path: '**', component: PageNotFoundComponent },
 ];

@@ -26,7 +26,7 @@
             
      
               
-                <button [routerLink]="'/create-usecase'" class="ml-5 w-48 h-10 bg-redshift-red text-white rounded hover:bg-redshift-hover shadow-md">
+                <button *ngIf="user.companies.length === 0" [routerLink]="'/create-usecase'" class="ml-5 w-48 h-10 bg-redshift-red text-white rounded hover:bg-redshift-hover shadow-md">
                   <i class="fas fa-plus"></i>
                 Adicionar Novo
                 </button>

@@ -202,8 +202,15 @@
           <!-- Modal body -->
           <div class="p-4 md:p-5 space-y-6">
               
+           <div class="flex">
             <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Detalhes do Utilizador</h4>
-          
+
+            <button [routerLink]="'/update-user/'+selectedUser?.pk"  (click)="closeModalDetails()"  class=" bg-redshift-red ml-6 text-sm font-medium text-center text-white px-2 rounded-lg ">
+              Editar
+              <i class="fas fa-pen p-1"></i>
+
+          </button>
+        </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div class="flex items-center space-x-2">
                 <span class="text-gray-500 dark:text-gray-400">ID:</span>

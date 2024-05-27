@@ -130,3 +130,12 @@ def deleteCompany(request, id):
 def getLogsourcesByClient(request, clientName):
     company = Company.objects.get(name=clientName)
     return JsonResponse({'logsources': company.logsources})
+
+@api_view(['POST'])
+def updateUserInfo(request, id):
+    user = User.objects.get(id=id)
+    user.username = request.data['username']
+    user.email = request.data['email']
+    user.companies = request.data['companies']
+    user.save()
+    return JsonResponse({'success': 'User updated successfully'})

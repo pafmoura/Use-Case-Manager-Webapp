@@ -23,13 +23,15 @@ export class ManageUseCasesComponent {
 selectedValues: any;
 
 
-  constructor(private useCasesService : UsecasesService) { }
+  constructor(private useCasesService : UsecasesService, private authService : AuthService) { }
 
   selectedFilter : any;
   sortType = 'name';
   sortReverse = false;
   nameSearch: string = '';
   selectDelete:  number = 999999;
+
+  user : any = {};
 
   updateSelectDelete(event: Event, id: number) {
     event.stopPropagation();
@@ -65,6 +67,16 @@ selectedValues: any;
       console.log(data)
       this.startFilters()
     
+      this.authService.loggedInInfo().subscribe((data: any) => {
+        this.user = data;
+
+        if (this.user.companies === null) {
+          this.user.companies = [];
+        }
+
+      });
+
+
     });
     }
   
