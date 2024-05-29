@@ -25,7 +25,7 @@ export class RulesPerSyntaxComponent {
 
   renderChart(rulesData: any) {
     if (rulesData) {
-      var rulesSintax = rulesData.map((rule: any) => rule.ruleModel.syntax);
+      var rulesSintax = rulesData.map((rule: any) => rule.syntax);
       var rulesSintaxPercentage = rulesSintax.reduce((acc: any, curr: any) => {
         acc[curr] = (acc[curr] || 0) + 1;
         return acc;
