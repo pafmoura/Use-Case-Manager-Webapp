@@ -80,12 +80,13 @@ class VerifyOTPView(APIView):
 class GenerateTOTPView(APIView):
     def get(self, request, *args, **kwargs):
         user = request.user
-        print(user.showTotp)
-        
-        
-        totp_uri = user.generate_totp_uri()
-        
-        return JsonResponse({'totp_uri': totp_uri})
+        if user.showTotp:            
+            totp_uri = user.generate_totp_uri()
+            user.showTotp = False  # Defina showTotp como False para que não seja gerado outro código QR
+            user.save()
+            return JsonResponse({'totp_uri': totp_uri})
+        else:
+            return JsonResponse({'error': 'TOTP already generated'})
 
 
 

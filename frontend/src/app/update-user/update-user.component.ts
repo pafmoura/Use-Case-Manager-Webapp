@@ -62,6 +62,7 @@ export class UpdateUserComponent implements OnInit {
       username: new FormControl("", [Validators.required]),
       companies: new FormControl({ value: "", disabled: true }),
       email: new FormControl("", [Validators.required, Validators.email]),
+      otpMethod: new FormControl("")
   });
 
   get username() {
@@ -75,6 +76,10 @@ export class UpdateUserComponent implements OnInit {
   get email() {
       return this.updateUserForm.get('email');
   }
+
+    get otpMethod() {
+        return this.updateUserForm.get('otpMethod');
+    }
 
 
 
@@ -104,6 +109,7 @@ export class UpdateUserComponent implements OnInit {
           username: this.username!.value!,
           companies: this.companies!.value!,
           email: this.email!.value!,
+          otpMethod: this.otpMethod!.value!
       };
 console.log(userData)
      this.authService.updateUserInfo(userData, this.userId).subscribe((response: any) => {

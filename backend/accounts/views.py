@@ -138,5 +138,7 @@ def updateUserInfo(request, id):
     user.username = request.data['username']
     user.email = request.data['email']
     user.companies = request.data['companies']
+    user.otpMethod = request.data['otpMethod']
+    user.showTotp = True
     user.save()
     return JsonResponse({'success': 'User updated successfully'})
