@@ -14,9 +14,25 @@ export class AuthService {
   login(email: string, password: string) {
     localStorage.removeItem(USER_TOKEN);
     return this.http.post(AUTH_URL + 'login', { email, password }).pipe(
-      map((value) => {
-        localStorage.setItem(USER_TOKEN, JSON.stringify(value));
-        return of(true);
+      map((response: any) => {
+        console.log(response);
+        if (response.otp_sent) {
+          return response.otp_sent;
+        }
+        return false;
+      }),
+      catchError((e) => {
+        console.error(e.message);
+        return of(false);
+      })
+    );
+  }
+
+  verifyOTP(email: string, otp: string) {
+    return this.http.post(AUTH_URL + 'verify-otp', { email, otp }).pipe(
+      map((response: any) => {
+        localStorage.setItem(USER_TOKEN, JSON.stringify(response));
+        return true;
       }),
       catchError((e) => {
         console.error(e.message);

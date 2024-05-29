@@ -1,3 +1,4 @@
+import random
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -5,6 +6,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import BaseUserManager
 from django.contrib.postgres.fields import ArrayField
+from django.utils import timezone
 
 
 class Company (models.Model):
@@ -61,8 +63,16 @@ class User(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     companies = ArrayField(models.CharField(blank=True, null=True),blank=True, null=True)
+    otp = models.CharField(max_length=6, default="000000")
+    otp_time = models.DateTimeField(auto_now_add=True, null=True)
 
     USERNAME_FIELD = "email"
+
+    def generate_otp(self):
+        self.otp = f'{random.randint(100000, 999999):06}'
+        self.otp_time = timezone.now()
+        self.save()
+
 
 
     objects = MyAccountManager()

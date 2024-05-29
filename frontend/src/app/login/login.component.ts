@@ -17,6 +17,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 import { AuthService } from '../services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -31,6 +32,7 @@ import { AuthService } from '../services/auth.service';
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
+    CommonModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -40,7 +42,12 @@ export class LoginComponent {
     email: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
   });
+  otpForm = new FormGroup({
+    otp: new FormControl('', Validators.required),
+  });
   hideLoading = true;
+  showOTPForm = false;
+  email = '';
 
   @ViewChild('errorDialog') errorDialog!: TemplateRef<any>;
 
@@ -54,9 +61,24 @@ export class LoginComponent {
     this.hideLoading = false;
     this.authService
       .login(this.userForm.value['email']!, this.userForm.value['password']!)
-      .subscribe((logged) => {
+      .subscribe((otpSent) => {
         this.hideLoading = true;
-        if (logged) {
+        if (otpSent) {
+          this.showOTPForm = true;
+          this.email = this.userForm.value['email']!;
+        } else {
+          this.dialog.open(this.errorDialog);
+        }
+      });
+  }
+
+  onSubmitOTP() {
+    this.hideLoading = false;
+    this.authService
+      .verifyOTP(this.email, this.otpForm.value['otp']!)
+      .subscribe((verified) => {
+        this.hideLoading = true;
+        if (verified) {
           this.router.navigate(['home']);
         } else {
           this.dialog.open(this.errorDialog);
