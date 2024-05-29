@@ -17,7 +17,11 @@ from django.utils import timezone
 from datetime import timedelta
 from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
-
+from django.http import JsonResponse
+import pyotp
+import qrcode
+from io import BytesIO
+import base64
 from .models import User  # import your custom user model
 
 class CustomTokenObtainPairSerializer(serializers.Serializer):
@@ -30,23 +34,21 @@ class CustomTokenObtainPairSerializer(serializers.Serializer):
         user = authenticate(email=email, password=password)
         if user is None or not user.is_active:
             raise serializers.ValidationError('Invalid credentials')
-        user.generate_otp()
-        subject = 'Código de Verificação - RedUCM'
-        message = f'O seu código de verificação é: {user.otp}'
-        html_content = otpEmailMessage(user.otp)
-        email_from = settings.EMAIL_HOST_USER
-        recipient_list = [user.email]
-            
-        msg = EmailMultiAlternatives(subject, message, email_from, recipient_list)
-        msg.attach_alternative(html_content, "text/html")
-            
-        msg.send()
         
-        return {
-                    'user': user,
-                    'email': user.email,
-                    'otp_sent': True,
-                }
+        otpSent = False
+        if user.otpMethod == 'email':
+            user.generate_otp()
+            subject = 'Código de Verificação - RedUCM'
+            message = f'O seu código de verificação é: {user.otp}'
+            html_content = otpEmailMessage(user.otp)
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [user.email]
+            msg = EmailMultiAlternatives(subject, message, email_from, recipient_list)
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
+            
+        otpSent = True
+        return {'user': user, 'email': user.email, 'otpSent': otpSent, 'otpMethod': user.otpMethod}
 
 class VerifyOTPSerializer(serializers.Serializer):
     email = serializers.EmailField()
@@ -60,42 +62,65 @@ class VerifyOTPView(APIView):
         email = serializer.validated_data['email']
         otp = serializer.validated_data['otp']
         try:
-            user = User.objects.get(email=email, otp=otp)
-            if timezone.now() > user.otp_time + timedelta(minutes=5):
-                raise serializers.ValidationError('OTP expired')
+            user = User.objects.get(email=email)
+            if user.otpMethod == 'email':
+                if timezone.now() > user.otp_time + timedelta(minutes=5):
+                    raise serializers.ValidationError('OTP expired')
+                if user.otp != otp:
+                    raise serializers.ValidationError('Invalid OTP')
+            else:
+                if not user.verify_totp(otp):
+                    raise serializers.ValidationError('Invalid TOTP')
+                
             refresh = RefreshToken.for_user(user)
-            return Response({
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
-                'otp_sent': 'OTP verified successfully',
-            })
+            return Response({'refresh': str(refresh), 'access': str(refresh.access_token), 'otpSent': 'OTP verified successfully'})
         except User.DoesNotExist:
             return Response({'detail': 'Invalid OTP'}, status=status.HTTP_400_BAD_REQUEST)
+
+class GenerateTOTPView(APIView):
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        print(user.showTotp)
+        
+        
+        totp_uri = user.generate_totp_uri()
+        
+        return JsonResponse({'totp_uri': totp_uri})
+
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+
     @classmethod
     def get_token(cls, user):
         return RefreshToken.for_user(user)
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token = self.get_token(user)
 
-        return Response({
+        response_data = {
             'refresh': str(token),
             'access': str(token.access_token),
-            'otp_sent': serializer.validated_data['otp_sent'],
-        }, status=status.HTTP_200_OK)
+            
+        }
+
+        # Garantir que 'otp_sent' e 'otp_method' estão no response_data
+        if 'otpSent' in serializer.validated_data:
+            response_data['otpSent'] = serializer.validated_data['otpSent']
+        if 'otpMethod' in serializer.validated_data:
+            response_data['otpMethod'] = serializer.validated_data['otpMethod']
+
+        return Response(response_data, status=status.HTTP_200_OK)
     
 
 urlpatterns = [
     path('login', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('verify-otp', VerifyOTPView.as_view(), name='verify_otp'),
+    path('generate-totp', GenerateTOTPView.as_view(), name='generate_totp'),
     path('refresh', TokenRefreshView.as_view(), name='token_refresh'),
     path('loggedInInfo', LoggedInInfo, name='loggedInInfo'),
     path('createUser', createUser, name='createUser'),

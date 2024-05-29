@@ -7,6 +7,7 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import BaseUserManager
 from django.contrib.postgres.fields import ArrayField
 from django.utils import timezone
+import pyotp
 
 
 class Company (models.Model):
@@ -18,7 +19,7 @@ class Company (models.Model):
     
 
 class MyAccountManager(BaseUserManager):
-    def create_user(self, email, username, password=None,  companies =None):
+    def create_user(self, email, username, password=None,  companies =None, otpMethod='email'):
         if not email:
             raise ValueError("Users must have an email address")
         if not username:
@@ -28,7 +29,8 @@ class MyAccountManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
             username=username,
-            companies = companies            
+            companies = companies ,    
+            otpMethod=otpMethod       
         )
 
         user.set_password(password)
@@ -37,12 +39,13 @@ class MyAccountManager(BaseUserManager):
 
 
 
-    def create_superuser(self, email, password, username ='Administrator', companies = []):
+    def create_superuser(self, email, password, username ='Administrator', companies = [], otpMethod='totp'):
         user = self.create_user(
             email=self.normalize_email(email),
             password=password,
             username=username,
-            companies = companies
+            companies = companies,
+            otpMethod=otpMethod
         )
         user.is_admin = True
         user.is_staff = True
@@ -62,20 +65,31 @@ class User(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    companies = ArrayField(models.CharField(blank=True, null=True),blank=True, null=True)
+    companies = ArrayField(models.CharField(blank=True, null=True), blank=True, null=True)
     otp = models.CharField(max_length=6, default="000000")
     otp_time = models.DateTimeField(auto_now_add=True, null=True)
+    totp_secret = models.CharField(max_length=32, default=pyotp.random_base32, blank=True)
+    otpMethod = models.CharField(max_length=10, choices=[('email', 'Email'), ('totp', 'TOTP')], default='totp')
+    showTotp = models.BooleanField(default=True)
+
 
     USERNAME_FIELD = "email"
+    
+    objects = MyAccountManager()
 
     def generate_otp(self):
         self.otp = f'{random.randint(100000, 999999):06}'
         self.otp_time = timezone.now()
         self.save()
 
+    def generate_totp_uri(self):
+        totp = pyotp.TOTP(self.totp_secret)
+        return totp.provisioning_uri(self.email, issuer_name="RedUCM")
 
+    def verify_totp(self, token):
+        totp = pyotp.TOTP(self.totp_secret)
+        return totp.verify(token)
 
-    objects = MyAccountManager()
 
     def __str__(self):
         return self.email

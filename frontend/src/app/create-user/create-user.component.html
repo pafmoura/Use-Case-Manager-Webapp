@@ -67,6 +67,18 @@
                     <div *ngIf="password?.errors?.['minlength']">Password deve ter pelo menos 6 caracteres.</div>
                 </div>
             </div>
+
+            <label for="otpMethod" class=" text-sm font-medium leading-6 text-gray-900 flex items-center justify-center h-full">
+                Método OTP
+            </label>
+                        <select id="otpMethod" name="otpMethod" formControlName="otpMethod" class="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <option value="email">Email</option>
+                <option value="totp">TOTP</option>
+            </select>
+             
+
+
+
             <div class="space-y-6 col-span-2">
                 <button type="submit" [disabled]="createUserForm.invalid" class="disabled:opacity-60 w-full md:w-[25rem] py-2.5 px-5 text-white font-semibold bg-redshift-red rounded-md hover:bg-redshift-red-dark">Registar</button>
             </div>

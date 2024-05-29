@@ -44,10 +44,11 @@ def createUser(request):
         email = request.data['email']
         password = request.data['password']
         companies = request.data.get('companies')  
+        otpMethod = request.data.get('otpMethod')
         if not companies:
-            User.objects.create_superuser(username=username, email=email, password=password, companies=[])
+            User.objects.create_superuser(username=username, email=email, password=password, companies=[], otpMethod=otpMethod)
             return JsonResponse({'success': 'Admin created successfully'})
-        user = User.objects.create_user(username=username, email=email, password=password, companies=companies)
+        user = User.objects.create_user(username=username, email=email, password=password, companies=companies, otpMethod=otpMethod)
         user.save()
         return JsonResponse({'success': 'User created successfully'})
     else:

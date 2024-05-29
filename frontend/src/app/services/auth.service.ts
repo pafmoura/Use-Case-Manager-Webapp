@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Accordion } from 'flowbite';
 import { Observable, catchError, map, of, tap } from 'rxjs';
 
 const AUTH_URL = 'http://localhost:8000/accounts/';
@@ -8,26 +9,34 @@ const USER_TOKEN = 'user-token';
 @Injectable({
   providedIn: 'root',
 })
+
+
+
 export class AuthService {
+
+  private accessToken: string = '';
   constructor(private http: HttpClient) {}
 
-  login(email: string, password: string) {
+  login(email: string, password: string): Observable<{ otpSent: boolean; otpMethod?: string }> {
     localStorage.removeItem(USER_TOKEN);
     return this.http.post(AUTH_URL + 'login', { email, password }).pipe(
       map((response: any) => {
+        console.log("aqui");
         console.log(response);
-        if (response.otp_sent) {
-          return response.otp_sent;
+        this.accessToken = response.access;
+        
+        if (response.otpSent) {
+          return { otpSent: true, otpMethod: response.otpMethod };
         }
-        return false;
+        return { otpSent: false };
       }),
       catchError((e) => {
         console.error(e.message);
-        return of(false);
+        return of({ otpSent: false });
       })
     );
   }
-
+  
   verifyOTP(email: string, otp: string) {
     return this.http.post(AUTH_URL + 'verify-otp', { email, otp }).pipe(
       map((response: any) => {
@@ -40,6 +49,23 @@ export class AuthService {
       })
     );
   }
+
+  generateTOTP(): Observable<string | null> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.accessToken}`,
+    });
+    return this.http.get(AUTH_URL + 'generate-totp', { headers }).pipe(
+      map((response: any) => {
+        console.log('TOTP Response:', response); // Adicione esta linha
+        return response.totp_uri;
+      }),
+      catchError((e) => {
+        console.error(e.message);
+        return of(null);
+      })
+    );
+  }
+  
 
   deleteUser(id: any) {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});

@@ -32,6 +32,7 @@ export class CreateUserComponent implements OnInit {
         this.createUserForm.get('companies')?.updateValueAndValidity();
     }
 
+    selectedOtpMethod: string = "email";
     clients: any = [];
     clientNames: any = [];
     ngOnInit() {
@@ -54,7 +55,8 @@ export class CreateUserComponent implements OnInit {
         username: new FormControl("", [Validators.required]),
         companies: new FormControl({ value: "", disabled: true }),
         email: new FormControl("", [Validators.required, Validators.email]),
-        password: new FormControl("", [Validators.required, Validators.minLength(6)])
+        password: new FormControl("", [Validators.required, Validators.minLength(6)]),
+        otpMethod: new FormControl("email")
     });
 
     get username() {
@@ -73,14 +75,21 @@ export class CreateUserComponent implements OnInit {
         return this.createUserForm.get('password');
     }
 
+    get otpMethod() {
+        return this.createUserForm.get('otpMethod');
+    }
+
     createUser() {
+        
         const userData = {
             username: this.username!.value!,
             companies: this.companies!.value!,
             email: this.email!.value!,
-            password: this.password!.value!
+            password: this.password!.value!,
+            otpMethod : this.otpMethod!.value!
         };
 
+        console.log("AASHIDHA");
         console.log(userData);
 
         this.authService.createUser(userData).subscribe((response) => {

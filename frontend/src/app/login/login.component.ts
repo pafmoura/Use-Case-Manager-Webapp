@@ -38,51 +38,71 @@ import { CommonModule } from '@angular/common';
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
-  userForm = new FormGroup({
-    email: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required),
-  });
-  otpForm = new FormGroup({
-    otp: new FormControl('', Validators.required),
-  });
-  hideLoading = true;
-  showOTPForm = false;
-  email = '';
+  @ViewChild('otpModal') otpModal!: TemplateRef<any>;
 
-  @ViewChild('errorDialog') errorDialog!: TemplateRef<any>;
+  loginForm: FormGroup;
+  otpForm: FormGroup;
+  showOtpForm = false;
+  otpMethod: string = '';
+  qrCodeUrl: string = '';
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private dialog: MatDialog
-  ) {}
+  constructor(private authService: AuthService, private router: Router, public dialog: MatDialog) {
+    this.loginForm = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', Validators.required),
+    });
+
+    this.otpForm = new FormGroup({
+      otp: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]),
+    });
+  }
 
   onSubmit() {
-    this.hideLoading = false;
-    this.authService
-      .login(this.userForm.value['email']!, this.userForm.value['password']!)
-      .subscribe((otpSent) => {
-        this.hideLoading = true;
-        if (otpSent) {
-          this.showOTPForm = true;
-          this.email = this.userForm.value['email']!;
+    if (this.loginForm.valid) {
+      const { email, password } = this.loginForm.value;
+      this.authService.login(email, password).subscribe((response) => {
+        console.log(response);
+        
+        if (response.otpSent) {
+          
+          this.otpMethod = response.otpMethod!;
+          this.showOtpForm = true;
+
+          if (this.otpMethod === 'totp'){
+            this.onGenerateTOTP();
+          }
         } else {
-          this.dialog.open(this.errorDialog);
+          console.log('OTP not sent');
+          this.router.navigate(['/home']);
         }
       });
+    }
   }
 
-  onSubmitOTP() {
-    this.hideLoading = false;
-    this.authService
-      .verifyOTP(this.email, this.otpForm.value['otp']!)
-      .subscribe((verified) => {
-        this.hideLoading = true;
-        if (verified) {
-          this.router.navigate(['home']);
+  
+
+  onVerifyOtp() {
+    if (this.otpForm.valid) {
+      const otp = this.otpForm.value.otp;
+      const email = this.loginForm.value.email;
+      this.authService.verifyOTP(email, otp).subscribe((success) => {
+        if (success) {
+          this.dialog.closeAll();
+          this.router.navigate(['/home']);
         } else {
-          this.dialog.open(this.errorDialog);
+          // handle error
         }
       });
+    }
   }
+  onGenerateTOTP() {
+    this.authService.generateTOTP().subscribe((response) => {
+      console.log(response);
+        if (response ) {
+            this.qrCodeUrl = 'https://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent(response);
+
+        }
+    });
+}
+
 }
