@@ -18,8 +18,7 @@ from datetime import timedelta
 from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.http import JsonResponse
-import pyotp
-import qrcode
+
 from io import BytesIO
 import base64
 from .models import User  # import your custom user model
