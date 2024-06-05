@@ -74,6 +74,8 @@ def createUseCase(request):
             data = request.data
 
             mitreTechniques = json.loads(data.get('mitreTechniques', '[]'))
+
+            
             phaseTasks = json.loads(data.get('phaseTasks', '[]'))
             rules = json.loads(data.get('rules', '[]'))
             attackVectors = json.loads(data.get('attackVectors', '[]'))

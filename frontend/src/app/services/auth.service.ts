@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Accordion } from 'flowbite';
-import { Observable, catchError, map, of, tap } from 'rxjs';
+import { Observable, catchError, map, of, tap, throwError } from 'rxjs';
 
 const AUTH_URL = 'http://localhost:8000/accounts/';
 const USER_TOKEN = 'user-token';
@@ -32,7 +32,7 @@ export class AuthService {
       }),
       catchError((e) => {
         console.error(e.message);
-        return of({ otpSent: false });
+        return throwError(() => new Error("Invalid Credentials"));
       })
     );
   }
@@ -45,7 +45,7 @@ export class AuthService {
       }),
       catchError((e) => {
         console.error(e.message);
-        return of(false);
+        return throwError(() => new Error("Invalid OTP"));
       })
     );
   }

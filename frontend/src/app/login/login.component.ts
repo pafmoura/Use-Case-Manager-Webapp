@@ -57,14 +57,16 @@ export class LoginComponent {
     });
   }
 
+errorMessage = '';
+
+
   onSubmit() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
       this.authService.login(email, password).subscribe((response) => {
         console.log(response);
-        
+        this.errorMessage = '';  
         if (response.otpSent) {
-          
           this.otpMethod = response.otpMethod!;
           this.showOtpForm = true;
 
@@ -75,10 +77,13 @@ export class LoginComponent {
           console.log('OTP not sent');
           this.router.navigate(['/home']);
         }
+      },
+      (error) => {
+       this.errorMessage = 'Credenciais inválidas para início de sessão';  // Add this line
+        
       });
     }
   }
-
   
 
   onVerifyOtp() {
@@ -89,9 +94,10 @@ export class LoginComponent {
         if (success) {
           this.dialog.closeAll();
           this.router.navigate(['/home']);
-        } else {
-          // handle error
-        }
+        } 
+      },
+      (error) => {
+        this.errorMessage = 'Código de Verificação Inválido';  // Add this line
       });
     }
   }

@@ -117,6 +117,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
         return Response(response_data, status=status.HTTP_200_OK)
     
+    
 
 urlpatterns = [
     path('login', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
