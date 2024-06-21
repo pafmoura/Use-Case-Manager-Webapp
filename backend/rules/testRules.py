@@ -1,5 +1,14 @@
 # test_views.py
 
+
+import os
+
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
+
+
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()
 from rest_framework.test import APITestCase, APIClient
 from rest_framework import status
 from django.urls import reverse

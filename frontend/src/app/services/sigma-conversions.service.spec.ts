@@ -1,13 +1,16 @@
 import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing'; // Importa o HttpClientTestingModule
+import { UsecasesService } from './usecases.service';
 
-import { SigmaConversionsService } from './sigma-conversions.service';
-
-describe('SigmaConversionsService', () => {
-  let service: SigmaConversionsService;
+describe('UsecasesService', () => {
+  let service: UsecasesService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(SigmaConversionsService);
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule], 
+      providers: [UsecasesService]
+    });
+    service = TestBed.inject(UsecasesService);
   });
 
   it('should be created', () => {

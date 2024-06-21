@@ -28,7 +28,8 @@ SECRET_KEY = "django-insecure-i6(9_(+ck)(%l*%_7s$57!7!o05+e9^e*!&_(oo%0o^h_=9y=i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
 
 # Actual directory user files go to
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'mediafiles')
@@ -104,6 +105,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'qwertyadmin',
+       # 'HOST': 'postgres',
         'HOST': '127.0.0.1',
         'PORT': '5432'
     }

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RadarTacticsComponent } from './radar-tactics.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('RadarTacticsComponent', () => {
   let component: RadarTacticsComponent;
@@ -8,7 +9,7 @@ describe('RadarTacticsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RadarTacticsComponent]
+      imports: [RadarTacticsComponent, HttpClientTestingModule]
     })
     .compileComponents();
     

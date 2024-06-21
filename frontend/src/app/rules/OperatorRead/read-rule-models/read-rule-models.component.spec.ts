@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReadRuleModelsComponent } from './read-rule-models.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ReadRuleModelsComponent', () => {
   let component: ReadRuleModelsComponent;
@@ -8,7 +9,7 @@ describe('ReadRuleModelsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReadRuleModelsComponent]
+      imports: [ReadRuleModelsComponent, HttpClientTestingModule]
     })
     .compileComponents();
     

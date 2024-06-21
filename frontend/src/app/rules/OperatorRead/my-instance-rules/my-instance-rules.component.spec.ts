@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MyInstanceRulesComponent } from './my-instance-rules.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('MyInstanceRulesComponent', () => {
   let component: MyInstanceRulesComponent;
@@ -8,7 +10,7 @@ describe('MyInstanceRulesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MyInstanceRulesComponent]
+      imports: [MyInstanceRulesComponent, HttpClientTestingModule, RouterTestingModule]
     })
     .compileComponents();
     

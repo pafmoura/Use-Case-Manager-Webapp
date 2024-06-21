@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --host 0.0.0.0 --port 4200",
     "build": "ng build --output-path ../backend/config/static --output-hashing none",
     "build:css": "tailwindcss build src/tailwind.css -o dist/tailwind.css",
     "watch": "ng build --watch --configuration development",

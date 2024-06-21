@@ -1,0 +1,87 @@
+schemaVersion: 2.2.0
+
+metadata:
+  name: reducm-application
+
+components:
+  - name: angular-frontend
+    container:
+      image: node:20.14.0
+      sourceMapping: /frontend
+      endpoints:
+        - name: angular
+          targetPort: 4200
+      memoryLimit: 1Gi
+      mountSources: true
+      command:
+        - /bin/sh
+        - -c
+        - |
+          npm install
+          npm run build
+          npm start
+
+  - name: django-backend
+    container:
+      image: python:3.12.3
+      sourceMapping: /backend
+      endpoints:
+        - name: django
+          targetPort: 8000
+      memoryLimit: 1Gi
+      mountSources: true
+      env:
+        - name: POSTGRES_USER
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          value: qwertyadmin
+      command:
+        - /bin/sh
+        - -c
+        - |
+          pip install --no-cache-dir -r requirements.txt
+          python manage.py runserver 0.0.0.0:8000
+
+  - name: nginx-proxy
+    container:
+      image: nginx:alpine
+      endpoints:
+        - name: nginx
+          targetPort: 80
+      memoryLimit: 512Mi
+      mountSources: true
+      command:
+        - /bin/sh
+        - -c
+        - |
+          cp nginx.conf /etc/nginx/nginx.conf
+          nginx -g 'daemon off;'
+
+  - name: postgres
+    container:
+      image: postgres:16.2
+      endpoints:
+        - name: postgres
+          targetPort: 5432
+      env:
+        - name: POSTGRES_USER
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          value: qwertyadmin
+
+
+
+  
+      
+
+commands:
+  - id: build-angular
+    apply:
+      component: angular-frontend
+  - id: build-django
+    apply:
+      component: django-backend
+  - id: build-nginx
+    apply:
+      component: nginx-proxy
+
