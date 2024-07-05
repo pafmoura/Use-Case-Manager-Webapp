@@ -39,7 +39,7 @@ export class RulesPerSyntaxComponent {
 
       var options = {
         series: rulesSintaxPercentageArray,
-        colors: ["#1C64F2", "#16BDCA", "#05c5a4","6ac669","ffa600"],
+        colors: ["#1C64F2", "#16BDCA", "#05c5a4","#6ac669","#ffa600","#006400"],
         chart: {
           height: 420,
           width: "100%",

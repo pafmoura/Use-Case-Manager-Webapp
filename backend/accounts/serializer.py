@@ -1,4 +1,5 @@
-from rest_framework import serializers
+from rest_framework import serializers, status
+from rest_framework.views import APIView
 from accounts.models import Company, User 
 
 
@@ -36,3 +37,13 @@ class CompanySerializer(serializers.ModelSerializer):
         response['name'] = instance.name
         response['date'] = instance.date
         return response
+
+class ChangePasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(required=True)
+
+    def save(self):
+        user = self.context['request'].user
+        password = self.validated_data['password']
+        user.set_password(password)
+        user.save()
+        return user

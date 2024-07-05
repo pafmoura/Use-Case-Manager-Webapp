@@ -60,6 +60,7 @@ options = {
   },
   automaticLayout: true,
 dragAndDrop: true,
+wordWrap: 'on' as 'on'  
 
 
 }

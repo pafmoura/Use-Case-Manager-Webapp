@@ -86,23 +86,26 @@
 </div>
 
 
-<div class="flex justify-center space-x-36 my-16 max-h-80 min-h-80"> 
+<div class="flex justify-center space-x-36 my-16 max-h-80 min-h-80">
 
-  <div class="max-w-sm w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 ">
-    <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white me-1 ">Use Cases por Técnica</h5>
+  <div class="max-w-sm w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+    <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white me-1">Use Cases por Técnica</h5>
     <hr class="mb-4 mt-6">
 
-  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-    <tbody>
-      
-      <tr *ngFor="let technique of mitreTechniques; let i = index">
-        <td class="  p-2 font-bold">{{ technique }}</td>
-        <td class="  p-2">{{ mitreTechniquesCount[i] }}</td>
-      </tr>
-    </tbody>
-  </table>
+    <div class="max-h-60 overflow-y-auto">
+      <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <tbody>
+          <tr *ngFor="let technique of mitreTechniques; let i = index">
+            <td class="p-2 font-bold break-words">{{ technique }}</td>
+            <td class="p-2 break-words">{{ mitreTechniquesCount[i] }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-</div>
+      
+  </div>
+  
 
 
 

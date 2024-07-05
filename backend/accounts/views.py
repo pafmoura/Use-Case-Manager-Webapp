@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
 from accounts.models import Company, User  # Alterado para importar User de accounts.models
-from accounts.serializer import CompanySerializer, UserSerializer
+from accounts.serializer import ChangePasswordSerializer, CompanySerializer, UserSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from django.contrib.auth import get_user_model
@@ -11,6 +11,7 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from drf_spectacular.utils import OpenApiResponse
 from django.urls import reverse
+from rest_framework.views import APIView
 
 # Create your views here.
 User = get_user_model()
@@ -144,3 +145,24 @@ def updateUserInfo(request, id):
     user.save()
     return JsonResponse({'success': 'User updated successfully'})
 
+
+
+
+class ChangePasswordView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        user_id = kwargs.get('id')  
+        password = request.data.get('password')
+
+        if not password:
+            return JsonResponse({'error': 'New password is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        user.set_password(password)
+        user.save()
+        return JsonResponse({'success': 'Password changed successfully'}, status=status.HTTP_200_OK)

@@ -172,6 +172,21 @@ export class AuthService {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<any>(`${AUTH_URL}updateUserInfo/`+id, userData, { headers });
   }
+
+  changePassword(userId: string, password: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.getAccessToken()}`
+    });
+    const body = { password: password };
+    return this.http.post(`${AUTH_URL}change-password/${userId}/`, body, { headers }).pipe(
+      catchError((e) => {
+        console.error(e.message);
+        return throwError(() => new Error("Failed to change password"));
+      })
+    );
+  }
+  
   
 
 

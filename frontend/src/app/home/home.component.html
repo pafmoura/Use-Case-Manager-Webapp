@@ -64,9 +64,11 @@
                 </div>
                 <table class="text-xs my-3">
                     <tbody><tr>
-                        <td class="px-2 py-2 text-gray-500 font-semibold  text-sm">Email</td>
-                        <td class="px-2 py-2 text-sm">{{user.email}}</td>
-                    </tr>
+                        <td class="px-2 py-2 text-gray-500 font-semibold text-sm">Email</td>
+                        <td class="px-2 py-2 text-sm">
+                            {{ user.email.length > 20 ? (user.email | slice:0:20) + '...' : user.email }}
+                        </td>
+                                    </tr>
                     <tr>
                         <td class="px-2 py-2 text-gray-500 font-semibold text-sm">Registo</td>
                         <td class="px-2 py-2 text-sm">{{user.date_joined | date: 'dd/MM/yyyy'}}</td>

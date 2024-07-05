@@ -36,7 +36,7 @@ export class RulesPerLogsourceComponent implements OnDestroy {
 
       var options = {
         series: rulesLogsourcePercentageArray,
-        colors: ["#1C64F2", "#16BDCA", "#05c5a4", "#FFA800"],
+        colors: ["#1C64F2", "#16BDCA", "#05c5a4","#6ac669","#ffa600","#006400"],
         chart: {
           height: 420,
           width: "100%",

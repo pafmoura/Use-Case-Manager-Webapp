@@ -38,7 +38,19 @@ export class UpdateUserComponent implements OnInit {
   clientNames: any = [];
   userId: string = '';
 
+  isChangePasswordModalOpen: boolean = false; 
+  changePasswordForm: FormGroup = new FormGroup({}); 
+
+confirmPassword: any;
+newPassword: any;
   ngOnInit() {
+
+    this.changePasswordForm = new FormGroup({
+        newPassword: new FormControl('', [Validators.required]),
+        confirmPassword: new FormControl('', [Validators.required])
+      },);
+
+      
       this.updateUserForm.get('companies')?.disable();
 
       this.route.params.subscribe(params => {
@@ -82,6 +94,35 @@ export class UpdateUserComponent implements OnInit {
     }
 
 
+    openChangePasswordModal() {
+        this.isChangePasswordModalOpen = true;
+      }
+
+      closeChangePasswordModal() {
+        this.isChangePasswordModalOpen = false;
+      }
+    
+      passwordsMatch(): boolean {
+        const newPassword = this.changePasswordForm.get('newPassword')?.value;
+        const confirmPassword = this.changePasswordForm.get('confirmPassword')?.value;
+        return newPassword === confirmPassword;
+      }
+    
+    
+      changePassword() {
+        const newPassword = this.changePasswordForm.get('newPassword')?.value;
+    
+        this.authService.changePassword(this.userId,newPassword).subscribe(
+          response => {
+            console.log(response);
+            this.closeChangePasswordModal();
+          },
+          error => {
+            console.error(error);
+          }
+        );
+    }
+          
 
   loadUserData(userId: string) {
       this.authService.getUsers().subscribe((data: any) => {

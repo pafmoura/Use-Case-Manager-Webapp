@@ -25,6 +25,12 @@ export class ManageUsersComponent {
   sortReverse = false;
   nameSearch: string = '';
   selectDelete:  number = 999999;
+  showAllCompanies: boolean = false;
+  showCompanies: { [key: number]: boolean } = {};
+  toggleCompanies() {
+    this.showAllCompanies = !this.showAllCompanies;
+  }
+
 
   updateSelectDelete(id: number) {
     console.log('updateSelectDelete', id);
@@ -54,7 +60,13 @@ export class ManageUsersComponent {
 
       console.log(data)
     
-    
+      this.sortReverse = false; 
+
+      this.users.sort((a: any, b: any) => {
+        return this.sortNumeric(a.pk, b.pk);
+      });
+  
+  
     });
     }
   

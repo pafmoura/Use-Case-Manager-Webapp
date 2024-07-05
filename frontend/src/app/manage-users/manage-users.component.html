@@ -79,8 +79,25 @@
                 <td (click)="openModalDetails(u)" class="px-5 py-5 text-left ">{{ u.pk }}</td>
                 <td (click)="openModalDetails(u)" class="px-5 py-5 text-left ">{{ u.username }}</td>
                 <td (click)="openModalDetails(u)" class="px-5 py-5 text-left ">{{ u.email }}</td>
-                <td (click)="openModalDetails(u)" class="px-5 py-5 text-left ">{{ u.companies ? u.companies : 'N/A' }}</td>
-                <td (click)="openModalDetails(u)" class="px-5 py-5 text-left ">{{ u.date_joined | date: 'dd/MM/yyyy' }}</td>
+                <td (mouseenter)="showCompanies[u.pk] = true" (mouseleave)="showCompanies[u.pk] = false" (click)="openModalDetails(u)" class="px-5 z-0 py-5 text-left relative group">
+                  <span *ngIf="u.companies && u.companies.length > 0">
+                    {{ u.companies[0] }}
+                  </span>
+                  <span *ngIf="u.companies.length > 1" class="inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-gray-700 rounded-full ml-2">
+                    +{{ u.companies.length - 1 }}
+                  </span>
+                  <span *ngIf="!u.companies || u.companies.length === 0" class="z-0">N/A</span>
+                  <div 
+                    class="absolute left-0 mt-1 w-max bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded shadow-lg z-50 hidden group-hover:block"
+                    *ngIf="u.companies && u.companies.length > 1 && showCompanies[u.pk]">
+                    <div *ngFor="let company of u.companies.slice(1)" class="z-50 bg-white bg-opacity-100">
+                      <span class="block px-2 py-1 text-gray-900 dark:text-white">{{ company }}</span>
+                    </div>
+                  </div>
+                </td>
+                
+                
+                                <td (click)="openModalDetails(u)" class="px-5 py-5 text-left ">{{ u.date_joined | date: 'dd/MM/yyyy' }}</td>
                 <td (click)="openModalDetails(u)" class="px-5 py-5 text-left ">{{ u.companies.length !== 0 ? 'Operador' : 'Administrador' }}</td>
   
                 <td class="px-5 py-5 ">
@@ -234,8 +251,27 @@
               </div>
               <div class="flex items-center space-x-2">
                 <span class="text-gray-500 dark:text-gray-400">Clientes Atribuídos:</span>
-                <span class="text-gray-900 dark:text-white">{{selectedUser?.companies ? selectedUser?.companies.join('\n') : 'N/A'}}</span>
+                <div class="relative" (mouseenter)="showAllCompanies = true" (mouseleave)="showAllCompanies = false">
+                  <span class="text-gray-900 dark:text-white" *ngIf="selectedUser?.companies && selectedUser?.companies.length > 0">
+                    {{selectedUser?.companies[0]}}
+                  </span>
+                  <span *ngIf="selectedUser?.companies.length > 1" class="inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-gray-700 rounded-full">
+                    +{{selectedUser?.companies.length - 1}}
+                  </span>
+                  <span class="text-gray-900 dark:text-white" *ngIf="!selectedUser?.companies || selectedUser?.companies.length === 0">
+                    N/A
+                  </span>
+                  <div 
+                    class="absolute left-0 mt-1 w-max bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded shadow-lg z-10"
+                    *ngIf="selectedUser?.companies && selectedUser?.companies.length > 1 && showAllCompanies">
+                    <div *ngFor="let company of selectedUser?.companies.slice(1)">
+                      <span class="block px-2 py-1 text-gray-900 dark:text-white">{{ company }}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
+              
+              
 
 
     
